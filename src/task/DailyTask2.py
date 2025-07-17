@@ -24,7 +24,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             'Teleport Timeout': 10,
             'Tacet Suppression Serial Number': 1, # starts with 1
             'Tacet Suppression Count': 0, # starts with 0
-            'Forgery Suppression Serial Number': 1, # starts with 1
+            'Which Forgery Challenge to Farm': 1, # starts with 1
             'Forgery Challenge Count': 0, # starts with 0
             'Material Selection': 'Shell Credit',
             'Simulation Challenge Count': 0, # starts with 0
@@ -34,10 +34,10 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             'Teleport Timeout': 'the timeout of second for teleport',
             'Tacet Suppression Serial Number': 'the Nth number in the list of Tacet Suppression list (in F2 menu)',
             'Tacet Suppression Count': 'farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina',
-            'Forgery Suppression Serial Number': 'the Nth number in the list of Forgery Suppression list (in F2 menu)',
-            'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
-            'Material Selection': 'Resonator EXP / Weapon EXP / Shell Credit, on current screen of F2',
-            'Simulation Challenge Count': 'farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
+            'Which Forgery Challenge to Farm': 'The Forgery Challenge number in the F2 list.',
+            'Forgery Challenge Count': 'Number of times to farm the Forgery Challenge (40 stamina per run). Set a large number to use all stamina.',
+            'Material Selection': 'Resonator EXP / Weapon EXP / Shell Credit',
+            'Simulation Challenge Count': 'Number of times to farm the Simulation Challenge (40 stamina per run). Set a large number to use all stamina.',
             'Exit with Error': 'exit game and app with exception raised when option [Exit After Task] checked'
         }
         self.show_create_shortcut = True
