@@ -16,18 +16,22 @@ class ForgeryTask(DomainTask):
         self.name = 'Forgery Challenge'
         self.description = 'Farms the selected Forgery Challenge. Must be able to teleport (F2).'
         self.default_config = {
+            'Teleport Timeout': 10,
             'Which Forgery Challenge to Farm': 1,  # starts with 1
             'Forgery Challenge Count': 20,  # starts with 20
         }
         self.config_description = {
+            'Teleport Timeout': 'the timeout of second for teleport',
             'Which Forgery Challenge to Farm': 'The Forgery Challenge number in the F2 list.',
             'Forgery Challenge Count': 'Number of times to farm the Forgery Challenge (40 stamina per run). Set a large number to use all stamina.',
         }
+        self.teleport_timeout = 60
         self.stamina_once = 40
         self.total_number = 10
 
     def run(self):
         super().run()
+        self.teleport_timeout = self.config.get('Teleport Timeout', 10)
         self.make_sure_in_world()
         self.farm_forgery()
 
@@ -53,7 +57,7 @@ class ForgeryTask(DomainTask):
         #
         self.wait_click_travel()
         self.wait_in_team_and_world(time_out=self.teleport_timeout)
-        self.sleep(1)
+        self.sleep(max(5, self.teleport_timeout / 10))
         self.walk_until_f(time_out=1)
         self.pick_f()
         self.sleep(1)
