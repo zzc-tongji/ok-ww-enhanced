@@ -42,53 +42,77 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
         }
         self.show_create_shortcut = True
         self.add_exit_after_config()
+        self.farm_attempt = 3
 
     def run(self):
         try:
             #
             current_task = 'login'
+            self.info_set('current task', current_task)
             WWOneTimeTask.run(self)
             self.ensure_main(time_out=180)
             #
             current_task = 'claim_mail'
+            self.info_set('current task', current_task)
             self.make_sure_in_world()
             self.claim_mail()
             #
             current_task = 'farm_tacet'
+            self.info_set('current task', current_task)
             self.tacet_serial_number = self.config.get('Tacet Suppression Serial Number', 1)
             self.stamina_once = 60
-            try:
-                self.farm_tacet()
-            except:
-                # retry next tacet
-                tacet_index = self.tacet_serial_number - 1
-                tacet_index = (tacet_index + 1) % self.total_number
-                self.tacet_serial_number = tacet_index + 1
-                self.farm_tacet()
+            for i in range(1, self.farm_attempt + 1):
+                try:
+                    self.info_set('farm tacet attempt', i)
+                    self.farm_tacet()
+                    break
+                except Exception as e:
+                    # retry next tacet
+                    if (i >= self.farm_attempt):
+                        raise e
+                    self.log_info(f'farm tacet "{self.tacet_serial_number}" as attempt {i} failed, try next tacet')
+                    tacet_index = self.tacet_serial_number - 1
+                    tacet_index = (tacet_index + 1) % self.total_number
+                    self.tacet_serial_number = tacet_index + 1
             #
             current_task = 'farm_forgery'
+            self.info_set('current task', current_task)
             self.stamina_once = 40
-            try:
-                self.farm_forgery()
-            except:
-                self.farm_forgery()
+            for i in range(1, self.farm_attempt + 1):
+                try:
+                    self.info_set('farm forgery attempt', i)
+                    self.farm_forgery()
+                    break
+                except Exception as e:
+                    if (i >= self.farm_attempt):
+                        raise e
+                    self.log_info(f'farm forgery attempt {i} failed') 
             #
             current_task = 'farm_simulation'
+            self.info_set('current task', current_task)
             self.stamina_once = 40
-            try:
-                self.farm_simulation()
-            except:
-                self.farm_simulation()
+            for i in range(1, self.farm_attempt + 1):
+                try:
+                    self.info_set('farm simulation attempt', i)
+                    self.farm_simulation()
+                    break
+                except Exception as e:
+                    if (i >= self.farm_attempt):
+                        raise e
+                    self.log_info(f'farm simulation attempt {i} failed')
             #
             current_task = 'teleport_to_safe_place'
+            self.info_set('current task', current_task)
             self.teleport_to_tacet(index=tacet_index) # teleport to safe place (of tacet entry)
             #
             current_task = 'claim_daily'
+            self.info_set('current task', current_task)
             self.make_sure_in_world()
             self.claim_daily()
             current_task = 'claim_millage'
+            self.info_set('current task', current_task)
             self.claim_millage()
-            self.log_info('Task completed', notify=True)
+            self.log_info('task completed', notify=True)
         except Exception as e:
             self.log_error(f'一条龙错误 | {current_task} | {str(e)}')
             if self.config.get('Exit with Error', True) and self.config.get('Exit After Task', False):
