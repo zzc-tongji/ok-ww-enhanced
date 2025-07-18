@@ -46,7 +46,7 @@ class TacetTask2(TacetTask):
             self.log_info('not enough stamina, 0 stamina used')
             self.back()
             return
-        
+        #
         counter = total_counter
         total_used = 0
         while counter > 0:
@@ -72,13 +72,8 @@ class TacetTask2(TacetTask):
             self.sleep(3)
             self.walk_to_treasure()
             # ⭐ {
-            double_drop = self.ocr(0.2, 0.56, 0.75, 0.69, match=['双倍', 'Double'])
-            if counter <= 1 or (double_drop and len(double_drop) >= 1):
-                used, remaining_total, _, _ = self.ensure_stamina(self.stamina_once, self.stamina_once)
-                counter -= 1
-            else:
-                used, remaining_total, _, _ = self.ensure_stamina(self.stamina_once, 2 * self.stamina_once)
-                counter -= int(used / self.stamina_once)
+            used, remaining_total, _, _ = self.use_stamina(once=self.stamina_once)
+            counter -= int(used / self.stamina_once)
             total_used += used
             # } ⭐
             self.wait_click_ocr(0.2, 0.56, 0.75, 0.69, match=[str(used), '确认', 'Confirm'], raise_if_not_found=True,
