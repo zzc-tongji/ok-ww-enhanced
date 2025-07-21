@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
-from ok import BaseTask, Logger, find_boxes_by_name, og, find_color_rectangles
+from ok import BaseTask, Logger, find_boxes_by_name, og, find_color_rectangles, mask_white
 from ok import CannotFindException
 import cv2
 
@@ -27,6 +27,7 @@ class BaseWWTask(BaseTask):
         super().__init__(*args, **kwargs)
         self.pick_echo_config = self.get_global_config('Pick Echo Config')
         self.monthly_card_config = self.get_global_config('Monthly Card Config')
+        self.farm_task_config = self.get_global_config('Farm Task Config')
         self.next_monthly_card_start = 0
         self._logged_in = False
         self.bosses_pos = {
@@ -76,6 +77,8 @@ class BaseWWTask(BaseTask):
             processed_feature = True
             feature = self.get_feature_by_name('illusive_realm_exit')
             feature.mat = convert_bw(feature.mat)
+            feature = self.get_feature_by_name('purple_target_distance_icon')
+            feature.mat = binarize_for_matching(feature.mat)
 
     def zoom_map(self, esc=True):
         if not self.map_zoomed:
@@ -224,7 +227,7 @@ class BaseWWTask(BaseTask):
             self.sleep(0.01)
         return None
 
-    def walk_to_box(self, find_function, time_out=30, end_condition=None, y_offset=0.05):
+    def walk_to_box(self, find_function, time_out=30, end_condition=None, y_offset=0.05, x_threshold=0.07):
         if not find_function:
             self.log_info('find_function not found, break')
             return False
@@ -254,7 +257,7 @@ class BaseWWTask(BaseTask):
                 x, y = last_target.center()
                 y = max(0, y - self.height_of_screen(y_offset))
                 x_abs = abs(x - self.width_of_screen(0.5))
-                threshold = 0.04 if not last_direction else 0.07
+                threshold = 0.04 if not last_direction else x_threshold
                 centered = centered or x_abs <= self.width_of_screen(threshold)
                 if not centered:
                     if x > self.width_of_screen(0.5):
@@ -269,13 +272,13 @@ class BaseWWTask(BaseTask):
             if next_direction != last_direction:
                 if last_direction:
                     self.send_key_up(last_direction)
-                    self.sleep(0.01)
+                    self.sleep(0.001)
                 last_direction = next_direction
                 if next_direction:
                     self.send_key_down(next_direction)
         if last_direction:
             self.send_key_up(last_direction)
-            self.sleep(0.01)
+            self.sleep(0.001)
         if not end_condition:
             return last_direction is not None
         else:
@@ -323,7 +326,7 @@ class BaseWWTask(BaseTask):
         return "w" if delta_y > 0 else "s"
 
     def find_treasure_icon(self):
-        return self.find_one('treasure_icon', box=self.box_of_screen(0.1, 0.2, 0.9, 0.8), threshold=0.7)
+        return self.find_one('treasure_icon', box=self.box_of_screen(0.18, 0.1, 0.82, 0.81), threshold=0.7)
 
     def click(self, x=-1, y=-1, move_back=False, name=None, interval=-1, move=True, down_time=0.01, after_sleep=0,
               key="left"):
@@ -399,7 +402,7 @@ class BaseWWTask(BaseTask):
         self.info_set('back_up_stamina', back_up)
         return current, back_up
 
-    def use_stamina(self, once):
+    def use_stamina(self, once, max_count=100):
         self.sleep(1)
         texts = self.ocr(0.2, 0.56, 0.75, 0.69, match=[number_re])
         min_stamina_box = self.find_boxes(texts, match=[re.compile(str(once))])
@@ -412,7 +415,11 @@ class BaseWWTask(BaseTask):
             max_stamina_box = min_stamina_box
             max_stamina = once
 
+        max_stamina = min(max_stamina, max_count * once)
+
         current, back_up = self.get_stamina()
+        if not self.farm_task_config.get('Use Waveplate Crystal'):
+            back_up = 0
         if current >= max_stamina:
             self.click(max_stamina_box, after_sleep=1)
             return max_stamina, current + back_up - max_stamina, current - max_stamina, False
@@ -438,12 +445,12 @@ class BaseWWTask(BaseTask):
             self.wait_ocr(0.6, 0.53, 0.66, 0.62, match=number_re, raise_if_not_found=True)[0].name)
         to_minus = back_up - to_add
         self.log_info(f'add_stamina, to_minus:{to_minus}, to_add:{to_add}, back_up:{back_up}')
-        
+
         for _ in range(abs(to_minus)):
             if to_minus > 0:
-                self.click(0.24, 0.58, after_sleep=0.01) # -
-            else:           
-                self.click(0.69, 0.58, after_sleep=0.01) # +
+                self.click(0.24, 0.58, after_sleep=0.01)  # -
+            else:
+                self.click(0.69, 0.58, after_sleep=0.01)  # +
         self.click_relative(0.69, 0.71, after_sleep=2)
         self.info_set('add_stamina', to_add)
         self.back(after_sleep=1)
@@ -562,7 +569,7 @@ class BaseWWTask(BaseTask):
 
     def pick_f(self, handle_claim=True):
         if self.find_one('pick_up_f_hcenter_vcenter', box=self.f_search_box, threshold=0.8):
-            self.send_key('f')
+            self.send_key('f', after_sleep=0.8)
             if not handle_claim:
                 return True
             if not self.handle_claim_button():
@@ -989,7 +996,7 @@ class BaseWWTask(BaseTask):
             y = 0.28
             height = (0.85 - 0.28) / 4
             y += height * index
-            self.click_relative(x, y, after_sleep=2)
+            self.click_relative(x, y, after_sleep=1)
         else:
             min_width = self.width_of_screen(475 / 2560)
             min_height = self.height_of_screen(40 / 1440)
@@ -1007,7 +1014,8 @@ class BaseWWTask(BaseTask):
             if btns is None:
                 raise Exception("can't find boss_proceed")
             bottom_btn = max(btns, key=lambda box: box.y)
-            self.click_box(bottom_btn, after_sleep=2)
+            self.click_box(bottom_btn, after_sleep=1)
+        self.wait_feature(['fast_travel_custom', 'gray_teleport', 'remove_custom'], time_out=10, settle_time=0.5)
 
     def change_time_to_night(self):
         logger.info('change time to night')
@@ -1063,20 +1071,12 @@ def calculate_angle_clockwise(box1, box2):
 
 
 lower_white = np.array([244, 244, 244], dtype=np.uint8)
+lower_white_none_inclusive = np.array([243, 243, 243], dtype=np.uint8)
 upper_white = np.array([255, 255, 255], dtype=np.uint8)
-lower_black = np.array([0, 0, 0], dtype=np.uint8)
-upper_black = np.array([180, 180, 180], dtype=np.uint8)
+black = np.array([0, 0, 0], dtype=np.uint8)
 
 
-def isolate_black_text(cv_image):
-    match_mask = cv2.inRange(cv_image, lower_black, upper_black)
-
-    output_image = np.full(cv_image.shape, 255, dtype=np.uint8)
-    output_image[match_mask == 255] = [0, 0, 0]
-    return output_image
-
-
-def isolate_white_text(cv_image):
+def isolate_white_text_to_black(cv_image):
     """
     Converts pixels in the near-white range (244-255) to black,
     and all others to white.
@@ -1085,28 +1085,39 @@ def isolate_white_text(cv_image):
     Returns:
         Black and white image (NumPy array), where matches are black.
     """
-
-    match_mask = cv2.inRange(cv_image, lower_white, upper_white)
-
-    output_image = np.full(cv_image.shape, 255, dtype=np.uint8)
-    output_image[match_mask == 255] = [0, 0, 0]
+    match_mask = cv2.inRange(cv_image, black, lower_white_none_inclusive)
+    output_image = cv2.cvtColor(match_mask, cv2.COLOR_GRAY2BGR)
 
     return output_image
 
 
 def convert_bw(cv_image):
-    """
-    Converts pixels in the near-white range (244-255) to black,
-    and all others to white.
-    Args:
-        cv_image: Input image (NumPy array, BGR).
-    Returns:
-        Black and white image (NumPy array), where matches are black.
-    """
-
     match_mask = cv2.inRange(cv_image, lower_white, upper_white)
-
-    output_image = np.full(cv_image.shape, 0, dtype=np.uint8)
-    output_image[match_mask == 255] = [255, 255, 255]
-
+    output_image = cv2.cvtColor(match_mask, cv2.COLOR_GRAY2BGR)
     return output_image
+
+
+def binarize_for_matching(image):
+    """
+    Converts a colored image to a binary image based on a brightness threshold.
+
+    The rule is: pixels with a value of 240-255 become pure white (255),
+    and all other pixels become pure black (0).
+
+    Args:
+        image (np.array): The input BGR image from OpenCV.
+
+    Returns:
+        np.array: The resulting binary image (single channel, 8-bit).
+    """
+    # Convert the image to grayscale for a single brightness value per pixel.
+    # This is more robust than checking individual R, G, B channels.
+
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply the binary threshold.
+    # Pixels > 239 will be set to 255 (white).
+    # Pixels <= 239 will be set to 0 (black).
+    # cv2.THRESH_BINARY is the type of thresholding we want.
+    _, binary_image = cv2.threshold(gray_image, 244, 255, cv2.THRESH_BINARY)
+    return binary_image
