@@ -1,5 +1,6 @@
 import re
 import subprocess
+import traceback
 
 from qfluentwidgets import FluentIcon
 
@@ -67,10 +68,10 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
                     self.farm_tacet()
                     break
                 except Exception as e:
+                    self.log_error(f'farm tacet "{self.tacet_serial_number}" as attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     # retry next tacet
                     if (i >= self.farm_attempt):
                         raise e
-                    self.log_info(f'farm tacet "{self.tacet_serial_number}" as attempt {i} failed, try next tacet')
                     tacet_index = self.tacet_serial_number - 1
                     tacet_index = (tacet_index + 1) % self.total_number
                     self.tacet_serial_number = tacet_index + 1
@@ -84,9 +85,9 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
                     self.farm_forgery()
                     break
                 except Exception as e:
+                    self.log_error(f'farm forgery attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     if (i >= self.farm_attempt):
                         raise e
-                    self.log_info(f'farm forgery attempt {i} failed') 
             #
             current_task = 'farm_simulation'
             self.info_set('current task', current_task)
@@ -97,9 +98,9 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
                     self.farm_simulation()
                     break
                 except Exception as e:
+                    self.log_error(f'farm simulation attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     if (i >= self.farm_attempt):
                         raise e
-                    self.log_info(f'farm simulation attempt {i} failed')
             #
             current_task = 'teleport_to_safe_place'
             self.info_set('current task', current_task)
@@ -114,7 +115,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             self.claim_millage()
             self.log_info('task completed', notify=True)
         except Exception as e:
-            self.log_error(f'一条龙错误 | {current_task} | {str(e)}')
+            self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
             if self.config.get('Exit with Error', True) and self.config.get('Exit After Task', False):
                 subprocess.run(['pwsh', '-c', 'Stop-Process -Force -Name Client-Win64-Shipping'])
                 exit()
