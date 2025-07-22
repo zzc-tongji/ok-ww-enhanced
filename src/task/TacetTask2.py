@@ -1,12 +1,13 @@
 from ok import Logger
 from src.task.TacetTask import TacetTask
 from src.task.BaseCombatTask import BaseCombatTask
+from src.task.DomainTask import DomainTask
 from src.task.WWOneTimeTask import WWOneTimeTask
 
 logger = Logger.get_logger(__name__)
 
 
-class TacetTask2(TacetTask):
+class TacetTask2(TacetTask, DomainTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -88,10 +89,3 @@ class TacetTask2(TacetTask):
                 self.log_info(f'not enough stamina, {total_used} stamina used')
                 break
             # } ⭐
-
-
-echo_color = {
-    'r': (200, 255),  # Red range
-    'g': (150, 220),  # Green range
-    'b': (130, 170)  # Blue range
-}
