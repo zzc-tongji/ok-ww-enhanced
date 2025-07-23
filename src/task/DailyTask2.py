@@ -7,14 +7,14 @@ from qfluentwidgets import FluentIcon
 from ok import Logger
 from src.task.BaseWWTask import number_re
 from src.task.TacetTask2 import TacetTask2
-from src.task.ForgeryTask import ForgeryTask
-from src.task.SimulationTask import SimulationTask
+from src.task.ForgeryTask2 import ForgeryTask2
+from src.task.SimulationTask2 import SimulationTask2
 from src.task.WWOneTimeTask import WWOneTimeTask
 
 logger = Logger.get_logger(__name__)
 
 
-class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
+class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,9 +36,9 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             'Tacet Suppression Serial Number': 'the Nth number in the list of Tacet Suppression list (in F2 menu)',
             'Tacet Suppression Count': 'farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina',
             'Which Forgery Challenge to Farm': 'The Forgery Challenge number in the F2 list.',
-            'Forgery Challenge Count': 'Number of times to farm the Forgery Challenge (40 stamina per run). Set a large number to use all stamina.',
+            'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
             'Material Selection': 'Resonator EXP / Weapon EXP / Shell Credit',
-            'Simulation Challenge Count': 'Number of times to farm the Simulation Challenge (40 stamina per run). Set a large number to use all stamina.',
+            'Simulation Challenge Count': 'farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
             'Exit with Error': 'exit game and app with exception raised when option [Exit After Task] checked'
         }
         self.show_create_shortcut = True
@@ -65,7 +65,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm tacet attempt', i)
-                    self.farm_tacet()
+                    self.get_task_by_class(TacetTask2).farm_tacet()
                     break
                 except Exception as e:
                     self.log_error(f'farm tacet "{self.tacet_serial_number}" as attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
@@ -82,7 +82,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm forgery attempt', i)
-                    self.farm_forgery()
+                    self.get_task_by_class(ForgeryTask2).farm_forgery()
                     break
                 except Exception as e:
                     self.log_error(f'farm forgery attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
@@ -95,7 +95,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm simulation attempt', i)
-                    self.farm_simulation()
+                    self.get_task_by_class(SimulationTask2).farm_simulation()
                     break
                 except Exception as e:
                     self.log_error(f'farm simulation attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
@@ -104,7 +104,7 @@ class DailyTask2(TacetTask2, ForgeryTask, SimulationTask):
             #
             current_task = 'teleport_to_safe_place'
             self.info_set('current task', current_task)
-            self.teleport_to_tacet(index=tacet_index) # teleport to safe place (of tacet entry)
+            self.teleport_to_tacet(index=(self.tacet_serial_number - 1)) # teleport to safe place (of tacet entry)
             #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)

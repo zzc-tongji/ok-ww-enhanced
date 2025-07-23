@@ -1,13 +1,11 @@
 from ok import Logger
+from src.task.EnhancedTask import EnhancedTask
 from src.task.TacetTask import TacetTask
-from src.task.BaseCombatTask import BaseCombatTask
-from src.task.DomainTask import DomainTask
-from src.task.WWOneTimeTask import WWOneTimeTask
 
 logger = Logger.get_logger(__name__)
 
 
-class TacetTask2(TacetTask, DomainTask):
+class TacetTask2(TacetTask, EnhancedTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,26 +24,24 @@ class TacetTask2(TacetTask, DomainTask):
         self.stamina_once = 60
 
     def run(self):
-        super(BaseCombatTask,self).run()
-        super(WWOneTimeTask,self).run()
-        timeout_second = self.config.get('Teleport Timeout', 10)
+        super(EnhancedTask, self).run()
+        self.teleport_timeout = self.config.get('Teleport Timeout', 10)
         self.tacet_serial_number = self.config.get('Tacet Suppression Serial Number', 1)
-        self.wait_in_team_and_world(esc=True, time_out=timeout_second)
+        self.wait_in_team_and_world(esc=True, time_out=self.teleport_timeout)
         self.farm_tacet()
 
     def farm_tacet(self):
         # ⭐ {
-        timeout_second = self.config.get('Teleport Timeout', 10)
         total_counter = self.config.get('Tacet Suppression Count', 0)
         # total counter
         if total_counter <= 0:
             self.log_info('0 time(s) farmed, 0 stamina used')
             return
         # stamina
-        current, back_up = self.open_F2_book_and_get_stamina()
-        if current + back_up < self.stamina_once:
-            self.log_info('not enough stamina, 0 stamina used')
-            self.back()
+        _, _, total = self.open_F2_book_and_get_stamina()
+        self.back()
+        self.wait_in_team_and_world(time_out=self.teleport_timeout)
+        if total < self.stamina_once:
             return
         #
         counter = total_counter
@@ -57,8 +53,8 @@ class TacetTask2(TacetTask, DomainTask):
             index = self.tacet_serial_number - 1
             self.teleport_to_tacet(index)
             self.wait_click_travel()
-            self.wait_in_team_and_world(time_out=timeout_second)
-            self.sleep(max(2, timeout_second / 10)) # wait for treasure/door/enemy appear
+            self.wait_in_team_and_world(time_out=self.teleport_timeout)
+            self.sleep(max(2, self.teleport_timeout / 10)) # wait for treasure/door/enemy appear
             # } ⭐
             if self.door_walk_method.get(index) is not None:
                 for method in self.door_walk_method.get(index):
@@ -69,23 +65,19 @@ class TacetTask2(TacetTask, DomainTask):
                 self.run_until(self.in_combat, 'w', time_out=10, running=True)
             else:
                 self.walk_until_f(time_out=4, backward_time=0, raise_if_not_found=True)
+                self.pick_f(handle_claim=False)
             self.combat_once()
             self.sleep(3)
             self.walk_to_treasure()
+            self.pick_f(handle_claim=False)
             # ⭐ {
-            used, remaining_total, _, _ = self.use_stamina(once=self.stamina_once)
-            counter -= int(used / self.stamina_once)
-            total_used += used
-            # } ⭐
-            self.wait_click_ocr(0.2, 0.56, 0.75, 0.69, match=[str(used), '确认', 'Confirm'], raise_if_not_found=True,
-                                log=True)
-            self.sleep(4)
+            _, _, remaining_total, confirm_twice = self.use_stamina_2(once=self.stamina_once, try_twice=(counter >= 2))
+            c = (2 if confirm_twice else 1)
+            counter -= c
+            total_used += c * self.stamina_once
             self.click(0.51, 0.84, after_sleep=2)
-            # ⭐ {
-            if counter <= 0:
-                self.log_info(f'{total_counter} time(s) farmed, {total_used} stamina used')
+            if (counter <= 0) or (remaining_total < self.stamina_once):
                 break
-            if remaining_total < self.stamina_once:
-                self.log_info(f'not enough stamina, {total_used} stamina used')
-                break
-            # } ⭐
+        self.log_info(f'{total_counter - counter} time(s) farmed, {total_used} stamina used')
+        self.click(0.42, 0.84, after_sleep=2)  # back to world
+        # } ⭐

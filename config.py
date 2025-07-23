@@ -178,6 +178,8 @@ config = {
     'onetime_tasks': [  # tasks to execute
         ["src.task.DailyTask2", "DailyTask2"],
         ["src.task.TacetTask2", "TacetTask2"],
+        ["src.task.ForgeryTask2", "ForgeryTask2"],
+        ["src.task.SimulationTask2", "SimulationTask2"],
         ["src.task.DailyTask", "DailyTask"],
         ["src.task.FarmEchoTask", "FarmEchoTask"],
         ["src.task.AutoRogueTask", "AutoRogueTask"],
