@@ -550,7 +550,7 @@ msgid "⭐ Daily Task"
 msgstr "⭐ 日常一条龙"
 
 msgid "open game, login, monthly card, mail, farm, activity, radio"
-msgstr "启动, 月卡, 邮件, 刷体力, 活跃度 (完成需【刷1+无音区】且【用180+体力】未完成不报错), 先约电台"
+msgstr "启动, 月卡, 邮件, 刷体力, 活跃度 (未完成不报错), 先约电台"
 
 msgid "Exit with Error"
 msgstr "报错后退出"
@@ -570,33 +570,67 @@ msgstr "无音区编号"
 msgid "the Nth number in the list of Tacet Suppression list (in F2 menu)"
 msgstr "选择F2列表中的第几个无音区"
 
+msgid "Tacet Suppression Count"
+msgstr "刷取次数"
+
 msgid "farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina"
 msgstr "无音区刷取次数, 每次60体力, 如需用光所有体力可以设置一个大数"
+
+msgid "⭐ Simulation Challenge"
+msgstr "⭐ 模拟领域"
+
+msgid "Simulation Challenge Count"
+msgstr "刷取次数"
+
+msgid "farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina"
+msgstr "模拟领域刷取次数（每次消耗40体力），设置较大的数值以使用所有体力"
+
+msgid "⭐ Forgery Challenge"
+msgstr "⭐ 凝素领域"
+
+msgid "Forgery Suppression Serial Number"
+msgstr "凝素领域编号"
+
+msgid "the Nth number in the list of Forgery Suppression list (in F2 menu)"
+msgstr "选择F2列表中的第几个凝素领域"
+
+msgid "Forgery Challenge Count"
+msgstr "刷取次数"
+
+msgid "farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina"
+msgstr "凝素领域刷取次数（每次消耗40体力），设置较大的数值以使用所有体力"
 
 msgid "Simulation Challenge"
 msgstr "模拟领域"
 
+# ⭐
 msgid "Farms the selected Simulation Challenge. Must be able to teleport (F2)."
 msgstr "需要「黎那汐塔-角斗士的肖像」可传送"
 
+# ⭐
 msgid "Material Selection"
 msgstr "材料选择"
 
+# ⭐
 msgid "Resonator EXP / Weapon EXP / Shell Credit"
 msgstr "共鸣者经验 / 武器经验 / 贝币"
 
+# ⭐
 msgid "Resonator EXP"
 msgstr "共鸣者经验"
 
+# ⭐
 msgid "Weapon EXP"
 msgstr "武器经验"
 
+# ⭐
 msgid "Shell Credit"
 msgstr "贝币"
 
 msgid "Forgery Challenge"
 msgstr "凝素领域"
 
+# ⭐
 msgid "Farms the selected Forgery Challenge. Must be able to teleport (F2)."
 msgstr "刷选定的凝素领域, 需要可传送"
 
