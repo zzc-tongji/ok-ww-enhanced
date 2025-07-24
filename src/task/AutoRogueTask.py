@@ -31,11 +31,13 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
         self.stamina = 2
         self.last_purple_icon = None
         self.default_config.update({
-            'Auto Pick Echo Treasure': False,
+            'Stop When Treasure Found': False,
         })
         self.config_description = {
-            'Auto Pick Echo Treasure': 'Pick echo treasure if stamina is enough'
+            'Stop When Treasure Found': 'If set to False, treasure will be claimed if stamina is sufficient'
         }
+        self.black_list_buff = ["雷暴", "旋风", "矛盾晶体"]
+        self.white_list_buff = ["心流", "悲鸣纪", "余音贝", "齿轮之心", "全知之眼", "指南针", "医疗箱", "妄语的残谱", "激越的残谱"]
 
     def run(self):
         WWOneTimeTask.run(self)
@@ -50,9 +52,23 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
     def do_run(self):
         self.log_info('start')
         start = time.time()
+        exit_countdown = -1
         while True:
             # 非战斗处理
-            if not self.in_team()[0]:
+            in_team = self.in_team()[0]
+            if in_team:
+                now = time.time()
+                if exit_countdown < 0:
+                    if not self.in_realm():
+                        exit_countdown = now
+                else:
+                    if now - exit_countdown > 2: #0.8
+                        self.log_info('自动肉鸽结束!', notify=True)
+                        return
+                    if self.in_realm():
+                        exit_countdown = -1
+            if not in_team:
+                exit_countdown = -1
                 self.status = -1
                 # 交易：直接退出
                 if self.check_text(0.02, 0.04, 0.12, 0.09, r'交易', 'trade_text'):
@@ -80,8 +96,7 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
                 # todo: 加个隐喻筛选，不然选到开r生命减半可能会翻车
                 if self.check_text(0.02, 0.04, 0.12, 0.09, r'隐喻获得', 'buff_text'):
                     self.log_info('choose buff')
-                    self.click_relative(0.5, 0.5)
-                    self.sleep(1)
+                    self.buff_selector()
                     self.click_relative(0.82, 0.95)
                     self.sleep(1)
                     start = time.time()
@@ -110,7 +125,7 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
             # 领声骸：开关开时按序领声骸，否则返回
             if self.check_text(0.23, 0.3, 0.30, 0.35, r'领取奖励', 'treasure_text'):
                 self.log_info('collect treasure')
-                if self.config.get('Auto Pick Echo Treasure') and self.stamina > 0:
+                if self.stamina > 0:
                     self.stamina_enough = False
                     if self.stamina == 2:
                         self.click_relative(0.68, 0.63)
@@ -131,8 +146,12 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
             if self.find_next_hint(r'前往下一') or self.find_next_hint(r'个记忆区'):
                 self.log_info('find the gate')
                 self.walk_to_gate()
+            if self.config.get('Stop When Treasure Found') and self.find_treasure_icon():
+                self.info_set('Treasure Found', True)
+                self.log_info('自动肉鸽结束!', notify=True)
+                return
             # 走向treasure
-            if self.config.get('Auto Pick Echo Treasure') and self.find_treasure_icon() and self.stamina > 0:
+            if self.find_treasure_icon() and self.stamina > 0:
                 self.log_info('walk to treasure')
                 self.walk_to_box(self.find_treasure_icon, time_out=10, end_condition=self.find_f_with_text,
                                  y_offset=0.1)
@@ -272,6 +291,25 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
                                       re.compile(r'隐喻获得', re.IGNORECASE))
         if fps_text:
             return True
+        
+    def buff_selector(self):
+        texts = self.ocr(box=self.box_of_screen(0.19, 0.55, 0.81, 0.59, hcenter=True), name='buffs_text')
+        buffs = find_boxes_by_name(texts, re.compile(r'[\u4e00-\u9fffA-Za-z]+'))
+        self.draw_boxes('buff', buffs)
+        clicked = False
+        for buff in buffs:
+            if buff.name in self.white_list_buff:
+                self.click_box(buff, after_sleep=1)
+                clicked = True
+                break
+        if not clicked:
+            for buff in buffs:
+                if buff.name not in self.black_list_buff:
+                    self.click_box(buff, after_sleep=1)
+                    clicked = True
+                    break
+        if not clicked:
+            self.click_relative(0.5, 0.5, after_sleep=1)
 
     # def walk_to_box(self, find_function, time_out=30, end_condition=None, y_offset=0.05, x_offset=0.5):
     #     if not find_function:

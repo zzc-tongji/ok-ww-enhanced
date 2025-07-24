@@ -18,12 +18,10 @@ class ForgeryTask(DomainTask):
         self.default_config = {
             'Teleport Timeout': 10,
             'Which Forgery Challenge to Farm': 1,  # starts with 1
-            'Forgery Challenge Count': 20,  # starts with 20
         }
         self.config_description = {
             'Teleport Timeout': 'the timeout of second for teleport',
             'Which Forgery Challenge to Farm': 'The Forgery Challenge number in the F2 list.',
-            'Forgery Challenge Count': 'Number of times to farm the Forgery Challenge (40 stamina per run). Set a large number to use all stamina.',
         }
         self.teleport_timeout = 60
         self.stamina_once = 40
@@ -36,41 +34,43 @@ class ForgeryTask(DomainTask):
         self.make_sure_in_world()
         self.farm_forgery()
 
-    def farm_forgery(self):
-        total_counter = self.config.get('Forgery Challenge Count', 20)
-        if total_counter <= 0:
-            self.log_info('0 time(s) farmed, 0 stamina used')
-            return
-        current, back_up = self.open_F2_book_and_get_stamina()
-        if current + back_up < self.stamina_once:
+    def farm_forgery(self, daily=False, used_stamina=0, config=None):
+        if daily:
+            must_use = 180 - used_stamina
+        else:
+            must_use = 0
+        if config is None:
+            config = self.config
+        current, back_up, total = self.open_F2_book_and_get_stamina()
+        if total < self.stamina_once or total < must_use or (must_use == 0 and current < self.stamina_once):
+            self.log_info(f'not enough stamina', notify=True)
             self.back()
             return
-        self.teleport_into_domain(self.config.get('Which Forgery Challenge to Farm', 1))
+        self.teleport_into_domain(config.get('Which Forgery Challenge to Farm', 1), daily)
         self.sleep(1)
-        self.farm_in_domain(total_counter=total_counter, current=current, back_up=back_up)
+        self.farm_in_domain(must_use=must_use)
 
     def purification_material(self):
-        if self.material_mat is None:
-            raise RuntimeError('material_mat is not set')
         self.send_key("esc")
         self.sleep(1)
         self.click_relative(0.62, 0.7)
-        self.sleep(2)
+        self.sleep(1)
         box = self.box_of_screen(243 / 2560, 162 / 1440, 928 / 2560, 559 / 1440, name='ascension_materials')
         self.draw_boxes(box.name, box)
-        target = self.wait_until(lambda: self.find_one(template=self.material_mat, box=box, threshold=0.7),
-                                 raise_if_not_found=True, time_out=4)
-        self.click_box(target, after_sleep=1)
+        self.wait_book()
+        if self.material_mat is not None and \
+            (target := self.wait_until(lambda: self.find_one(template=self.material_mat, box=box, threshold=0.7), time_out=1)):
+            self.click_box(target, after_sleep=1)
         self.click_relative(0.75, 0.90, after_sleep=1)
         self.ensure_main()
 
-    def teleport_into_domain(self, serial_number):
+    def teleport_into_domain(self, serial_number, daily=False):
         self.click_relative(0.18, 0.16, after_sleep=1)
         self.info_set('Teleport to Forgery Challenge', serial_number - 1)
         if serial_number > self.total_number:
             raise IndexError(f'Index out of range, max is {self.total_number}')
         self.click_on_book_target(serial_number, self.total_number)
-        if self._daily_task:
+        if daily:
             self.get_material_mat()
         self.wait_click_travel()
         self.wait_in_team_and_world(time_out=self.teleport_timeout)
@@ -95,12 +95,11 @@ class ForgeryTask(DomainTask):
             box_len = self.width_of_screen(90 / 2560)
             target = min(material_boxes, key=lambda box: box.y)
             logger.info(f"Found {len(material_boxes)} material boxes, selected target at y={target.y}")
-            mat_box = target.copy(box_start, box_start, box_len-target.width, box_len-target.height, 'material_mat')
+            mat_box = target.copy(box_start, box_start, box_len - target.width, box_len - target.height, 'material_mat')
             self.draw_boxes(mat_box.name, mat_box)
-            self.material_mat = cv2.resize(mat_box.crop_frame(self.frame),None,
+            self.material_mat = cv2.resize(mat_box.crop_frame(self.frame), None,
                                            fx=1.1, fy=1.1, interpolation=cv2.INTER_LINEAR)
-        else:
-            raise RuntimeError('can not find material_box')
+
 
 material_box_color = {
     'r': (45, 75),  # Red range
