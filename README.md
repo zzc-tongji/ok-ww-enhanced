@@ -12,16 +12,33 @@
 
 ![alt text](README.image/image.001.png)
 
-**新版无音区任务**
+**新版无音区、凝素领域、模拟领域任务**
 
 - 支持按照设置的刷取次数刷取。
 - 支持设置传送超时。
 
 **新版一条龙任务**
 
-- 支持刷取无音区、凝素领域和贝币。首次刷取失败将会重试一次。
-- 允许在出现异常的情形下退出程序和游戏。
+- 支持刷取无音区、凝素领域和贝币。刷取失败将会重试3次。
+- 允许在出现异常的情形下退出程序和游戏。支持输出异常堆栈到日志文件。
 - 支持设置传送超时。
+
+### 运行方法
+
+当前仅支持 Python 源码运行，建议将依赖安装到 [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) 虚拟环境。
+
+``` powershell
+# requirement
+conda create --name facefusion python=3.12 pip=25.0
+pip install -r requirements.txt --upgrade
+pip install -r requirements-dev.txt --upgrade
+
+# release
+python main.py
+
+# debug
+python main_debug.py
+```
 
 ### 免责申明
 
