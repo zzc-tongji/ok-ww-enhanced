@@ -23,17 +23,17 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         self.description = 'open game, login, monthly card, mail, farm, activity, radio'
         self.default_config = {
             'Teleport Timeout': 10,
-            'Tacet Suppression Serial Number': 1, # starts with 1
-            'Tacet Suppression Count': 0, # starts with 0
-            'Which Forgery Challenge to Farm': 1, # starts with 1
-            'Forgery Challenge Count': 0, # starts with 0
+            'Which Tacet Suppression to Farm': 1,
+            'Tacet Suppression Count': 0,
+            'Which Forgery Challenge to Farm': 1,
+            'Forgery Challenge Count': 0,
             'Material Selection': 'Shell Credit',
-            'Simulation Challenge Count': 0, # starts with 0
+            'Simulation Challenge Count': 0,
             'Exit with Error': True,
         }
         self.config_description = {
             'Teleport Timeout': 'the timeout of second for teleport',
-            'Tacet Suppression Serial Number': 'the Nth number in the list of Tacet Suppression list (in F2 menu)',
+            'Which Tacet Suppression to Farm': 'The Tacet Suppression number in the F2 list.',
             'Tacet Suppression Count': 'farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina',
             'Which Forgery Challenge to Farm': 'The Forgery Challenge number in the F2 list.',
             'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
@@ -60,7 +60,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             #
             current_task = 'farm_tacet'
             self.info_set('current task', current_task)
-            self.tacet_serial_number = self.config.get('Tacet Suppression Serial Number', 1)
+            self.tacet_serial_number = self.config.get('Which Tacet Suppression to Farm', 1)
             self.stamina_once = 60
             for i in range(1, self.farm_attempt + 1):
                 try:

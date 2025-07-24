@@ -10,28 +10,15 @@ class TacetTask2(TacetTask, EnhancedTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = '⭐ Tacet Suppression'
-        self.description = 'Farm selected Tacet Suppression, you need to be able to teleport'
-        self.default_config = {
-            'Teleport Timeout': 10,
-            'Tacet Suppression Serial Number': 1, # starts with 1
-            'Tacet Suppression Count': 0, # starts with 0
-        }
-        self.config_description = {
-            'Teleport Timeout': 'the timeout of second for teleport',
-            'Tacet Suppression Serial Number': 'the Nth number in the list of Tacet Suppression list (in F2 menu)',
-            'Tacet Suppression Count': 'farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina',
-        }
-        self.stamina_once = 60
-
-    def run(self):
-        super(EnhancedTask, self).run()
-        self.teleport_timeout = self.config.get('Teleport Timeout', 10)
-        self.tacet_serial_number = self.config.get('Tacet Suppression Serial Number', 1)
-        self.wait_in_team_and_world(esc=True, time_out=self.teleport_timeout)
-        self.farm_tacet()
+        self.default_config.update({'Tacet Suppression Count': 0})
+        self.default_config = {'Teleport Timeout': 10} | self.default_config
+        self.config_description.update({'Tacet Suppression Count': 'farm Tacet Suppression N time(s), 60 stamina per time, set a large number to use all stamina'})
+        self.config_description = {'Teleport Timeout': 'the timeout of second for teleport'} | self.config_description
 
     def farm_tacet(self):
         # ⭐ {
+        self.teleport_timeout = self.config.get('Teleport Timeout', 10)
+        self.tacet_serial_number = self.config.get('Which Tacet Suppression to Farm', 1)
         total_counter = self.config.get('Tacet Suppression Count', 0)
         # total counter
         if total_counter <= 0:

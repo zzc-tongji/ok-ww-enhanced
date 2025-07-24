@@ -768,15 +768,6 @@ msgstr ""
 msgid "⭐ Tacet Suppression"
 msgstr ""
 
-msgid "Farm selected Tacet Suppression, you need to be able to teleport"
-msgstr ""
-
-msgid "Tacet Suppression Serial Number"
-msgstr ""
-
-msgid "the Nth number in the list of Tacet Suppression list (in F2 menu)"
-msgstr ""
-
 msgid "Tacet Suppression Count"
 msgstr ""
 
@@ -795,12 +786,6 @@ msgstr ""
 msgid "⭐ Forgery Challenge"
 msgstr ""
 
-msgid "Forgery Suppression Serial Number"
-msgstr ""
-
-msgid "the Nth number in the list of Forgery Suppression list (in F2 menu)"
-msgstr ""
-
 msgid "Forgery Challenge Count"
 msgstr ""
 
@@ -810,34 +795,27 @@ msgstr ""
 msgid "Simulation Challenge"
 msgstr ""
 
-# ⭐
 msgid "Farms the selected Simulation Challenge. Must be able to teleport (F2)."
 msgstr "Must be able to teleport to Gladiator's Portrait in Rinascita."
 
-# ⭐
 msgid "Material Selection"
 msgstr ""
 
-# ⭐
 msgid "Resonator EXP / Weapon EXP / Shell Credit"
 msgstr ""
 
-# ⭐
 msgid "Resonator EXP"
 msgstr ""
 
-# ⭐
 msgid "Weapon EXP"
 msgstr ""
 
-# ⭐
 msgid "Shell Credit"
 msgstr ""
 
 msgid "Forgery Challenge"
 msgstr ""
 
-# ⭐
 msgid "Farms the selected Forgery Challenge. Must be able to teleport (F2)."
 msgstr ""
 
