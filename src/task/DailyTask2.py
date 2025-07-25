@@ -65,6 +65,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm tacet attempt', i)
+                    self.make_sure_in_world()
                     self.get_task_by_class(TacetTask2).farm_tacet()
                     break
                 except Exception as e:
@@ -72,9 +73,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     # retry next tacet
                     if (i >= self.farm_attempt):
                         raise e
-                    tacet_index = self.tacet_serial_number - 1
-                    tacet_index = (tacet_index + 1) % self.total_number
-                    self.tacet_serial_number = tacet_index + 1
+                    self.tacet_serial_number = (self.tacet_serial_number % self.get_task_by_class(TacetTask2).total_number) + 1
             #
             current_task = 'farm_forgery'
             self.info_set('current task', current_task)
@@ -82,6 +81,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm forgery attempt', i)
+                    self.make_sure_in_world()
                     self.get_task_by_class(ForgeryTask2).farm_forgery()
                     break
                 except Exception as e:
@@ -95,6 +95,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm simulation attempt', i)
+                    self.make_sure_in_world()
                     self.get_task_by_class(SimulationTask2).farm_simulation()
                     break
                 except Exception as e:
@@ -102,16 +103,13 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     if (i >= self.farm_attempt):
                         raise e
             #
-            current_task = 'teleport_to_safe_place'
-            self.info_set('current task', current_task)
-            self.teleport_to_tacet(index=(self.tacet_serial_number - 1)) # teleport to safe place (of tacet entry)
-            #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)
             self.make_sure_in_world()
             self.claim_daily()
             current_task = 'claim_millage'
             self.info_set('current task', current_task)
+            self.make_sure_in_world()
             self.claim_millage()
             self.log_info('task completed', notify=True)
         except Exception as e:
