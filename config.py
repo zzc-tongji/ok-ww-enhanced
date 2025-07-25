@@ -107,9 +107,9 @@ config = {
         'report_url': 'http://report.ok-script.cn:8080/report',
     },
     'window_size': {
-        'width': 820,
+        'width': 900,
         'height': 600,
-        'min_width': 820,
+        'min_width': 900,
         'min_height': 600,
     },
     'supported_resolution': {
@@ -140,7 +140,7 @@ config = {
             'discord': 'https://discord.gg/vVyCatEBgA',
             'sponsor': 'https://afdian.com/a/ok-oldking',
             'share': 'OK-WW 夸克网盘下载：https://pan.quark.cn/s/75b55ef72a34 GitHub下载: https://github.com/ok-oldking/ok-wuthering-waves/releases/latest',
-            'faq': 'https://cnb.cool/ok-oldking/ok-wuthering-waves/-/blob/master/README.md',
+            'faq': 'https://cnb.cool/ok-oldking/ok-wuthering-waves/-/blob/main/README.md',
         },
     },
     'about': """
