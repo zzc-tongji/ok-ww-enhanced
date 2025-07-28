@@ -46,16 +46,17 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         self.farm_attempt = 3
 
     def run(self):
+        self.teleport_timeout = self.config.get('Teleport Timeout', 10)
         try:
             #
             current_task = 'login'
             self.info_set('current task', current_task)
             WWOneTimeTask.run(self)
-            self.ensure_main(time_out=180)
+            self.ensure_main(time_out=self.teleport_timeout)
             #
             current_task = 'claim_mail'
             self.info_set('current task', current_task)
-            self.make_sure_in_world()
+            self.ensure_main(time_out=self.teleport_timeout)
             self.claim_mail()
             #
             current_task = 'farm_tacet'
@@ -65,7 +66,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             for i in range(1, self.farm_attempt + 1):
                 try:
                     self.info_set('farm tacet attempt', i)
-                    self.make_sure_in_world()
+                    self.ensure_main(time_out=self.teleport_timeout)
                     self.get_task_by_class(TacetTask2).farm_tacet()
                     break
                 except Exception as e:
@@ -105,13 +106,14 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)
-            self.make_sure_in_world()
+            self.ensure_main(time_out=self.teleport_timeout)
             self.claim_daily()
+            #
             current_task = 'claim_millage'
             self.info_set('current task', current_task)
-            self.make_sure_in_world()
+            self.ensure_main(time_out=self.teleport_timeout)
             self.claim_millage()
-            self.log_info('task completed', notify=True)
+            #
         except Exception as e:
             self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
             if self.config.get('Exit with Error', True) and self.config.get('Exit After Task', False):
