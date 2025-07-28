@@ -50,7 +50,7 @@ class SimulationTask(DomainTask):
         self.wait_click_travel()
         self.wait_in_team_and_world(time_out=self.teleport_timeout)
         self.sleep(max(5, self.teleport_timeout / 10))
-        self.walk_until_f(time_out=1)
+        self.walk_until_f(time_out=2)
         self.pick_f()
         if selection == 'Resonator EXP':
             index = 0
