@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 import subprocess
 import traceback
@@ -71,6 +72,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     break
                 except Exception as e:
                     self.log_error(f'farm tacet "{self.tacet_serial_number}" as attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
+                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Tacet_Attempt_{i}_TacetSerialNumber_{self.tacet_serial_number}')
                     # retry next tacet
                     if (i >= self.farm_attempt):
                         raise e
@@ -87,6 +89,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     break
                 except Exception as e:
                     self.log_error(f'farm forgery attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
+                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Forgery_Attempt_{i}')
                     if (i >= self.farm_attempt):
                         raise e
             #
@@ -101,6 +104,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     break
                 except Exception as e:
                     self.log_error(f'farm simulation attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
+                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Simulation_Attempt_{i}')
                     if (i >= self.farm_attempt):
                         raise e
             #
@@ -116,6 +120,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             #
         except Exception as e:
             self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
+            self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Error')
             if self.config.get('Exit with Error', True) and self.config.get('Exit After Task', False):
                 subprocess.run(['pwsh', '-c', 'Stop-Process -Force -Name Client-Win64-Shipping'])
                 exit()
