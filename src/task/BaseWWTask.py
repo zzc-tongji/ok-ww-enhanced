@@ -321,7 +321,7 @@ class BaseWWTask(BaseTask):
                                                                                frame_processor=convert_bw)
 
     def in_world(self):
-        return self.find_one('world_earth_icon', threshold=0.8, frame_processor=convert_bw)
+        return self.find_one('world_earth_icon', threshold=0.8, frame_processor=binarize_for_matching)
 
     def in_illusive_realm(self):
         return self.find_one('new_realm_4') and self.in_realm() and self.find_one('illusive_realm_menu', threshold=0.6)
@@ -340,7 +340,6 @@ class BaseWWTask(BaseTask):
             if self.send_key_and_wait_f(direction, raise_if_not_found, time_out, target_text=target_text,
                                         running=False, check_combat=check_combat):
                 logger.info('walk forward found f')
-                self.sleep(0.5)
                 return True
             return False
         else:
@@ -593,7 +592,7 @@ class BaseWWTask(BaseTask):
         if self.walk_until_f(time_out=time_out, backward_time=backward_time, target_text=self.absorb_echo_text(),
                              raise_if_not_found=False, check_combat=True):  # find and pick echo
             logger.debug(f'farm echo found echo move forward walk_until_f to find echo')
-            return self.pick_echo()
+            return self.pick_f()
 
     def incr_drop(self, dropped):
         if dropped:
