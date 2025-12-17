@@ -307,7 +307,7 @@ msgid "Fallacy of No Return"
 msgstr "無歸的謬誤"
 
 msgid "Lorelei"
-msgstr "羅萊蕾"
+msgstr "羅蕾萊"
 
 msgid "click f2 to open the book"
 msgstr "點擊F2開啟指南"
@@ -537,9 +537,6 @@ msgstr "刷4C(大世界/副本)"
 msgid "Combat Wait Time"
 msgstr "戰鬥開始前等待時間(秒)"
 
-msgid "Wait time before each combat(seconds), set 5 if farming Sentry Construct"
-msgstr "若刷取異構武裝請設定為5秒"
-
 msgid "Simulation Challenge"
 msgstr "模擬領域"
 
@@ -626,3 +623,69 @@ msgstr "副本Boss不點擊重開"
 
 msgid "Yes if Farming Nightmare: Hecate"
 msgstr "刷夢魘·赫卡忒請選是"
+
+msgid "Auto Farm all Nightmare Nest"
+msgstr "自动刷所有梦魇巢穴"
+
+msgid "Other"
+msgstr "其它"
+
+msgid "Fenrico"
+msgstr "芬萊克"
+
+msgid "Lady of the Sea"
+msgstr "海之女"
+
+msgid "Lioness of Glory"
+msgstr "榮耀獅像"
+
+msgid "Nightmare Nest Task"
+msgstr "夢魘巢穴"
+
+msgid "Select boss profile (includes Combat Wait Time)"
+msgstr "選擇Boss配置 (已包含戰鬥開始前等待時間)"
+
+msgid "Wait time before each combat (seconds), overrides Boss profile if set"
+msgstr "若設定大於0則覆蓋Boss配置"
+
+msgid "Nightmare: Hecate"
+msgstr "夢魘·赫卡忒"
+
+msgid "Character Config"
+msgstr "角色設置"
+
+msgid "Iuno C6"
+msgstr "尤諾6鏈"
+
+msgid "Use Liberation"
+msgstr "使用共鳴解放"
+
+msgid "Do not use Liberation to Save Time"
+msgstr "高練度情況下, 不使用共鳴解放以節約時間"
+
+msgid "Do not use Liberation in Open World to Save Time"
+msgstr "在大世界中, 不使用共鳴解放以節約時間"
+
+msgid "Auto Click Fast Travel in Map"
+msgstr "地圖中自動點擊快速旅行"
+
+msgid "Target enemy failed, please disable Nvidia/AMD Filter or Sharpening!"
+msgstr "选择目标失败!请关闭显卡滤镜和锐化!"
+
+msgid "Check Levitator"
+msgstr ""
+
+msgid "Fast Travel"
+msgstr ""
+
+msgid "Toggle the levitator and verify if the character is floating"
+msgstr ""
+
+msgid "Daily"
+msgstr "周常日常"
+
+msgid "Dungeon"
+msgstr "副本任务"
+
+msgid "Farm"
+msgstr "4C任务"

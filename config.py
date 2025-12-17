@@ -55,6 +55,10 @@ key_config_option = ConfigOption('Game Hotkey Config', {
     'Tool Key': 't',
 }, description='In Game Hotkey for Skills')
 
+char_config_option = ConfigOption('Character Config', {
+    'Iuno C6': False,
+}, description='Character Config')
+
 pick_echo_config_option = ConfigOption('Pick Echo Config', {
     'Use OCR': True
 }, config_description={
@@ -74,7 +78,7 @@ config = {
     'config_folder': 'configs',
     'screenshot_processor': make_bottom_right_black,
     'gui_icon': 'icon.png',
-    'global_configs': [key_config_option, pick_echo_config_option, monthly_card_config_option],
+    'global_configs': [key_config_option, char_config_option, pick_echo_config_option, monthly_card_config_option],
     'ocr': {
         'lib': 'onnxocr',
         'params': {
@@ -97,13 +101,11 @@ config = {
         'calculate_pc_exe_path': calculate_pc_exe_path,
         'hwnd_class': 'UnrealWindow',
         'interaction': 'PostMessage',
-        'can_bit_blt': True,  # default false, opengl games does not support bit_blt
-        'bit_blt_render_full': True,
+        'capture_method': ['WGC', 'BitBlt_RenderFull'],  # Windows版本支持的话, 优先使用WGC, 否则使用BitBlt_Full
         'check_hdr': False,
         'force_no_hdr': False,
         'check_night_light': True,
         'force_no_night_light': False,
-        'require_bg': True
     },
     'analytics': {
         'report_url': 'http://report.ok-script.cn:8080/report',
@@ -186,6 +188,7 @@ config = {
         ["src.task.FarmEchoTask", "FarmEchoTask"],
         ["src.task.AutoRogueTask", "AutoRogueTask"],
         ["src.task.ForgeryTask", "ForgeryTask"],
+        ["src.task.NightmareNestTask", "NightmareNestTask"],
         ["src.task.SimulationTask", "SimulationTask"],
         ["src.task.TacetTask", "TacetTask"],
         ["src.task.DiagnosisTask", "DiagnosisTask"],
@@ -196,5 +199,6 @@ config = {
         ["src.task.SkipDialogTask", "AutoDialogTask"],
         ["src.task.AutoLoginTask", "AutoLoginTask"],
         ["src.task.MouseResetTask", "MouseResetTask"],
+        ["src.task.FastTravelTask", "FastTravelTask"],
     ], 'scene': ["src.scene.WWScene", "WWScene"],
 }

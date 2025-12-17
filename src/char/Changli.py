@@ -25,20 +25,19 @@ class Changli(BaseChar):
         if self.enhanced_normal:
             self.logger.debug('Changli has enhanced')
             self.continues_normal_attack(0.2)
-            self.sleep(0.15)
+            self.sleep(0.2)
             if self.check_outro() in {'char_brant'}:
-                self.sleep(0.15)
+                self.sleep(0.2)
                 self.do_perform_outro(self.judge_forte())
                 return self.switch_next_char()
             if forte == 3:
-                self.sleep(0.15)
+                self.sleep(0.2)
                 forte = self.judge_forte()
         self.enhanced_normal = False
         if forte == 4 or self.is_mouse_forte_full():
-            if self.current_tool() < 0.1:
+            if self.flying():
                 self.heavy_attack()
-            self.heavy_click_forte(check_fun = self.is_mouse_forte_full)
-            forte = 0
+            self.heavy_click_forte(check_fun=self.is_mouse_forte_full)
             self.check_combat()
             return self.switch_next_char()
         if not (forte >= 3 and self.resonance_available()) and self.liberation_available():
@@ -70,12 +69,12 @@ class Changli(BaseChar):
                 self.check_combat()
                 self.task.next_frame()
             if self.is_mouse_forte_full():
-                self.heavy_click_forte(check_fun = self.is_mouse_forte_full)
+                self.heavy_click_forte(check_fun=self.is_mouse_forte_full)
                 self.sleep(1)
         elif forte >= 4 or self.is_mouse_forte_full():
-            if self.current_tool() < 0.1:
+            if self.flying():
                 self.heavy_attack()
-            self.heavy_click_forte(check_fun = self.is_mouse_forte_full)
+            self.heavy_click_forte(check_fun=self.is_mouse_forte_full)
             forte = 0
             self.sleep(1)
         if self.liberation_available() and self.liberation_and_heavy():
@@ -148,6 +147,7 @@ class Changli(BaseChar):
         self.task.in_liberation = False
         if clicked:
             self.logger.info(f'click_liberation end {duration}')
+            self.task.wait_until(lambda: self.task.in_team()[0] and self.is_mouse_forte_full(), time_out=0.6)
             self.task.wait_until(lambda: self.task.in_team()[0] and not self.is_mouse_forte_full(), time_out=0.6)
         self.task.mouse_up()
         self.check_combat()

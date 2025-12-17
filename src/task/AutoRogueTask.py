@@ -8,6 +8,7 @@ from decimal import Decimal, ROUND_DOWN, ROUND_UP
 from ok import color_range_to_bound
 from ok import Logger, TaskDisabledException
 from ok import find_boxes_by_name
+from src import text_white_color
 from src.task.BaseCombatTask import BaseCombatTask
 from src.task.BaseWWTask import binarize_for_matching
 from src.task.WWOneTimeTask import WWOneTimeTask
@@ -22,6 +23,8 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
         self.default_config = {'_enabled': True}
         self.trigger_interval = 0.1
         self.name = "Half-Auto Rougue"
+        self.group_name = "Daily"
+        self.group_icon = FluentIcon.CALENDAR
         self.supported_languages = ["zh_CN"]
         self.description = "Enable half-auto combat in weekly rougue, language needs Chinese"
         self.icon = FluentIcon.CALORIES
@@ -50,6 +53,14 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
         except Exception as e:
             logger.error('farm 4c error, try handle monthly card', e)
             raise
+
+    def on_combat_check(self):
+        if ult := self.find_one('char_4_text'):
+            white_percent = self.calculate_color_percentage(text_white_color, ult)
+            self.log_info('on_combat_check found {} {}'.format(ult, white_percent))
+            if white_percent > 0.1:
+                self.send_key('4')
+        return True
 
     def do_run(self):
         self.log_info('start')
@@ -117,7 +128,6 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
             # 战斗处理
             if self.in_combat():
                 self.log_info('wait combat')
-                start = time.time()
                 self.combat_once(wait_combat_time=0, raise_if_not_found=False)
                 start = time.time()
             # 领声骸奖励时体力不够：按Esc
@@ -157,7 +167,7 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
             if self.find_treasure_icon() and self.stamina > 0:
                 self.log_info('walk to treasure')
                 self.walk_to_box(self.find_treasure_icon, time_out=10, end_condition=self.find_f_with_text,
-                                 y_offset=0.1)
+                                 y_offset=0.1, use_hook=True)
                 # 走向紫标，多个紫标时优先以离屏幕中心最近的紫标为对象
             elif self.find_purple_icon():
                 self.log_info('walk to purple icon')
@@ -186,10 +196,10 @@ class AutoRogueTask(WWOneTimeTask, BaseCombatTask):
     def walk_to_purple_and_restart(self):
         if self.find_next_hint(r'奇异的白猫'):
             if self.walk_to_box(self.find_purple_icon, time_out=10, end_condition=self.find_f_with_text,
-                                y_offset=0.1):
+                                y_offset=0.1, use_hook=True):
                 return True
         elif self.walk_to_box(self.find_purple_icon, time_out=3, end_condition=self.find_f_with_text,
-                              y_offset=0.1, x_threshold=0.15):
+                              y_offset=0.1, x_threshold=0.15, use_hook=True):
             return True
 
     def walk_to_gate(self):

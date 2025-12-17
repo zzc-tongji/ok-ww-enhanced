@@ -55,12 +55,12 @@ class BaseCombatTask(CombatCheck):
         super().__init__(*args, **kwargs)
         self.chars = [None, None, None]  # 角色列表
         self.char_texts = ['char_1_text', 'char_2_text', 'char_3_text']  # 角色文本标识符列表
-        self.key_config = self.get_global_config('Game Hotkey Config')  # 游戏热键配置
         self.mouse_pos = None  # 当前鼠标位置
         self.combat_start = 0  # 战斗开始时间戳
 
         self.char_texts = ['char_1_text', 'char_2_text', 'char_3_text']
         self.add_text_fix({'Ｅ': 'e'})
+        self.use_liberation = True
 
     def add_freeze_duration(self, start, duration=-1.0, freeze_time=0.1):
         """添加冻结持续时间。用于精确计算技能冷却等。
@@ -175,16 +175,20 @@ class BaseCombatTask(CombatCheck):
         self.cd_refreshed = False
         super().sleep(*args, **kwargs)
 
-    def teleport_to_heal(self):
+    def revive_action(self):
+        pass
+
+    def teleport_to_heal(self, esc=True):
         """传送回城治疗。"""
-        self.sleep(1)
-        self.info['Death Count'] = self.info.get('Death Count', 0) + 1
-        self.send_key('esc', after_sleep=2)
+        if esc:
+            self.sleep(1)
+            self.info['Death Count'] = self.info.get('Death Count', 0) + 1
+            self.send_key('esc', after_sleep=2)
         self.log_info('click m to open the map')
         self.send_key('m', after_sleep=2)
 
         teleport = self.find_best_match_in_box(self.box_of_screen(0.1, 0.1, 0.9, 0.9),
-                                               ['map_way_point', 'map_way_point_big'], 0.8)
+                                               ['map_way_point', 'map_way_point_big'], 0.7)
         if not teleport:
             raise RuntimeError(f'Can not find a teleport to heal')
         self.click(teleport, after_sleep=1)
@@ -214,7 +218,7 @@ class BaseCombatTask(CombatCheck):
             exception_type = NotInCombatException
         raise exception_type(message)
 
-    def available(self, name):
+    def available(self, name, check_color=True):
         """检查指定名称的技能或动作是否可用 (通过颜色百分比和冷却时间判断)。
 
         Args:
@@ -223,8 +227,11 @@ class BaseCombatTask(CombatCheck):
         Returns:
             bool: 如果可用则返回 True, 否则 False。
         """
-        current = self.calculate_color_percentage(text_white_color,
-                                                  self.get_box_by_name(f'box_{name}'))
+        if check_color:
+            current = self.calculate_color_percentage(text_white_color,
+                                                      self.get_box_by_name(f'box_{name}'))
+        else:
+            current = 1
         if current > 0 and not self.has_cd(name):
             return True
 
@@ -270,7 +277,7 @@ class BaseCombatTask(CombatCheck):
                         duration += step
 
                 if self.send_key_and_wait_f(direction, False, time_out=duration, running=True,
-                                                  target_text=self.absorb_echo_text()):
+                                            target_text=self.absorb_echo_text()):
                     if self.pick_f():
                         return True
                 total_index += 1
@@ -289,6 +296,7 @@ class BaseCombatTask(CombatCheck):
         has_intro = free_intro
         current_con = 0
         self.update_lib_portrait_icon()
+        current_char.wait_switch_cd()
         if not has_intro:
             current_con = current_char.get_current_con()
             if current_con > 0.8 and current_con != 1:
@@ -341,7 +349,7 @@ class BaseCombatTask(CombatCheck):
             if now - last_click > 0.1 and not switch_to.wait_switch():
                 self.send_key(switch_to.index + 1)
                 last_click = now
-                self.sleep(0.01)
+                self.sleep(0.05)
             in_team, current_index, size = self.in_team()
             if not in_team:
                 logger.info(f'not in team while switching chars_{current_char}_to_{switch_to} {now - start}')
@@ -350,7 +358,8 @@ class BaseCombatTask(CombatCheck):
                 confirm = self.wait_feature('revive_confirm_hcenter_vcenter', threshold=0.8, time_out=2)
                 if confirm:
                     self.log_info(f'char dead')
-                    self.raise_not_in_combat(f'char dead', exception_type=CharDeadException)
+                    if not self.revive_action():
+                        self.raise_not_in_combat(f'char dead', exception_type=CharDeadException)
                 if now - start > self.switch_char_time_out:
                     self.raise_not_in_combat(
                         f'switch too long failed chars_{current_char}_to_{switch_to}, {now - start}')
@@ -468,7 +477,7 @@ class BaseCombatTask(CombatCheck):
             self.raise_not_in_combat('combat check not in combat')
 
     def set_key(self, key, box):
-        best = self.find_best_match_in_box(box, ['t', 'e', 'r', 'q'], threshold=0.78)
+        best = self.find_best_match_in_box(box, ['t', 'e', 'r', 'q'], threshold=0.7)
         logger.debug(f'set_key best match {key}: {best}')
         if best and best.name != self.key_config[key]:
             self.key_config[key] = best.name
@@ -531,8 +540,8 @@ class BaseCombatTask(CombatCheck):
                 else:
                     char.is_current_char = False
         self.combat_start = time.time()
-
-        # self.log_info(f'load chars success {self.chars} {[obj.confidence for obj in self.chars]}')
+        if len(self.chars) >= 2:
+            return True
 
     @staticmethod
     def should_update(the_char, old_char):
@@ -757,6 +766,94 @@ class BaseCombatTask(CombatCheck):
                     self.log_debug('checking liberation_available by template {} {}'.format(char, match))
                     # self.screenshot('liberation_available_{}_{}_{}'.format(char, match.name, match.confidence))
 
+    def click_boss_octagon(self):
+        # === 1. 读取图像 ===
+        img = self.box_of_screen(0.3, 0.3, 0.7, 0.7).crop_frame(self.frame)
+
+        # === 2. 提取白色部分（白边）===
+        lower_white, upper_white = color_range_to_bound(white_color)
+        mask = cv2.inRange(img, lower_white, upper_white)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((3,3), np.uint8))
+
+        # 2. 找轮廓
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        # 3. 生成理想梯形轮廓（用于形状比对）
+        h, w = self.frame.shape[:2]
+
+        # 缩放比例
+        scale_x = w / 2560
+        scale_y = h / 1440
+
+        # 原梯形轮廓
+        trapezoid = np.array([
+            [35, 0], [0, 35], [92, 36], [56, 0]
+        ], np.int32).reshape((-1,1,2))
+
+        # 等比例缩放
+        trapezoid_scaled = np.zeros_like(trapezoid, dtype=np.int32)
+        trapezoid_scaled[:,0,0] = (trapezoid[:,0,0] * scale_x).astype(np.int32)
+        trapezoid_scaled[:,0,1] = (trapezoid[:,0,1] * scale_y).astype(np.int32)
+        
+        # 定义匹配阈值
+        best_mat = None
+        best_match = None
+        best_ratio = 0
+
+        for cnt in contours:
+            cnt = cv2.convexHull(cnt)
+            x,y,_,_ = cv2.boundingRect(cnt)
+            for dx in range(-10, 11, 2):
+                for dy in range(-10, 11, 2):
+                    shifted = trapezoid_scaled + [x+dx, y+dy]
+                    area_i, mat_i = cv2.intersectConvexConvex(cnt.astype(np.float32), shifted.astype(np.float32))
+                    ratio = area_i / cv2.contourArea(trapezoid_scaled)
+                    if ratio > best_ratio:
+                        best_ratio = ratio
+                        best_match = cnt
+                        best_mat = mat_i
+
+        # # 画出匹配到的轮廓
+        # if best_match is not None:
+        #     cv2.polylines(img, [best_match], isClosed=False, color=(0,255,0), thickness=2)
+
+        # if best_mat is not None and len(best_mat) > 0:
+        #     best_mat = best_mat.astype(np.int32)
+        #     cv2.polylines(img, [best_mat], isClosed=False, color=(255,0,0), thickness=2)
+
+        # # 显示结果
+        # print(f'Best match ratio: {best_ratio:.2f}')
+        # cv2.imshow("mask", mask)
+        # cv2.imshow("Matched", img)
+        # cv2.waitKey(0)
+
+        # 点击轮廓中心
+        if best_match is None:
+            raise RuntimeError('Can not find the boss octagon on map')
+        
+        x0, y0 = self.width_of_screen(0.3), self.height_of_screen(0.3)
+        x, y, w, h = cv2.boundingRect(best_match)
+        cx = x0 + x + w // 2
+        cy = y0 + y + h // 2
+        self.click(cx, cy, after_sleep=1)
+
+    def teleport_to_octagon_boss(self):
+        """传送到八边形Boss图标。"""
+        self.log_info('click m to open the map')
+        self.send_key('m', after_sleep=2)
+
+        self.click_boss_octagon()
+        travel = self.wait_feature('gray_teleport', raise_if_not_found=True, time_out=3)
+        if not travel:
+            pop_up = self.find_feature('map_way_point', box='map_way_point_pop_up_box')
+            if pop_up:
+                self.click(pop_up, after_sleep=1)
+                travel = self.wait_feature('gray_teleport', raise_if_not_found=True, time_out=3)
+        if not travel:
+            raise RuntimeError(f'Can not find the travel button')
+        self.click_box(travel, relative_x=1.5)
+        self.wait_in_team_and_world(time_out=20)
+        self.sleep(2)
 
 white_color = {  # 用于检测UI元素可用状态的白色颜色范围。
     'r': (253, 255),  # Red range

@@ -20,9 +20,13 @@ class AutoCombatTask(BaseCombatTask, TriggerTask):
         self.scene: WWScene | None = None
         self.default_config.update({
             'Auto Target': True,
+            'Use Liberation': True,
+            'Check Levitator': True,
         })
         self.config_description = {
-            'Auto Target': 'Turn off to enable auto combat only when manually target enemy using middle click'
+            'Auto Target': 'Turn off to enable auto combat only when manually target enemy using middle click',
+            'Use Liberation': 'Do not use Liberation in Open World to Save Time',
+            'Check Levitator': 'Toggle the levitator and verify if the character is floating',
         }
         self.op_index = 0
 
@@ -30,13 +34,13 @@ class AutoCombatTask(BaseCombatTask, TriggerTask):
         ret = False
         if not self.scene.in_team(self.in_team_and_world):
             return ret
+        self.use_liberation = self.config.get('Use Liberation')
+        if not self.use_liberation and not self.in_world():  # 仅大世界生效
+            self.use_liberation = True
         while self.in_combat():
             ret = True
             try:
-                if self._in_illusive:
-                    self.realm_perform()
-                else:
-                    self.get_current_char().perform()
+                self.get_current_char().perform()
             except CharDeadException:
                 self.log_error(f'Characters dead', notify=True)
                 break

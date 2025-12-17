@@ -1,3 +1,4 @@
+from src.char.Augusta import Augusta
 from src.char.Baizhi import Baizhi
 from src.char.BaseChar import BaseChar, Elements
 from src.char.Brant import Brant
@@ -7,11 +8,14 @@ from src.char.Cantarella import Cantarella
 from src.char.Carlotta import Carlotta
 from src.char.Cartethyia import Cartethyia
 from src.char.Changli import Changli
+from src.char.Chisa import Chisa
 from src.char.Chixia import Chixia
 from src.char.Ciaccona import Ciaccona
 from src.char.Danjin import Danjin
 from src.char.Encore import Encore
+from src.char.Galbrena import Galbrena
 from src.char.HavocRover import HavocRover
+from src.char.Iuno import Iuno
 from src.char.Jianxin import Jianxin
 from src.char.Jinhsi import Jinhsi
 from src.char.Jiyan import Jiyan
@@ -19,6 +23,7 @@ from src.char.Lupa import Lupa
 from src.char.Mortefi import Mortefi
 from src.char.Phoebe import Phoebe
 from src.char.Phrolova import Phrolova
+from src.char.Qiuyuan import Qiuyuan
 from src.char.Roccia import Roccia
 from src.char.Sanhua import Sanhua
 from src.char.ShoreKeeper import ShoreKeeper
@@ -65,6 +70,7 @@ char_dict = {
     'char_cantarella': {'cls': Cantarella, 'res_cd': 10, 'echo_cd': 25, 'liberation_cd': 25,
                         'ring_index': Elements.HAVOC},
     'char_zani': {'cls': Zani, 'res_cd': 5, 'echo_cd': 25, 'ring_index': Elements.SPECTRO},
+    'char_zani2': {'cls': Zani, 'res_cd': 5, 'echo_cd': 25, 'ring_index': Elements.SPECTRO},
     'char_ciaccona': {'cls': Ciaccona, 'res_cd': 10, 'echo_cd': 25, 'liberation_cd': 20, 'ring_index': Elements.WIND},
     'char_cartethyia': {'cls': Cartethyia, 'res_cd': 14, 'echo_cd': 25, 'liberation_cd': 20,
                         'ring_index': Elements.WIND},
@@ -72,6 +78,16 @@ char_dict = {
                   'ring_index': Elements.FIRE},
     'char_phrolova': {'cls': Phrolova, 'res_cd': 12, 'echo_cd': 25, 'liberation_cd': 20,
                       'ring_index': Elements.HAVOC},
+    'Augusta': {'cls': Augusta, 'res_cd': 15, 'echo_cd': 25, 'liberation_cd': 25,
+                'ring_index': Elements.ELECTRIC},
+    'char_iuno': {'cls': Iuno, 'res_cd': 8, 'echo_cd': 20, 'liberation_cd': 25,
+                  'ring_index': Elements.WIND},
+    'char_galbrena': {'cls': Galbrena, 'res_cd': 5, 'echo_cd': 20, 'liberation_cd': 25,
+                      'ring_index': Elements.FIRE},
+    'char_chouyuan': {'cls': Qiuyuan, 'res_cd': 10, 'echo_cd': 20, 'liberation_cd': 25,
+                      'ring_index': Elements.WIND},
+    'char_chisa': {'cls': Chisa, 'res_cd': 10, 'echo_cd': 20, 'liberation_cd': 25,
+                   'ring_index': Elements.HAVOC},
 }
 
 char_names = char_dict.keys()

@@ -4,7 +4,9 @@ from qfluentwidgets import FluentIcon
 
 from ok import Logger
 from src.task.BaseWWTask import number_re, stamina_re
+from src.task.FarmEchoTask import FarmEchoTask
 from src.task.ForgeryTask import ForgeryTask
+from src.task.NightmareNestTask import NightmareNestTask
 from src.task.TacetTask import TacetTask
 from src.task.WWOneTimeTask import WWOneTimeTask
 from src.task.BaseCombatTask import BaseCombatTask
@@ -17,13 +19,15 @@ class DailyTask(WWOneTimeTask, BaseCombatTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "Daily Task"
-        # self.add_exit_after_config()
+        self.group_name = "Daily"
+        self.group_icon = FluentIcon.CALENDAR
         self.icon = FluentIcon.CAR
         self.support_tasks = ["Tacet Suppression", "Forgery Challenge"]
         self.default_config = {
             'Which to Farm': self.support_tasks[0],
             'Which Tacet Suppression to Farm': 1,  # starts with 1
             'Which Forgery Challenge to Farm': 1,  # starts with 1
+            'Auto Farm all Nightmare Nest': False,
         }
         self.config_description = {
             'Which Tacet Suppression to Farm': 'The Tacet Suppression number in the F2 list.',
@@ -40,14 +44,22 @@ class DailyTask(WWOneTimeTask, BaseCombatTask):
         if not completed:
             if used_stamina < 180:
                 if self.config.get('Which to Farm', self.support_tasks[0]) == self.support_tasks[0]:
-                    self.get_task_by_class(TacetTask).farm_tacet(daily=True, used_stamina=used_stamina, config=self.config)
+                    self.get_task_by_class(TacetTask).farm_tacet(daily=True, used_stamina=used_stamina,
+                                                                 config=self.config)
                 else:
                     self.get_task_by_class(ForgeryTask).farm_forgery(daily=True, used_stamina=used_stamina,
-                                                                    config=self.config)
+                                                                     config=self.config)
                     self.sleep(2)
                     self.get_task_by_class(ForgeryTask).purification_material()
                 self.sleep(4)
+            if self.config.get('Auto Farm all Nightmare Nest'):
+                try:
+                    self.run_task_by_class(NightmareNestTask)
+                except Exception as e:
+                    self.log_error("NightmareNestTask Failed", e)
+                    self.ensure_main(time_out=180)
             self.claim_daily()
+
         self.claim_mail()
         self.claim_millage()
         self.log_info('Task completed', notify=True)
@@ -58,12 +70,11 @@ class DailyTask(WWOneTimeTask, BaseCombatTask):
         self.sleep(0.05)
         self.click_relative(0.86, 0.05)
         self.send_key_up('alt')
-        self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
-        self.click(0.04, 0.3, after_sleep=1)
-        self.click(0.68, 0.91, after_sleep=3)
-        self.click(0.04, 0.17, after_sleep=1)
-        self.click(0.68, 0.91, after_sleep=1)
-        self.click(0.68, 0.91, after_sleep=1)
+        if not self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=False):
+            self.log_error('can not open_millage, maybe ended')
+        else:
+            self.click(0.04, 0.3, after_sleep=1)
+            self.click(0.68, 0.91, after_sleep=3)
         self.ensure_main()
 
     def open_daily(self):
@@ -94,20 +105,9 @@ class DailyTask(WWOneTimeTask, BaseCombatTask):
         self.info_set('current task', 'claim daily')
         self.ensure_main(time_out=5)
         self.open_daily()
-        while True:
-            boxes = self.ocr(0.23, 0.16, 0.31, 0.69, match=re.compile(r"^[1-9]\d*/\d+$"))
-            count = 0
-            for box in boxes:
-                parts = box.name.split('/')
-                if len(parts) == 2 and parts[0] == parts[1]:
-                    count += 1
 
-            self.log_info(f'can claim count {count}')
-            if count == 0:
-                break
-            for _ in range(count):
-                self.click(0.87, 0.17, after_sleep=0.5)
-            self.sleep(1)
+        self.click(0.87, 0.17, after_sleep=0.5)
+        self.sleep(1)
 
         total_points = self.get_total_daily_points()
         self.info_set('daily points', total_points)

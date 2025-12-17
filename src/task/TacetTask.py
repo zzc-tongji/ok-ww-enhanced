@@ -12,13 +12,15 @@ class TacetTask(WWOneTimeTask, BaseCombatTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.icon = FluentIcon.FLAG
+        self.group_name = "Dungeon"
+        self.group_icon = FluentIcon.HOME
         self.description = "Farms the selected Tacet Suppression, until no stamina. Must be able to teleport (F2)."
         self.name = "Tacet Suppression"
         default_config = {
             'Which Tacet Suppression to Farm': 1,  # starts with 1
         }
         self.total_number = 12
-        self.target_enemy_time_out = 8
+        self.target_enemy_time_out = 10
         default_config.update(self.default_config)
         self.config_description = {
             'Which Tacet Suppression to Farm': 'The Tacet Suppression number in the F2 list.',
@@ -62,7 +64,7 @@ class TacetTask(WWOneTimeTask, BaseCombatTask):
             self.teleport_to_tacet(index)
             self.wait_click_travel()
             self.wait_in_team_and_world(time_out=120)
-            self.sleep(1)
+            self.sleep(2)
             if self.door_walk_method.get(index) is not None:
                 for method in self.door_walk_method.get(index):
                     self.send_key_down(method[0])
@@ -80,7 +82,7 @@ class TacetTask(WWOneTimeTask, BaseCombatTask):
             can_continue, used = self.use_stamina(once=self.stamina_once, must_use=must_use)
             self.info_incr('used stamina', used)
             self.sleep(4)
-            self.click(0.51, 0.84, after_sleep=2)
+            self.click(0.51, 0.84, after_sleep=3)
             if not can_continue:
                 return self.not_enough_stamina()
             must_use -= used

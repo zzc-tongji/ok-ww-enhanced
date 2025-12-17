@@ -307,7 +307,7 @@ msgid "Fallacy of No Return"
 msgstr "无归的谬误"
 
 msgid "Lorelei"
-msgstr "罗莱蕾"
+msgstr "罗蕾莱"
 
 msgid "click f2 to open the book"
 msgstr "点击F2打开书"
@@ -671,3 +671,69 @@ msgstr "副本Boss不点击重开"
 
 msgid "Yes if Farming Nightmare: Hecate"
 msgstr "刷梦魇·赫卡忒选是"
+
+msgid "Nightmare Nest Task"
+msgstr "梦魇巢穴"
+
+msgid "Auto Farm all Nightmare Nest"
+msgstr "自动刷所有梦魇巢穴"
+
+msgid "Select boss profile (includes Combat Wait Time)"
+msgstr "选择Boss配置 (已包含战斗开始前等待时间)"
+
+msgid "Wait time before each combat (seconds), overrides Boss profile if set"
+msgstr "若设定大于0则覆盖Boss配置"
+
+msgid "Other"
+msgstr "其它"
+
+msgid "Lioness of Glory"
+msgstr "荣耀狮像"
+
+msgid "Fenrico"
+msgstr "芬莱克"
+
+msgid "Lady of the Sea"
+msgstr "海之女"
+
+msgid "Nightmare: Hecate"
+msgstr "梦魇·赫卡忒"
+
+msgid "Character Config"
+msgstr "角色设置"
+
+msgid "Iuno C6"
+msgstr "尤诺6链"
+
+msgid "Use Liberation"
+msgstr "使用共鸣解放"
+
+msgid "Do not use Liberation to Save Time"
+msgstr "高练度情况下, 不使用共鸣解放以节约时间"
+
+msgid "Do not use Liberation in Open World to Save Time"
+msgstr "在大世界中, 不使用共鸣解放以节约时间"
+
+msgid "Fast Travel"
+msgstr "快速旅行"
+
+msgid "Auto Click Fast Travel in Map"
+msgstr "地图中自动点击快速旅行"
+
+msgid "Check Levitator"
+msgstr "检查探索工具是否为控物"
+
+msgid "Toggle the levitator and verify if the character is floating"
+msgstr "在秘境中自动战斗时切换控物以判断角色是否处于空中"
+
+msgid "Target enemy failed, please disable Nvidia/AMD Filter or Sharpening!"
+msgstr "选择目标失败!请关闭显卡滤镜和锐化!"
+
+msgid "Daily"
+msgstr "周常日常"
+
+msgid "Dungeon"
+msgstr "副本任务"
+
+msgid "Farm"
+msgstr "4C任务"
