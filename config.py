@@ -126,35 +126,24 @@ config = {
     },
     'git_update': {'sources': [{
         'name': 'Global',
-        'git_url': 'https://github.com/ok-oldking/ok-ww-update.git',
+        'git_url': 'https://github.com/zzc-tongji/ok-ww-e.git',
         'pip_url': 'https://pypi.org/simple/'
-    }, {
-        'name': 'China',
-        'git_url': 'https://cnb.cool/ok-oldking/ok-wuthering-waves.git',
-        'pip_url': 'https://mirrors.aliyun.com/pypi/simple'
     }
     ]},
     'links': {
         'default': {
-            'github': 'https://github.com/ok-oldking/ok-wuthering-waves',
-            'discord': 'https://discord.gg/vVyCatEBgA',
-            'sponsor': 'https://www.paypal.com/ncp/payment/JWQBH7JZKNGCQ',
-            'share': 'Download OK-WW from https://github.com/ok-oldking/ok-wuthering-waves/releases/latest',
-            'faq': 'https://github.com/ok-oldking/ok-wuthering-waves/blob/master/README_en.md'
-        },
-        'zh_CN': {
-            'github': 'https://github.com/ok-oldking/ok-wuthering-waves',
-            'discord': 'https://discord.gg/vVyCatEBgA',
-            'sponsor': 'https://afdian.com/a/ok-oldking',
-            'share': 'OK-WW 夸克网盘下载：https://pan.quark.cn/s/75b55ef72a34 GitHub下载: https://github.com/ok-oldking/ok-wuthering-waves/releases/latest',
-            'faq': 'https://cnb.cool/ok-oldking/ok-wuthering-waves/-/blob/main/README.md',
-            'qq_group': 'https://qm.qq.com/q/czPTr5iBRm',
-            'qq_channel': 'https://pd.qq.com/s/djmm6l44y',
+            'github': 'https://github.com/zzc-tongji/ok-wuthering-waves-enhanced'
         },
     },
     'about': """
+    <p style="color:orange;">
+        <strong>本软件为OK-WW-E，是基于<a href="https://github.com/ok-oldking/ok-wuthering-waves">OK-WW</a>的增强版。新增功能用⭐标出。</strong>
+    </p>
+    <p style="color:orange;">
+        <strong>欢迎对于新增功能的issue和PR。喜欢本软件请支持原作者ok-oldking。</strong>
+    </p>
     <p style="color:red;">
-    <strong>本软件是免费开源的。</strong> 如果你被收费，请立即退款。请访问QQ频道或GitHub下载最新的官方版本。
+        <strong>本软件是免费开源的。</strong> 如果你被收费，请立即退款。请访问GitHub下载最新的官方版本。
     </p>
     <p style="color:red;">
         <strong>本软件仅供个人使用，用于学习Python编程、计算机视觉、UI自动化等。</strong> 请勿将其用于任何营利性或商业用途。
@@ -164,7 +153,7 @@ config = {
     </p>
 """,
     'screenshots_folder': "screenshots",
-    'gui_title': 'OK-WW',  # Optional
+    'gui_title': 'OK-WW-E',  # Optional
     # 'coco_feature_folder': get_path(__file__, 'assets/coco_feature'),  # required if using feature detection
     'log_file': 'logs/ok-ww.log',  # Optional, auto rotating every day
     'error_log_file': 'logs/ok-ww_error.log',
@@ -172,6 +161,10 @@ config = {
     'launcher_error_log_file': 'logs/launcher_error.log',
     'version': version,
     'onetime_tasks': [  # tasks to execute
+        ["src.task.DailyTask2", "DailyTask2"],
+        ["src.task.TacetTask2", "TacetTask2"],
+        ["src.task.ForgeryTask2", "ForgeryTask2"],
+        ["src.task.SimulationTask2", "SimulationTask2"],
         ["src.task.DailyTask", "DailyTask"],
         ["src.task.FarmEchoTask", "FarmEchoTask"],
         ["src.task.AutoRogueTask", "AutoRogueTask"],
