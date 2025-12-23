@@ -3,7 +3,7 @@ name: Build Windows Executable (ok-ww-e)
 on:
   push:
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
