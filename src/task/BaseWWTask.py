@@ -274,7 +274,7 @@ class BaseWWTask(BaseTask):
             self.send_key_up(last_direction)
             self.sleep(0.001)
         if running:
-            self.send_key_up('shift')
+            self.send_key_up(self.key_config.get('Dodge Key'))
         if not end_condition:
             return last_direction is not None
         else:
@@ -889,6 +889,7 @@ class BaseWWTask(BaseTask):
             self.send_key_down('alt')
             self.sleep(0.05)
             self.click_relative(0.77, 0.05)
+            self.sleep(0.02)
             self.send_key_up('alt')
             self.sleep(1)
         gray_book_boss = self.wait_book(feature)
@@ -992,6 +993,9 @@ class BaseWWTask(BaseTask):
         self.sleep(1)
         self.send_key("esc")
         self.sleep(1)
+
+    def jump(self, after_sleep=0.01):
+        self.send_key(self.key_config.get('Jump Key'), after_sleep=after_sleep)
 
 
 double_drop_color = {
