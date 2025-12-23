@@ -10,6 +10,7 @@ from src.task.BaseWWTask import number_re
 from src.task.TacetTask2 import TacetTask2
 from src.task.ForgeryTask2 import ForgeryTask2
 from src.task.SimulationTask2 import SimulationTask2
+from src.task.NightmareNestTask import NightmareNestTask
 from src.task.WWOneTimeTask import WWOneTimeTask
 
 logger = Logger.get_logger(__name__)
@@ -32,6 +33,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             'Forgery Challenge Count': 0,
             'Material Selection': 'Shell Credit',
             'Simulation Challenge Count': 0,
+            'Auto Farm all Nightmare Nest': False,
             'Exit with Error': True,
         }
         self.config_description = {
@@ -109,6 +111,14 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Simulation_Attempt_{i}')
                     if (i >= self.farm_attempt):
                         raise e
+            #
+            if self.config.get('Auto Farm all Nightmare Nest'):
+                current_task = 'nightmare_nest'
+                try:
+                    self.run_task_by_class(NightmareNestTask)
+                except Exception as e:
+                    self.log_error("NightmareNestTask Failed", e)
+                    self.ensure_main(time_out=180)
             #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)
