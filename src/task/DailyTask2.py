@@ -21,6 +21,8 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         super().__init__(*args, **kwargs)
         self.icon = FluentIcon.CAR
         self.name = '⭐ Daily Task'
+        self.group_name = "Daily"
+        self.group_icon = FluentIcon.CALENDAR
         self.description = 'open game, login, monthly card, mail, farm, activity, radio'
         self.default_config = {
             'Teleport Timeout': 10,
