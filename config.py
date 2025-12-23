@@ -162,22 +162,9 @@ config = {
     <p style="color:red;">
         <strong>使用本软件可能会导致账号被封。</strong> 请在了解风险后再使用。
     </p>
-    <br/>
-    <p style="color:orange;">
-    以上描述和链接均属于<strong>原版OK-WW</strong>和<strong>原作者ok-oldking</strong>。
-    </p>
-    <p style="color:orange;">
-    本软件为<strong>OK-WW-E</strong>，是基于OK-WW的增强版，开源地址为&nbsp; <a href="https://github.com/zzc-tongji/ok-wuthering-waves-enhanced">https://github.com/zzc-tongji/ok-wuthering-waves-enhanced</a>&nbsp; 。
-    </p>
-    <p style="color:orange;">
-    新增功能用⭐标出。版本号前三段表示基于OK-WW的版本。
-    </p>
-    <p style="color:orange;">
-    欢迎对于新增功能的issue和PR。喜欢本软件请支持原作者ok-oldking。
-    </p>
 """,
     'screenshots_folder': "screenshots",
-    'gui_title': 'OK-WW-E',  # Optional
+    'gui_title': 'OK-WW',  # Optional
     # 'coco_feature_folder': get_path(__file__, 'assets/coco_feature'),  # required if using feature detection
     'log_file': 'logs/ok-ww.log',  # Optional, auto rotating every day
     'error_log_file': 'logs/ok-ww_error.log',
@@ -185,10 +172,6 @@ config = {
     'launcher_error_log_file': 'logs/launcher_error.log',
     'version': version,
     'onetime_tasks': [  # tasks to execute
-        ["src.task.DailyTask2", "DailyTask2"],
-        ["src.task.TacetTask2", "TacetTask2"],
-        ["src.task.ForgeryTask2", "ForgeryTask2"],
-        ["src.task.SimulationTask2", "SimulationTask2"],
         ["src.task.DailyTask", "DailyTask"],
         ["src.task.FarmEchoTask", "FarmEchoTask"],
         ["src.task.AutoRogueTask", "AutoRogueTask"],
