@@ -18,20 +18,20 @@ jobs:
         python-version: [ 3.12 ]
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
-          fetch-depth: 0
-
       - name: Configure git
         run: |
           [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
           git config --global core.autocrlf false
           git config --global core.eol lf
-          git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
-          git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+          git config --global user.email "20331014+zzc-tongji@users.noreply.github.com"
+          git config --global user.name "Zhicheng Zhang"
           echo "action_state=yellow" >> $env:GITHUB_ENV
           echo "${{ env.action_state }}"
+
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
