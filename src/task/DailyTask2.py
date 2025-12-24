@@ -135,10 +135,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         except Exception as e:
             self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
             self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Error')
-            if self.config.get('Exit with Error', True) and self.config.get('Exit After Task', False):
-                subprocess.run(['pwsh', '-c', 'Stop-Process -Force -Name Client-Win64-Shipping'])
-                exit()
-            else:
+            if not self.config.get('Exit with Error', True):
                 raise e
 
     def claim_millage(self):
@@ -147,7 +144,11 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         self.sleep(0.05)
         self.click_relative(0.86, 0.05)
         self.send_key_up('alt')
-        self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
+        try:
+            self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
+        except Exception:
+            self.log_info('millage not available')
+            self.ensure_main()
         self.click(0.04, 0.3, after_sleep=1)
         self.click(0.68, 0.91, after_sleep=1)
         self.click(0.04, 0.16, after_sleep=1)
