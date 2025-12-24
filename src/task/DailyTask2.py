@@ -117,8 +117,10 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 try:
                     self.run_task_by_class(NightmareNestTask)
                 except Exception as e:
-                    self.log_error("NightmareNestTask Failed", e)
-                    self.ensure_main(time_out=180)
+                    self.log_error(f'nightmare nest failed\n{''.join(traceback.format_exception(e))}')
+                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Nightmare')
+                    self.ensure_main(time_out=self.teleport_timeout)
+                    raise e
             #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)
