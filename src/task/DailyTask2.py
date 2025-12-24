@@ -64,6 +64,16 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.ensure_main(time_out=self.teleport_timeout)
             self.claim_mail()
             #
+            if self.config.get('Auto Farm all Nightmare Nest'):
+                current_task = 'nightmare_nest'
+                try:
+                    self.run_task_by_class(NightmareNestTask)
+                except Exception as e:
+                    self.log_error(f'nightmare nest failed\n{''.join(traceback.format_exception(e))}')
+                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Nightmare')
+                    self.ensure_main(time_out=self.teleport_timeout)
+                    raise e
+            #
             current_task = 'farm_tacet'
             self.info_set('current task', current_task)
             self.tacet_serial_number = self.config.get('Which Tacet Suppression to Farm', 1)
@@ -112,16 +122,6 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     if (i >= self.farm_attempt):
                         raise e
             #
-            if self.config.get('Auto Farm all Nightmare Nest'):
-                current_task = 'nightmare_nest'
-                try:
-                    self.run_task_by_class(NightmareNestTask)
-                except Exception as e:
-                    self.log_error(f'nightmare nest failed\n{''.join(traceback.format_exception(e))}')
-                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Nightmare')
-                    self.ensure_main(time_out=self.teleport_timeout)
-                    raise e
-            #
             current_task = 'claim_daily'
             self.info_set('current task', current_task)
             self.ensure_main(time_out=self.teleport_timeout)
@@ -144,11 +144,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         self.sleep(0.05)
         self.click_relative(0.86, 0.05)
         self.send_key_up('alt')
-        try:
-            self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
-        except Exception:
-            self.log_info('millage not available')
-            self.ensure_main()
+        self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
         self.click(0.04, 0.3, after_sleep=1)
         self.click(0.68, 0.91, after_sleep=1)
         self.click(0.04, 0.16, after_sleep=1)
