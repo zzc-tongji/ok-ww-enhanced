@@ -656,10 +656,10 @@ class BaseWWTask(BaseTask):
         return success
 
     def ensure_main(self, esc=True, time_out=30):
-        self.info_set('current task', 'wait main')
+        self.info_set('current task', f'wait main esc={esc}')
         if not self.wait_until(lambda: self.is_main(esc=esc), time_out=time_out, raise_if_not_found=False):
             raise Exception('Please start in game world and in team!')
-        self.info_set('current task', 'in main')
+        self.info_set('current task', f'in main esc={esc}')
 
     def is_main(self, esc=True):
         if self.in_team_and_world():
@@ -685,9 +685,14 @@ class BaseWWTask(BaseTask):
                 self._logged_in = True
                 self.sleep(3)
                 return True
-            if login := self.ocr(0.3, 0.3, 0.7, 0.7, match="登录"):
+            texts = self.ocr()
+            if login := self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.7, 0.7), match="登录"):
                 self.click(login)
                 self.log_info('点击登录按钮!')
+                return False
+            if start := self.find_boxes(texts, boundary='bottom_right', match=["开始游戏", re.compile("进入游戏")]):
+                self.click(start)
+                self.log_info(f'点击开始游戏! {start}')
                 return False
 
     def in_team_and_world(self):
@@ -868,7 +873,7 @@ class BaseWWTask(BaseTask):
 
     @property
     def game_lang(self):
-        if '鸣潮' in self.hwnd_title:
+        if '鸣潮' in self.hwnd_title or self.is_browser():
             return 'zh_CN'
         elif 'Wuthering' in self.hwnd_title:
             return 'en_US'
@@ -892,6 +897,9 @@ class BaseWWTask(BaseTask):
             self.sleep(0.02)
             self.send_key_up('alt')
             self.sleep(1)
+        if self.in_team_and_world():
+            self.send_key('f2', after_sleep=1)
+            self.log_info('send f2 key to open the book')
         gray_book_boss = self.wait_book(feature)
         if not gray_book_boss:
             self.log_error("can't find gray_book_boss, make sure f2 is the hotkey for book", notify=True)
@@ -1057,7 +1065,7 @@ def convert_bw(cv_image):
 
 
 lower_icon_white = np.array([210, 210, 210], dtype=np.uint8)
-upper_icon_white = np.array([240, 240, 240], dtype=np.uint8)
+upper_icon_white = np.array([244, 244, 244], dtype=np.uint8)
 
 
 def convert_dialog_icon(cv_image):

@@ -20,6 +20,7 @@ from src.char.Iuno import Iuno
 from src.char.Jianxin import Jianxin
 from src.char.Jinhsi import Jinhsi
 from src.char.Jiyan import Jiyan
+from src.char.Linnai import Linnai
 from src.char.Lupa import Lupa
 from src.char.Mortefi import Mortefi
 from src.char.Phoebe import Phoebe
@@ -90,6 +91,7 @@ char_dict = {
     'char_chisa': {'cls': Chisa, 'res_cd': 10, 'echo_cd': 20, 'liberation_cd': 25,
                    'ring_index': Elements.HAVOC},
     'char_douling': {'cls': Douling, 'res_cd': 15, 'echo_cd': 25, 'liberation_cd': 25, 'ring_index': Elements.ELECTRIC},
+    'char_linnai': {'cls': Linnai, 'res_cd': 15, 'echo_cd': 25, 'liberation_cd': 25, 'ring_index': Elements.SPECTRO},
 }
 
 char_names = char_dict.keys()
@@ -101,12 +103,12 @@ def get_char_by_pos(task, box, index, old_char):
     name = "unknown"
     char = None
     if old_char and old_char.char_name in char_names:
-        char = task.find_one(old_char.char_name, box=box, threshold=0.72)
+        char = task.find_one(old_char.char_name, box=box, threshold=0.6)
         if char:
             return old_char
 
     if not char:
-        char = task.find_best_match_in_box(box, char_names, threshold=0.72)
+        char = task.find_best_match_in_box(box, char_names, threshold=0.6)
         if char:
             info = char_dict.get(char.name)
             name = char.name
