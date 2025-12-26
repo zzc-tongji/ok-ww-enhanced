@@ -11,7 +11,9 @@ class SimulationTask2(SimulationTask, EnhancedTask):
         super().__init__(*args, **kwargs)
         self.name = '⭐ Simulation Challenge'
         self.default_config.update({'Simulation Challenge Count': 0})
+        self.default_config = {'Teleport Timeout': 10} | self.default_config
         self.config_description.update({'Simulation Challenge Count': 'farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina'})
+        self.config_description = {'Teleport Timeout': 'the timeout of second for teleport'} | self.config_description
 
     def farm_simulation(self):
         total_counter = self.config.get('Simulation Challenge Count', 0)

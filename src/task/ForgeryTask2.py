@@ -11,7 +11,9 @@ class ForgeryTask2(ForgeryTask, EnhancedTask):
         super().__init__(*args, **kwargs)
         self.name = '⭐ Forgery Challenge'
         self.default_config.update({'Forgery Challenge Count': 0})
+        self.default_config = {'Teleport Timeout': 10} | self.default_config
         self.config_description.update({'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina'})
+        self.config_description = {'Teleport Timeout': 'the timeout of second for teleport'} | self.config_description
 
     def farm_forgery(self):
         total_counter = self.config.get('Forgery Challenge Count', 0)
