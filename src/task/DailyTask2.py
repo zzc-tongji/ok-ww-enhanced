@@ -87,6 +87,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 except Exception as e:
                     self.log_error(f'farm tacet "{self.tacet_serial_number}" as attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Tacet_Attempt_{i}_TacetSerialNumber_{self.tacet_serial_number}')
+                    self.make_sure_in_world()
                     # retry next tacet
                     if (i >= self.farm_attempt):
                         raise e
@@ -104,6 +105,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 except Exception as e:
                     self.log_error(f'farm forgery attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Forgery_Attempt_{i}')
+                    self.make_sure_in_world()
                     if (i >= self.farm_attempt):
                         raise e
             #
@@ -119,6 +121,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 except Exception as e:
                     self.log_error(f'farm simulation attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Simulation_Attempt_{i}')
+                    self.make_sure_in_world()
                     if (i >= self.farm_attempt):
                         raise e
             #
@@ -133,6 +136,15 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.claim_millage()
             #
         except Exception as e:
+            try:
+                self.make_sure_in_world()
+                current_task = 'claim_daily'
+                self.info_set('current task', current_task)
+                self.ensure_main(time_out=self.teleport_timeout)
+                self.claim_daily()
+            except:
+                pass
+            #
             self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
             self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Error')
             if not self.config.get('Exit with Error', True):
