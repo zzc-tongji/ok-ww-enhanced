@@ -34,6 +34,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             'Material Selection': 'Shell Credit',
             'Simulation Challenge Count': 0,
             'Auto Farm all Nightmare Nest': False,
+            'Task Retry': 5,
             'Exit with Error': True,
         }
         self.config_description = {
@@ -44,11 +45,11 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
             'Material Selection': 'Resonator EXP / Weapon EXP / Shell Credit',
             'Simulation Challenge Count': 'farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
+            'Task Retry': 'retry time(s) for each task',
             'Exit with Error': 'exit game and app with exception raised when option [Exit After Task] checked'
         }
         self.show_create_shortcut = True
         self.add_exit_after_config()
-        self.farm_attempt = 3
 
     def run(self):
         self.teleport_timeout = self.config.get('Teleport Timeout', 10)
@@ -78,7 +79,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.info_set('current task', current_task)
             self.tacet_serial_number = self.config.get('Which Tacet Suppression to Farm', 1)
             self.stamina_once = 60
-            for i in range(1, self.farm_attempt + 1):
+            for i in range(1, self.config.get('Task Retry') + 1):
                 try:
                     self.info_set('farm tacet attempt', i)
                     self.ensure_main(time_out=self.teleport_timeout)
@@ -89,14 +90,14 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Tacet_Attempt_{i}_TacetSerialNumber_{self.tacet_serial_number}')
                     self.make_sure_in_world()
                     # retry next tacet
-                    if (i >= self.farm_attempt):
+                    if (i >= self.config.get('Task Retry')):
                         raise e
                     self.tacet_serial_number = (self.tacet_serial_number % self.get_task_by_class(TacetTask2).total_number) + 1
             #
             current_task = 'farm_forgery'
             self.info_set('current task', current_task)
             self.stamina_once = 40
-            for i in range(1, self.farm_attempt + 1):
+            for i in range(1, self.config.get('Task Retry') + 1):
                 try:
                     self.info_set('farm forgery attempt', i)
                     self.make_sure_in_world()
@@ -106,13 +107,13 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     self.log_error(f'farm forgery attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Forgery_Attempt_{i}')
                     self.make_sure_in_world()
-                    if (i >= self.farm_attempt):
+                    if (i >= self.config.get('Task Retry')):
                         raise e
             #
             current_task = 'farm_simulation'
             self.info_set('current task', current_task)
             self.stamina_once = 40
-            for i in range(1, self.farm_attempt + 1):
+            for i in range(1, self.config.get('Task Retry') + 1):
                 try:
                     self.info_set('farm simulation attempt', i)
                     self.make_sure_in_world()
@@ -122,7 +123,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     self.log_error(f'farm simulation attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                     self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Simulation_Attempt_{i}')
                     self.make_sure_in_world()
-                    if (i >= self.farm_attempt):
+                    if (i >= self.config.get('Task Retry')):
                         raise e
             #
             current_task = 'claim_daily'

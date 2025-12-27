@@ -552,6 +552,12 @@ msgstr "⭐ 日常一条龙"
 msgid "open game, login, monthly card, mail, farm, activity, radio"
 msgstr "启动, 月卡, 邮件, 刷体力, 活跃度 (未完成不报错), 先约电台"
 
+msgid "Task Retry"
+msgstr "任务重试"
+
+msgid "retry time(s) for each task"
+msgstr "单个任务失败重试次数"
+
 msgid "Exit with Error"
 msgstr "报错后退出"
 
