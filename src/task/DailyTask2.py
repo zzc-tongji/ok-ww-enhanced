@@ -67,13 +67,18 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             #
             if self.config.get('Auto Farm all Nightmare Nest'):
                 current_task = 'nightmare_nest'
-                try:
-                    self.run_task_by_class(NightmareNestTask)
-                except Exception as e:
-                    self.log_error(f'nightmare nest failed\n{''.join(traceback.format_exception(e))}')
-                    self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Nightmare')
-                    self.ensure_main(time_out=self.teleport_timeout)
-                    raise e
+                self.info_set('current task', current_task)
+                for i in range(1, self.config.get('Task Retry') + 1):
+                    try:
+                        self.info_set('nightmare nest attempt', i)
+                        self.ensure_main(time_out=self.teleport_timeout)
+                        self.run_task_by_class(NightmareNestTask)
+                    except Exception as e:
+                        self.log_error(f'nightmare nest attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
+                        self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_NightmareNest_Attempt_{i}')
+                        self.make_sure_in_world()
+                        if (i >= self.config.get('Task Retry')):
+                            raise e
             #
             current_task = 'farm_tacet'
             self.info_set('current task', current_task)
