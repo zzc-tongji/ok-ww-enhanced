@@ -2,30 +2,69 @@
 
 ### 简介
 
-在原版 ok-ww 的基础上，增加了一些[原作者](https://github.com/ok-oldking)认为不便加入的功能。
-
-新功能在 UI 中标出。
+在保留 [原版 ok-ww](https://github.com/ok-oldking/ok-wuthering-waves) 全部功能的基础上，**添加新版日常一条龙任务，增加任务鲁棒性和日志可读性，方便无人值守运行和调试。**
 
 ### 新功能
 
-所有新功能用⭐标出。
+所有新增功能用⭐标出。
 
 ![alt text](README.image/image.001.png)
 
-**新版无音区、凝素领域、模拟领域任务**
+![alt text](README.image/image.002.png)
 
-- 支持按照设置的刷取次数刷取。
-- 支持设置传送超时。
+#### 新版体力任务（无音区、凝素领域、模拟领域）
 
-**新版一条龙任务**
+- 支持设置传送超时：
+  - 可以自定义传送后等待场景加载的最大超时。
+  - 任务中的部分超时会基于传送超时进行计算。
+- 支持设置刷取次数：
+  - 如不需要刷取，设 0 。如需刷完所有体力，设一个大数。
+  - 刷取次数以1倍（最低）体力计算。支持2倍体力刷取副本（相应刷取次数记为2）。
 
-- 支持刷取无音区、凝素领域和贝币。刷取失败将会重试3次。
-- 允许在出现异常的情形下退出程序和游戏。支持输出异常堆栈到日志文件。
-- 支持设置传送超时。
+#### 新版一条龙任务
+
+- 采用新版体力任务（无音区、凝素领域、模拟领域）。
+- 支持设置重试次数：
+  - 重试次数对<u>无音区、凝素领域、模拟领域、梦魇巢穴（梦魇祓除）</u>有效。
+  - 无音区和凝素领域任务失败后，重试时会尝试下一副本。
+- 在出现异常的情况下：
+  - 尝试返回游戏大世界并执行<u>活跃度任务</u>。
+  - 日志文件 `./logs/ok-script.log` 会包含文本 `一条龙错误` 和错误堆栈。
+- **相比原版的改动：**
+  - 体力任务支持设置传送超时：新版有，原版无。
+  - 模拟领域：新版有，原版无。
+  - 梦魇巢穴（梦魇祓除）：
+    - 新版放在体力任务前，原版放在体力任务后。
+    - 新版一定执行，原版仅当 *活跃度-180体力* 为完成才执行。
+  - 在出现异常的情况下：新版可以设置是否退出程序，原版不会退出程序。
 
 ### 运行方法
 
-当前仅支持 Python 源码运行，建议将依赖安装到 [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) 虚拟环境。
+#### GUI 运行
+
+从 [Release](https://github.com/zzc-tongji/ok-wuthering-waves-enhanced/releases) 下载最新的 `ok-ww-e-win32-Global-setup.exe` 然后双击安装。
+
+#### CLI 运行
+
+从 [Release](https://github.com/zzc-tongji/ok-wuthering-waves-enhanced/releases) 下载最新的 `ok-ww-e-win32-Global-setup.exe` 然后双击安装。
+
+```pwsh
+cd <ok-ww-e-installation-directory>
+
+# 启动后自动执行第1个任务（新版日常一条龙），并在任务完成后退出程序。
+ok-ww-e.exe -t 1 -e
+
+# 启动后自动执行第5个任务（原版日常一条龙），并在任务完成后退出程序。
+ok-ww-e.exe -t 5 -e
+```
+
+*   `-t` 或 `--task` - 启动后自动执行第 N 个任务。
+*   `1` - 任务列表（[config.py -> onetime_tasks](https://github.com/zzc-tongji/ok-wuthering-waves-enhanced/blob/main/config.py#L165)）中的第1个。
+*   `-e` 或 `--exit` - 任务执行完毕后自动退出程序。
+
+#### 源码运行
+
+建议将依赖安装到 [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) 虚拟环境。
 
 ``` powershell
 # requirement
@@ -39,6 +78,10 @@ python main.py
 # debug
 python main_debug.py
 ```
+
+#### 从 VSCode 开发环境运行和调试
+
+https://github.com/ok-oldking/ok-wuthering-waves/discussions/934
 
 ### 免责申明
 
@@ -66,19 +109,19 @@ python main_debug.py
     <br/>
     ok-ww
   </h1> 
-  
+
   <p>
     一个基于图像识别的鸣潮自动化程序，支持后台运行，基于 <a href="https://github.com/ok-oldking/ok-script">ok-script</a> 开发。
     <br />
     An image-recognition-based automation tool for Wuthering Waves, with background mode support, developed with <a href="https://github.com/ok-oldking/ok-script">ok-script</a>.
   </p>
-  
+
   <p><i>通过模拟 Windows 用户接口进行操作，无内存读取、无文件修改</i></p>
 </div>
 
 <!-- Badges -->
 <div align="center">
-  
+
 ![平台](https://img.shields.io/badge/platform-Windows-blue)
 [![GitHub release](https://img.shields.io/github/v/release/ok-oldking/ok-wuthering-waves)](https://github.com/ok-oldking/ok-wuthering-waves/releases)
 [![总下载量](https://img.shields.io/github/downloads/ok-oldking/ok-wuthering-waves/total)](https://github.com/ok-oldking/ok-wuthering-waves/releases)
