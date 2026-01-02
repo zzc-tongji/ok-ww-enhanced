@@ -34,6 +34,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             'Material Selection': 'Shell Credit',
             'Simulation Challenge Count': 0,
             'Auto Farm all Nightmare Nest': False,
+            'Farm Nightmare Nest for Daily Echo': True,
             'Task Retry': 5,
             'Exit with Error': True,
         }
@@ -45,6 +46,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             'Forgery Challenge Count': 'farm Forgery Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
             'Material Selection': 'Resonator EXP / Weapon EXP / Shell Credit',
             'Simulation Challenge Count': 'farm Simulation Challenge N time(s), 40 stamina per time, set a large number to use all stamina',
+            'Farm Nightmare Nest for Daily Echo': 'Farm 1 Echo from Nightmare Nest to complete Daily Task when needed.',
             'Task Retry': 'retry time(s) for each task',
             'Exit with Error': 'exit game and app with exception raised when option [Exit After Task] checked'
         }
@@ -65,14 +67,17 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.ensure_main(time_out=self.teleport_timeout)
             self.claim_mail()
             #
-            if self.config.get('Auto Farm all Nightmare Nest'):
-                current_task = 'nightmare_nest'
+            nightmare_all = self.config.get('Auto Farm all Nightmare Nest')
+            nightmare_once = self.config.get('Farm Nightmare Nest for Daily Echo') and (self.config.get('Tacet Suppression Count') + self.config.get('Forgery Challenge Count') > 0)
+            if nightmare_all or nightmare_once:
+                current_task = 'nightmare_all' if nightmare_all else 'nightmare_once'
                 self.info_set('current task', current_task)
+                self.log_debug('Auto Farm all Nightmare Nest') if nightmare_all else self.log_debug('Farm Nightmare Nest for Daily Echo')
                 for i in range(1, self.config.get('Task Retry') + 1):
                     try:
                         self.info_set('nightmare nest attempt', i)
                         self.ensure_main(time_out=self.teleport_timeout)
-                        self.run_task_by_class(NightmareNestTask)
+                        self.run_task_by_class(NightmareNestTask) if nightmare_all else self.run_task_by_class(NightmareNestTask).run_capture_mode()
                     except Exception as e:
                         self.log_error(f'nightmare nest attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                         self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_NightmareNest_Attempt_{i}')
