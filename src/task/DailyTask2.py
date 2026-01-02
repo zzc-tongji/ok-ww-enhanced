@@ -144,7 +144,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             current_task = 'claim_millage'
             self.info_set('current task', current_task)
             self.ensure_main(time_out=self.teleport_timeout)
-            self.claim_millage()
+            self.claim_battle_pass()
             #
         except Exception as e:
             try:
@@ -161,17 +161,22 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             if not self.config.get('Exit with Error', True):
                 raise e
 
-    def claim_millage(self):
-        self.log_info('open_millage')
+    def claim_battle_pass(self):
+        self.log_info('battle pass')
         self.send_key_down('alt')
         self.sleep(0.05)
         self.click_relative(0.86, 0.05)
         self.send_key_up('alt')
-        self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=True, log=True)
-        self.click(0.04, 0.3, after_sleep=1)
-        self.click(0.68, 0.91, after_sleep=1)
-        self.click(0.04, 0.16, after_sleep=1)
-        self.click(0.68, 0.91, after_sleep=1)
+        if not self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'), settle_time=1, raise_if_not_found=False):
+            self.log_error('can not battle pass, maybe ended')
+        else:
+            self.click(0.04, 0.3, after_sleep=1)
+            self.click(0.68, 0.91, after_sleep=3)
+            self.click(0.04, 0.17, after_sleep=2)
+            self.click(0.68, 0.91, after_sleep=2)
+            self.wait_ocr(0.2, 0.13, 0.32, 0.22, match=re.compile(r'\d+'),
+                          post_action=lambda: self.click(0.68, 0.91, after_sleep=1), settle_time=1,
+                          raise_if_not_found=False)
         self.ensure_main()
 
     def claim_daily(self):
@@ -198,14 +203,12 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 parts = box.name.split('/')
                 if len(parts) == 2 and parts[0] == parts[1]:
                     count += 1
-
             self.log_info(f'can claim count {count}')
             if count == 0:
                 break
-            for _ in range(count):
-                self.click(0.87, 0.17, after_sleep=0.5)
+            self.click(0.87, 0.17, after_sleep=0.5)
             self.sleep(1)
-
+        #
         total_points = int(self.ocr(0.19, 0.8, 0.30, 0.93, match=number_re)[0].name)
         self.info_set('daily points', total_points)
         if total_points < 100:
