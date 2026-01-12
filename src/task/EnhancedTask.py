@@ -45,6 +45,10 @@ class EnhancedTask(DomainTask):
             if (counter <= 0) or (remaining_total < self.stamina_once):
                 break
             self.click(0.68, 0.84, after_sleep=2)  # farm again
+            if confirm := self.wait_feature(['confirm_btn_hcenter_vcenter', 'confirm_btn_highlight_hcenter_vcenter'], raise_if_not_found=False, threshold=0.6, time_out=2):
+                # notification dialog (shown if stamina: current + backup >= once AND current < once)
+                self.click(0.49, 0.55, after_sleep=0.5)  # no notofication radio
+                self.click(confirm, after_sleep=0.5)  # confirm button
             self.sleep(max(5, self.teleport_timeout / 5))
         #
         self.log_info(f'{max_counter - counter} time(s) farmed, {total_used} stamina used')
