@@ -8,9 +8,9 @@
 
 所有新增功能用⭐标出。
 
-![alt text](README.image/image.001.png)
+![alt text](readme/enhanced.001.png)
 
-![alt text](README.image/image.002.png)
+![alt text](readme/enhanced.002.png)
 
 #### 新版体力任务（无音区、凝素领域、模拟领域）
 
