@@ -29,7 +29,7 @@
   - 无音区和凝素领域任务失败后，重试时会尝试下一副本。
 - 在出现异常的情况下：
   - 尝试返回游戏大世界并执行 *活跃度任务* 。
-  - 日志文件 `./logs/ok-script.log` 会包含文本 `一条龙错误` 和错误堆栈。
+  - 日志文件 `./logs/ok-script.log` 会包含文本 `一条龙错误` 和错误堆栈，可以在后续处理（例如发送通知）中判定一条龙是否执行成功。
 - 相比原版的改动：
   - 体力任务支持设置传送超时：新版有，原版无。
   - 在出现异常的情况下：新版可以设置是否退出程序，原版不会退出程序。
@@ -45,7 +45,7 @@
 从 [Release](https://github.com/zzc-tongji/ok-wuthering-waves-enhanced/releases) 下载最新的 `ok-ww-e-win32-Global-setup.exe` 然后双击安装。
 
 ```pwsh
-cd <ok-ww-e-installation-directory>
+cd "<ok-ww-e-installation-directory>\data\apps\ok-ww-e\working"
 
 # 启动后自动执行第1个任务（新版日常一条龙），并在任务完成后退出程序。
 ok-ww-e.exe -t 1 -e
