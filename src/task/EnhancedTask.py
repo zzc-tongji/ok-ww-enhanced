@@ -81,10 +81,9 @@ class EnhancedTask(DomainTask):
         self.click(x, y) # consume
         if self.wait_feature('gem_add_stamina', horizontal_variance=0.4, vertical_variance=0.05, time_out=1):
             self.log_info(f'not enough current stamina, extract from backup')
-            self.click(0.70, 0.71, after_sleep=0.5)
-            self.click(0.70, 0.71, after_sleep=1)
-            self.back(after_sleep=0.5)
-            self.back(after_sleep=0.5)
+            self.click(0.70, 0.71, after_sleep=0.5)  # 补充结晶波片 / 确定
+            self.click(0.70, 0.71, after_sleep=1)  # 补充结晶波片 / 确定
+            self.back(after_sleep=0.5)  # 获得 / 点击空白区域关闭
             self.click(x, y) # consume
             current = 0
         else:
