@@ -147,17 +147,18 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.claim_battle_pass()
             #
         except Exception as e:
+            self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
+            self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Error')
+            #
             try:
                 self.make_sure_in_world()
-                current_task = 'claim_daily'
+                current_task = 'claim_daily_when_exception_catched'
                 self.info_set('current task', current_task)
                 self.ensure_main(time_out=self.teleport_timeout)
                 self.claim_daily()
             except:
                 pass
             #
-            self.log_error(f'一条龙错误 | {current_task} | {str(e)}\n{''.join(traceback.format_exception(e))}')
-            self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_Error')
             if not self.config.get('Exit with Error', True):
                 raise e
 
