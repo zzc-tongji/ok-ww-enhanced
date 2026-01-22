@@ -57,10 +57,10 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
         self.teleport_timeout = self.config.get('Teleport Timeout', 10)
         try:
             #
-            current_task = 'login'
+            current_task = 'login_with_hot_update'
             self.info_set('current task', current_task)
             WWOneTimeTask.run(self)
-            self.ensure_main(time_out=self.teleport_timeout)
+            self.ensure_main(time_out=600)  # for hot update if needed
             #
             current_task = 'claim_mail'
             self.info_set('current task', current_task)
