@@ -34,6 +34,8 @@ class MouseResetTask(TriggerTask):
             self.running_reset = False
 
     def mouse_reset(self):
+        if self.is_browser():
+            return
         try:
             current_position = win32api.GetCursorPos()
             if self.mouse_pos and self.hwnd and self.hwnd.exists and not self.hwnd.visible and self.executor.interaction and self.executor.interaction.capture:
@@ -50,7 +52,7 @@ class MouseResetTask(TriggerTask):
                 if distance > 200 and close_to_center:
                     logger.info(f'move mouse back {self.mouse_pos}')
                     win32api.SetCursorPos(self.mouse_pos)
-                    self.mouse_pos = None
+                    self.mouse_pos = self.mouse_pos
                     if self.enabled:
                         self.handler.post(self.mouse_reset, 1)
                     return

@@ -228,12 +228,20 @@ class BaseCombatTask(CombatCheck):
             bool: 如果可用则返回 True, 否则 False。
         """
         if check_color:
-            current = self.calculate_color_percentage(text_white_color,
-                                                      self.get_box_by_name(f'box_{name}'))
+            current = self.box_highlighted(name)
         else:
             current = 1
         if current > 0 and (not check_cd or not self.has_cd(name)):
             return True
+
+    def box_highlighted(self, name):
+        current = self.calculate_color_percentage(text_white_color,
+                                                  self.get_box_by_name(f'box_{name}'))
+        if current > 0:
+            current = 1
+        else:
+            current = 0
+        return current
 
     def combat_once(self, wait_combat_time=200, raise_if_not_found=True):
         """执行一次完整的战斗流程。
@@ -282,7 +290,6 @@ class BaseCombatTask(CombatCheck):
                         return True
                 total_index += 1
 
-
     def switch_next_char(self, current_char, post_action=None, free_intro=False, target_low_con=False):
         """切换到下一个最优角色。
 
@@ -297,7 +304,6 @@ class BaseCombatTask(CombatCheck):
         has_intro = free_intro
         current_con = 0
         self.update_lib_portrait_icon()
-        current_char.wait_switch_cd()
         if not has_intro:
             current_con = current_char.get_current_con()
             if current_con > 0.8 and current_con != 1:
@@ -339,6 +345,7 @@ class BaseCombatTask(CombatCheck):
         last_click = 0
         start = time.time()
         while True:
+            self.check_combat()
             now = time.time()
             current_char.f_break(check_f_on_switch=True)
             _, current_index, _ = self.in_team()
@@ -347,10 +354,13 @@ class BaseCombatTask(CombatCheck):
                 if not switch_to.has_intro:
                     switch_to.has_intro = current_char.is_con_full()
 
-            if now - last_click > 0.1 and not switch_to.wait_switch():
+            if now - last_click > 0.1:
                 self.send_key(switch_to.index + 1)
+                self.sleep(0.001)
                 last_click = now
-                self.sleep(0.05)
+                self.log_debug('switch not detected, send click')
+                self.click()
+                self.sleep(0.001)
             in_team, current_index, size = self.in_team()
             if not in_team:
                 logger.info(f'not in team while switching chars_{current_char}_to_{switch_to} {now - start}')
@@ -371,8 +381,6 @@ class BaseCombatTask(CombatCheck):
                     if self.debug:
                         self.screenshot(f'switch_not_detected_{current_char}_to_{switch_to}')
                     self.raise_not_in_combat('failed switch chars')
-                else:
-                    self.click(interval=0.1)
             else:
                 self.in_liberation = False
                 current_char.switch_out()
@@ -382,6 +390,7 @@ class BaseCombatTask(CombatCheck):
                     self.add_freeze_duration(current_time, switch_to.intro_motion_freeze_duration, -100)
                     current_char.last_outro_time = current_time
                 break
+            self.next_frame()
 
         if post_action:
             logger.debug(f'post_action {post_action}')
@@ -465,11 +474,11 @@ class BaseCombatTask(CombatCheck):
             timeout (float): 休眠的秒数。
             check_combat (bool, optional): 是否在休眠前检查战斗状态。默认为 True。
         """
-        self.log_debug(f'sleep_check {self._in_combat} {self.check_combat}')
-        if self._in_combat and self.check_combat:
+        # self.log_debug(f'sleep_check {self._in_combat}')
+        if self._in_combat:
             self.next_frame()
             if not self.in_combat():
-                self.raise_not_in_combat('sleep check not in combat')        
+                self.raise_not_in_combat('sleep check not in combat')
 
     def check_combat(self):
         """检查当前是否处于战斗状态, 如果不是则抛出异常。"""
@@ -543,6 +552,7 @@ class BaseCombatTask(CombatCheck):
                     char.is_current_char = False
         self.combat_start = time.time()
         if len(self.chars) >= 2:
+            self.info_set('Chars', self.chars)
             return True
 
     @staticmethod

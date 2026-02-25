@@ -22,7 +22,7 @@ class CombatCheck(BaseWWTask):
         self.boss_lv_mask = None
         self._in_liberation = False  # return True
         self.has_count_down = False
-        self.sleep_check_interval = 0.3
+        self.sleep_check_interval = 0.1
         self.last_out_of_combat_time = 0
         self.boss_lv_box = None
         self.boss_health_box = None
@@ -39,6 +39,7 @@ class CombatCheck(BaseWWTask):
         }
         self.cd_refreshed = False
         self.esc_count = 0
+        self.can_break = False
 
     @property
     def in_liberation(self):
@@ -53,18 +54,12 @@ class CombatCheck(BaseWWTask):
     def on_combat_check(self):
         return True
 
-    def reset_to_false(self, recheck=False, reason=""):
+    def reset_to_false(self, reason=""):
         if self.should_check_monthly_card() and self.handle_monthly_card():
             return True
         if is_pure_black(self.frame):
             logger.error('getting a pure black frame for unknown reason, reset_to_false return true')
             return True
-        if recheck:
-            logger.info('out of combat start double check')
-            # if self.debug:
-            #     self.screenshot('out of combat start double check')
-            if self.wait_until(self.check_health_bar, time_out=1.2):
-                return True
         self.out_of_combat_reason = reason
         self.do_reset_to_false()
         return False
@@ -84,10 +79,22 @@ class CombatCheck(BaseWWTask):
         self.boss_health_box = None
         self.last_in_realm_not_combat = 0
         self.has_lavitator = False
+        self.can_break = False
         return False
 
+    def check_f_break(self):
+        if not self.can_break and self.find_one('f_break', box=self.box_of_screen(0.2, 0.2, 0.75, 0.8)):
+            if not self.is_pick_f():
+                self.can_break = True
+                return True
+
+    def f_break(self):
+        if self.can_break or self.check_f_break():
+            self.send_key('f', after_sleep=0.1)
+            self.can_break = False
+
     def recent_liberation(self):
-        return time.time() - self._last_liberation < 0.15
+        return time.time() - self._last_liberation < 0.1
 
     def check_count_down(self):
         count_down_area = self.box_of_screen_scaled(3840, 2160, 1820, 266, 2100,
@@ -123,30 +130,33 @@ class CombatCheck(BaseWWTask):
     def is_boss(self):
         return self.find_one('boss_break_shield') or self.find_one('boss_break_lock')
 
-    def in_combat(self):
+    def do_check_in_combat(self, target):
         if self.in_liberation or self.recent_liberation():
             return True
         if self._in_combat:
-            now = time.time()
+            self.check_f_break()
             if current_char := self.get_current_char():
                 if current_char.skip_combat_check():
                     return True
             if not self.on_combat_check():
                 self.log_info('on_combat_check failed')
-                return self.reset_to_false(recheck=False, reason='on_combat_check failed')
+                return self.reset_to_false(reason='on_combat_check failed')
             if self.has_target():
                 self.last_in_realm_not_combat = 0
                 return True
             if self.combat_end_condition is not None and self.combat_end_condition():
-                return self.reset_to_false(recheck=True, reason='end condition reached')
+                return self.reset_to_false(reason='end condition reached')
             if self.target_enemy(wait=True):
                 logger.debug(f'retarget enemy succeeded')
                 return True
             logger.error('target_enemy failed, try recheck break out of combat')
-            return self.reset_to_false(recheck=True, reason='target enemy failed')
+            return self.reset_to_false(reason='target enemy failed')
         else:
             from src.task.AutoCombatTask import AutoCombatTask
             has_target = self.has_target()
+            if not has_target and target:
+                self.log_debug('try target')
+                self.middle_click(after_sleep=0.1)
             in_combat = has_target or ((self.config.get('Auto Target') or not isinstance(self,
                                                                                          AutoCombatTask)) and self.check_health_bar())
             if in_combat:
@@ -156,11 +166,20 @@ class CombatCheck(BaseWWTask):
                         self.log_error('Target enemy failed, please disable Nvidia/AMD Filter or Sharpening!',
                                        notify=True)
                     return False
-                self.has_lavitator = self.ensure_levitator()
+                self.has_lavitator = False
                 self._in_combat = self.load_chars()
                 return self._in_combat
 
-    def ensure_levitator(self):
+    def in_combat(self, target=False):
+        self.in_sleep_check = True
+        try:
+            return self.do_check_in_combat(target)
+        except Exception as e:
+            logger.error(f'do_check_in_combat: {e}')
+        finally:
+            self.in_sleep_check = False
+
+    def ensure_levitator(self):  # 目前未使用
         if not self.config.get('Check Levitator', True):
             return True
         if levi := self.find_one('edge_levitator', threshold=0.6):
@@ -224,13 +243,12 @@ class CombatCheck(BaseWWTask):
             has_name += '_169'
             no_name += '_169'
         return has_name, no_name
-        
-    
+
     def has_target(self, double_check=False):
         threshold = 0.6
         has_name, no_name = self.get_target_names()
-       
-        best = self.find_best_match_in_box(self.get_box_by_name(has_name).scale(1.1), [has_name, no_name],
+        scale = 1.2 if self.is_browser() else 1.1
+        best = self.find_best_match_in_box(self.get_box_by_name(has_name).scale(scale), [has_name, no_name],
                                            threshold=threshold)
         if not best:
             best = self.find_best_match_in_box(self.get_box_by_name('box_target_enemy_long'),
@@ -264,16 +282,21 @@ class CombatCheck(BaseWWTask):
                 return True
             else:
                 logger.info(f'target lost try retarget')
-                return self.wait_until(self.has_target, time_out=self.target_enemy_time_out,
-                                       pre_action=lambda: self.middle_click(interval=0.2))
+                start = time.time()
+                time_out = 1 if self.is_pick_f() else self.target_enemy_time_out
+                while time.time() - start < time_out:
+                    if self.has_target():
+                        return True
+                    self.middle_click(interval=0.1)
+                    self.sleep(0.01)
 
     def has_health_bar(self):
         if self._in_combat:
-            min_height = self.height_of_screen(12 / 2160)
+            min_height = self.height_of_screen(9 / 2160)
             max_height = min_height * 3
             min_width = self.width_of_screen(12 / 3840)
         else:
-            min_height = self.height_of_screen(12 / 2160)
+            min_height = self.height_of_screen(9 / 2160)
             max_height = min_height * 3
             min_width = self.width_of_screen(100 / 3840)
 
@@ -326,8 +349,8 @@ target_enemy_color_yellow = {
 }  # 207,75,60
 
 enemy_health_color_red = {
-    'r': (174, 212),  # Red range
-    'g': (55, 80),  # Green range
+    'r': (174, 225),  # Red range
+    'g': (55, 85),  # Green range
     'b': (55, 76)  # Blue range
 }  # 207,75,60
 

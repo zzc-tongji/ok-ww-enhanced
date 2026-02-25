@@ -69,8 +69,8 @@ class DailyTask(WWOneTimeTask, BaseCombatTask):
             except Exception as e:
                 self.log_error("NightmareNestTask Failed", e)
                 self.ensure_main(time_out=180)
-
         used_stamina, completed = self.open_daily()
+
         self.send_key('esc', after_sleep=1)
         if not completed:
             if used_stamina < 180:
