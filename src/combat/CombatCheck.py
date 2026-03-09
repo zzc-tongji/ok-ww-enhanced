@@ -6,6 +6,7 @@ import win32api
 from ok import find_boxes_by_name, Logger, calculate_color_percentage
 from ok import find_color_rectangles, get_mask_in_color_range, is_pure_black
 from src import text_white_color
+from src.Labels import Labels
 from src.char.Roccia import Roccia
 from src.task.BaseWWTask import BaseWWTask
 
@@ -22,11 +23,12 @@ class CombatCheck(BaseWWTask):
         self.boss_lv_mask = None
         self._in_liberation = False  # return True
         self.has_count_down = False
-        self.sleep_check_interval = 0.1
+        self.sleep_check_interval = 0.4
         self.last_out_of_combat_time = 0
         self.boss_lv_box = None
         self.boss_health_box = None
         self.boss_health = None
+        self.last_break_check_time = 0
         self.out_of_combat_reason = ""
         self.last_in_realm_not_combat = 0
         self._last_liberation = 0
@@ -37,7 +39,6 @@ class CombatCheck(BaseWWTask):
         self.target_enemy_error_notified = False
         self.cds = {
         }
-        self.cd_refreshed = False
         self.esc_count = 0
         self.can_break = False
 
@@ -55,18 +56,12 @@ class CombatCheck(BaseWWTask):
         return True
 
     def reset_to_false(self, reason=""):
-        if self.should_check_monthly_card() and self.handle_monthly_card():
-            return True
-        if is_pure_black(self.frame):
-            logger.error('getting a pure black frame for unknown reason, reset_to_false return true')
-            return True
         self.out_of_combat_reason = reason
         self.do_reset_to_false()
         return False
 
     def do_reset_to_false(self):
         self.cds = {}
-        self.cd_refreshed = False
         self._in_combat = False
         self.boss_lv_mask = None
         self.esc_count = 0
@@ -80,21 +75,26 @@ class CombatCheck(BaseWWTask):
         self.last_in_realm_not_combat = 0
         self.has_lavitator = False
         self.can_break = False
+        self.scene.set_not_in_combat()
         return False
 
     def check_f_break(self):
-        if not self.can_break and self.find_one('f_break', box=self.box_of_screen(0.2, 0.2, 0.75, 0.8)):
-            if not self.is_pick_f():
+        if not self.can_break and not self._in_liberation and time.time() - self.last_break_check_time > 1:
+            self.last_break_check_time = time.time()
+            if self.find_one(Labels.f_break_full, threshold=0.9):
+                self.logger.debug('found f_break_full')
                 self.can_break = True
                 return True
+            if self.find_one('f_break', box=self.box_of_screen(0.2, 0.2, 0.75,
+                                                               0.8)):
+                if not self.is_pick_f():
+                    self.can_break = True
+                    return True
 
     def f_break(self):
         if self.can_break or self.check_f_break():
             self.send_key('f', after_sleep=0.1)
             self.can_break = False
-
-    def recent_liberation(self):
-        return time.time() - self._last_liberation < 0.1
 
     def check_count_down(self):
         count_down_area = self.box_of_screen_scaled(3840, 2160, 1820, 266, 2100,
@@ -131,24 +131,28 @@ class CombatCheck(BaseWWTask):
         return self.find_one('boss_break_shield') or self.find_one('boss_break_lock')
 
     def do_check_in_combat(self, target):
-        if self.in_liberation or self.recent_liberation():
+        if self.in_liberation:
             return True
         if self._in_combat:
+            if self.scene.in_combat() is not None:
+                return self.scene.in_combat()
             self.check_f_break()
             if current_char := self.get_current_char():
                 if current_char.skip_combat_check():
-                    return True
+                    return self.scene.set_in_combat()
             if not self.on_combat_check():
                 self.log_info('on_combat_check failed')
                 return self.reset_to_false(reason='on_combat_check failed')
             if self.has_target():
                 self.last_in_realm_not_combat = 0
-                return True
+                return self.scene.set_in_combat()
             if self.combat_end_condition is not None and self.combat_end_condition():
                 return self.reset_to_false(reason='end condition reached')
             if self.target_enemy(wait=True):
                 logger.debug(f'retarget enemy succeeded')
-                return True
+                return self.scene.set_in_combat()
+            if self.should_check_monthly_card() and self.handle_monthly_card():
+                return self.scene.set_in_combat()
             logger.error('target_enemy failed, try recheck break out of combat')
             return self.reset_to_false(reason='target enemy failed')
         else:
@@ -166,7 +170,8 @@ class CombatCheck(BaseWWTask):
                         self.log_error('Target enemy failed, please disable Nvidia/AMD Filter or Sharpening!',
                                        notify=True)
                     return False
-                self.has_lavitator = False
+                self.has_lavitator = self.find_one('edge_levitator', threshold=0.65)
+                self.log_info(f'enter combat {self.has_lavitator}')
                 self._in_combat = self.load_chars()
                 return self._in_combat
 
@@ -281,14 +286,13 @@ class CombatCheck(BaseWWTask):
             if self.has_target():
                 return True
             else:
-                logger.info(f'target lost try retarget')
+                logger.info(f'target lost try retarget {self.target_enemy_time_out}')
                 start = time.time()
-                time_out = 1 if self.is_pick_f() else self.target_enemy_time_out
-                while time.time() - start < time_out:
+                while time.time() - start < self.target_enemy_time_out:
+                    self.middle_click(interval=0.2)
                     if self.has_target():
                         return True
-                    self.middle_click(interval=0.1)
-                    self.sleep(0.01)
+                    self.next_frame()
 
     def has_health_bar(self):
         if self._in_combat:

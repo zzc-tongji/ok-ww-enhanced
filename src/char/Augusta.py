@@ -18,6 +18,7 @@ class Augusta(BaseChar):
         start = time.time()
         timeout = lambda: time.time() - start < 6
         while timeout():
+            self.cycle_start()
             if self.check_majesty():
                 self.logger.debug('Augusta performs majesty')
                 if self.perform_majesty():
@@ -52,8 +53,7 @@ class Augusta(BaseChar):
                     self.update_liberation_cd()
                     return self.switch_next_char()
             self.click()
-            self.check_combat()
-            self.task.next_frame()
+            self.cycle_sleep()
         self.send_echo_key()
         self.switch_next_char()
 
@@ -93,8 +93,8 @@ class Augusta(BaseChar):
         return self.current_liberation() > 0 and bool(self.task.find_one('Augusta_lib2', threshold=0.5))
 
     def check_prowess(self):
-        long_inner_box = 'box_target_enemy_long_inner'
-        if self.task.find_one(long_inner_box, box=self.task.get_box_by_name(long_inner_box), threshold=0.8):
+        long_inner_box = 'target_enemy_long_inner'
+        if self.task.find_one(long_inner_box, threshold=0.8):
             return True
 
     def resonance_available(self):

@@ -8,6 +8,7 @@ import numpy as np
 from ok import Logger, Config
 from ok import color_range_to_bound
 from ok import safe_get
+from ok.feature.Box import get_bounding_box
 from src import text_white_color
 from src.char import BaseChar
 from src.char.BaseChar import Priority, dot_color  # noqa
@@ -134,7 +135,7 @@ class BaseCombatTask(CombatCheck):
         logger.info(f'send_key_and_wait_animation timed out {key}')
 
     def refresh_cd(self):
-        if self.cd_refreshed:
+        if self.scene.cd_refreshed:
             return
         index = self.get_current_char().index
         cds = self.cds.get(index)
@@ -154,7 +155,7 @@ class BaseCombatTask(CombatCheck):
                 cds['liberation'] = cd
             else:
                 cds['echo'] = cd
-        self.cd_refreshed = True
+        self.scene.cd_refreshed = True
         self.log_debug(f'cd refreshed: {cds} {time.time() - cds["time"]}')
 
     def get_cd(self, box_name, char_index=None):
@@ -166,14 +167,6 @@ class BaseCombatTask(CombatCheck):
             return cds[box_name] - time_elapsed
         else:
             return 0
-
-    def next_frame(self):
-        self.cd_refreshed = False
-        return super().next_frame()
-
-    def sleep(self, *args, **kwargs):
-        self.cd_refreshed = False
-        super().sleep(*args, **kwargs)
 
     def revive_action(self):
         pass
@@ -482,7 +475,7 @@ class BaseCombatTask(CombatCheck):
 
     def check_combat(self):
         """检查当前是否处于战斗状态, 如果不是则抛出异常。"""
-        if not self.in_combat():
+        if self._in_combat and not self.in_combat():
             # if self.debug:
             #     self.screenshot('not_in_combat_calling_check_combat')
             self.raise_not_in_combat('combat check not in combat')
@@ -553,6 +546,8 @@ class BaseCombatTask(CombatCheck):
         self.combat_start = time.time()
         if len(self.chars) >= 2:
             self.info_set('Chars', self.chars)
+            for c in self.chars:
+                self.log_info(f'loaded chars success {c} {c.confidence}')
             return True
 
     @staticmethod
