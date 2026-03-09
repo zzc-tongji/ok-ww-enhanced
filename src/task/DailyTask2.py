@@ -102,7 +102,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                     # retry next tacet
                     if (i >= self.config.get('Task Retry')):
                         raise e
-                    self.tacet_serial_number = (self.tacet_serial_number % self.get_task_by_class(TacetTask2).total_number) + 1
+                    self.tacet_serial_number = (self.tacet_serial_number + 1) % self.get_task_by_class(TacetTask2).total_number
             #
             current_task = 'farm_forgery'
             self.info_set('current task', current_task)
