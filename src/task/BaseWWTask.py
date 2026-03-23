@@ -35,6 +35,7 @@ class BaseWWTask(BaseTask):
         self.next_monthly_card_start = 0
         self._logged_in = False
         self.scene: WWScene | None = None
+        self.tacet_scroll_x = 2490 / 2560
 
     def is_open_world_auto_combat(self):
         from src.task.AutoCombatTask import AutoCombatTask
@@ -218,6 +219,7 @@ class BaseWWTask(BaseTask):
             if end_condition:
                 ended = end_condition()
                 if ended:
+                    logger.info(f'do_walk_to_box ended {ended}')
                     break
             treasure_icon = find_function()
             if isinstance(treasure_icon, list):
@@ -594,8 +596,10 @@ class BaseWWTask(BaseTask):
         return bool(dialog_3_dots)
 
     def walk_to_treasure(self, send_f=True, raise_if_not_found=True):
+        self.log_info('start walk_to_treasure')
         if not self.walk_to_box(self.find_treasure_icon, end_condition=self.find_f_with_text):
-            raise Exception(f'can not walk to treasure!')
+            if not self.walk_to_box(self.find_treasure_icon, end_condition=self.find_f_with_text):
+                raise Exception(f'can not walk to treasure!')
         if send_f:
             self.walk_until_f(time_out=2, backward_time=0, raise_if_not_found=raise_if_not_found)
         self.sleep(1)
@@ -636,7 +640,7 @@ class BaseWWTask(BaseTask):
 
     def center_camera(self):
         self.click(0.5, 0.5, down_time=0.2, key='middle')
-        self.wait_until(self.in_combat, time_out=1)
+        self.sleep(1)
 
     def turn_direction(self, direction):
         if direction != 'w':
@@ -693,26 +697,24 @@ class BaseWWTask(BaseTask):
 
     def wait_login(self):
         if not self._logged_in:
-            if self.find_one('login_account', vertical_variance=0.1, threshold=0.7):
-                self.wait_until(lambda: self.find_one('login_account', threshold=0.7) is None,
-                                pre_action=lambda: self.click_relative(0.5, 0.9, after_sleep=3), time_out=30)
-                self.wait_until(lambda: self.find_one('monthly_card', threshold=0.7) or self.in_team_and_world(),
-                                pre_action=lambda: self.click_relative(0.5, 0.9, after_sleep=3), time_out=120)
-                self.wait_until(lambda: self.in_team_and_world(),
-                                post_action=lambda: self.click_relative(0.5, 0.9, after_sleep=3), time_out=5)
-                self.log_info('Auto Login Success', notify=True)
-                self._logged_in = True
-                self.sleep(3)
+            if self.in_team_and_world():
                 return True
-            texts = self.ocr()
+            self.handle_monthly_card()
+            texts = self.ocr(log=self.debug)
             if login := self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.7, 0.7), match="登录"):
-                if not self.find_boxes(texts, match="+86"):
-                    self.click(login)
+                if not self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.7, 0.7), match="+86"):
+                    self.click(login, after_sleep=1)
                     self.log_info('点击登录按钮!')
+                return False
+            if agree := self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.7, 0.7), match="同意"):
+                self.log_debug(f'found agree {agree}')
+                if self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.7, 0.7), match=re.compile("隐私")):
+                    self.click(agree, after_sleep=1)
+                    self.log_info('点击同意按钮!')
                 return False
             if self.find_boxes(texts, match=re.compile("游戏即将重启")):
                 self.log_info('游戏更新成功, 游戏即将重启')
-                self.click(self.find_boxes(texts, match="确认"), after_sleep=30)
+                self.click(self.find_boxes(texts, match="确认"), after_sleep=60)
                 result = self.start_device()
                 self.log_info(f'start_device end {result}')
                 self.sleep(30)
@@ -722,6 +724,11 @@ class BaseWWTask(BaseTask):
                     self.click(start)
                     self.log_info(f'点击开始游戏! {start}')
                     return False
+
+            if login_account := self.find_boxes(texts, match=re.compile("Windows.{0,3}Product", re.IGNORECASE)):
+                self.log_info(f'wait_login {login_account}')
+                self.click(0.5, 0.5, after_sleep=3)
+                return False
 
     def in_team_and_world(self):
         return self.in_team()[
@@ -882,11 +889,15 @@ class BaseWWTask(BaseTask):
 
         # Function to check if a component forms a ring
 
+    def find_monthly_card(self):
+        return self.find_one('monthly_card', threshold=0.8)
+
     def handle_monthly_card(self):
-        monthly_card = self.find_one('monthly_card', threshold=0.8)
+        monthly_card = self.find_monthly_card()
         # self.screenshot('monthly_card1')
         if monthly_card is not None:
             # self.screenshot('monthly_card1')
+            self.log_info('monthly_card found click')
             self.click_relative(0.50, 0.89)
             self.sleep(2)
             # self.screenshot('monthly_card2')
@@ -896,7 +907,7 @@ class BaseWWTask(BaseTask):
                             post_action=lambda: self.click_relative(0.50, 0.89, after_sleep=1))
             # self.screenshot('monthly_card3')
             self.set_check_monthly_card(next_day=True)
-        logger.debug(f'check_monthly_card {monthly_card}')
+        # logger.debug(f'check_monthly_card {monthly_card}')
         return monthly_card is not None
 
     @property
@@ -917,6 +928,8 @@ class BaseWWTask(BaseTask):
         self.sleep(0.5)
 
     def openF2Book(self, feature="gray_book_all_monsters", opened=False):
+        if hasattr(self, 'reset_to_false'):
+            self.reset_to_false('opening book')
         if not opened:
             self.log_info('click f2 to open the book')
             if self.in_team_and_world():
@@ -1005,7 +1018,7 @@ class BaseWWTask(BaseTask):
                 self.draw_boxes('double_drop', double, color='blue')
             gap_per_index = (bar_bottom - bar_top) / total_number
             y = gap_per_index * (serial_number - container_max_rows + default_container_display) + bar_top
-            self.click_relative(0.98, y)
+            self.click_relative(self.tacet_scroll_x, y)
             logger.info(f'scroll to target')
             btns = self.find_feature('boss_proceed', box=self.box_of_screen(0.94, 0.6, 0.97, 0.88), threshold=0.8)
             if btns is None:

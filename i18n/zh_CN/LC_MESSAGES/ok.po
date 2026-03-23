@@ -699,6 +699,9 @@ msgstr "荣耀狮像"
 msgid "Fenrico"
 msgstr "芬莱克"
 
+msgid "Nameless Explorer"
+msgstr "无铭探索者"
+
 msgid "Lady of the Sea"
 msgstr "海之女"
 
@@ -713,6 +716,9 @@ msgstr "角色设置"
 
 msgid "Iuno C6"
 msgstr "尤诺6链"
+
+msgid "Verina C2"
+msgstr "维里奈2链"
 
 msgid "Chisa DPS"
 msgstr "千咲主C"

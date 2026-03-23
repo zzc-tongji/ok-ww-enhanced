@@ -17,6 +17,7 @@ class NightmareNestTask(WWOneTimeTask, BaseCombatTask):
         self.target_enemy_time_out = 10
         self.name = "Nightmare Nest Task"
         self.description = "Auto Farm all Nightmare Nest"
+        self.support_schedule_task = True
         self.group_name = "Daily"
         self.group_icon = FluentIcon.HOME
         self.icon = FluentIcon.CALORIES
@@ -76,7 +77,7 @@ class NightmareNestTask(WWOneTimeTask, BaseCombatTask):
             self.wait_in_team_and_world(time_out=40, raise_if_not_found=False)
         self.sleep(2)
         self.run_until(self.in_combat, 'w', time_out=10, running=False, target=True)
-        self.combat_once()
+        self.combat_once(wait_combat_time=0)
         if self._capture_mode:
             if self._capture_success or self.wait_until(self.has_echo_notification, time_out=3):
                 self.log_info("Captured echo during combat, skipping search.")
@@ -118,7 +119,7 @@ class NightmareNestTask(WWOneTimeTask, BaseCombatTask):
 
     def go_nightmare_scroll(self):
         self.click(0.17, 0.68, after_sleep=1)
-        self.click(0.98, 0.54, after_sleep=1)
+        self.click(self.tacet_scroll_x, 0.54, after_sleep=1)
         self.log_info('go nightmare scroll')
 
     def go_nest(self):

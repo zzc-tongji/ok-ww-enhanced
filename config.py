@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -60,6 +61,7 @@ key_config_option = ConfigOption('Game Hotkey Config', {
 
 char_config_option = ConfigOption('Character Config', {
     'Iuno C6': False,
+    'Verina C2': False,
     'Chisa DPS': False,
 }, description='Character Config')
 
@@ -69,7 +71,7 @@ pick_echo_config_option = ConfigOption('Pick Echo Config', {
     'Use OCR': 'Turn on if your CPU is Powerful for more accuracy'}, description='Turn on to enable auto pick echo')
 
 monthly_card_config_option = ConfigOption('Monthly Card Config', {
-    'Check Monthly Card': False,
+    'Check Monthly Card': True,
     'Monthly Card Time': 4
 }, description='Turn on to avoid interruption by monthly card when executing tasks', config_description={
     'Check Monthly Card': 'Check for monthly card to avoid interruption of tasks',
@@ -87,6 +89,7 @@ config = {
         'lib': 'onnxocr',
         'params': {
             'use_openvino': True,
+            'use_npu': True,
         }
     },
     'my_app': ['src.globals', 'Globals'],
@@ -99,10 +102,14 @@ config = {
         'default_vertical_variance': 0.002,
         'default_threshold': 0.8,
         'feature_processor': process_feature,
+        'vcenter_features': ['monthly_card'],
+        'hcenter_features': ['monthly_card']
     },
     'windows': {  # required  when supporting windows game
-        'exe': 'Client-Win64-Shipping.exe',
+        'top_hwnd_class': [re.compile('CAgreementDlg'), re.compile('CLoginDlg_P_'),
+                           'Chrome_RenderWidgetHostHWND', re.compile('CNativeLoginDlg'), '#32770'],
         'calculate_pc_exe_path': calculate_pc_exe_path,
+        'exe': 'Client-Win64-Shipping.exe',
         'hwnd_class': 'UnrealWindow',
         'interaction': 'PostMessage',
         'capture_method': ['WGC', 'BitBlt_RenderFull'],  # Windows版本支持的话, 优先使用WGC, 否则使用BitBlt_Full

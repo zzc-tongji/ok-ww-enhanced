@@ -12,8 +12,8 @@ from src.task.BaseWWTask import BaseWWTask
 
 logger = Logger.get_logger(__name__)
 
-number_pattern = re.compile(r"^[\d.%]+$")
-property_pattern = re.compile(r"^\D*$")
+number_pattern = re.compile(r"^[\d.%％ ]+$")
+property_pattern = re.compile(r"^(?!.*激活).*?[\u4e00-\u9fff]{2,}.*?$")
 
 
 class EnhanceEchoTask(BaseWWTask, FindFeature):
@@ -97,7 +97,8 @@ class EnhanceEchoTask(BaseWWTask, FindFeature):
                         self.click(add_mat, after_sleep=0.3)
                     else:
                         self.next_frame()
-                        break
+                        if have_add_mat:
+                            break
                 if not have_add_mat:
                     raise Exception('强化设置需要开启阶段放入!')
 
@@ -109,22 +110,21 @@ class EnhanceEchoTask(BaseWWTask, FindFeature):
                     else:
                         raise Exception('找不到 强化并调谐!')
                 while handle := self.wait_ocr(0.24, 0.18, 0.75, 0.93,
-                                              match=['本次登录不再提示', '调谐成功', '点击任意位置返回'],
+                                              match=[re.compile('不再提示'), '调谐成功', re.compile('点击任')],
                                               time_out=2):
                     if handle[0].name == '本次登录不再提示':
                         click = handle[0]
                         click.width = 1
                         click.x -= click.height * 1.1
                         self.click(click, after_sleep=0.5)
-                        self.wait_click_ocr(0.24, 0.18, 0.75, 0.93, match='确认', after_sleep=0.5)
+                        self.click(self.find_confirm(), after_sleep=0.5)
                     elif handle[0].name in ['点击任意位置返回', '调谐成功']:
                         self.click(handle, after_sleep=1)
                     else:
                         self.sleep(0.5)
                 self.sleep(0.1)
-                texts = self.ocr()
-                texts = self.find_boxes(texts, boundary=self.box_of_screen(0.09, 0.28, 0.40, 0.53))
-                self.log_info(f'found values: {texts}')
+                texts = self.ocr(0.09, 0.28, 0.40, 0.53)
+                self.log_info(f'ocr values: {texts}')
                 properties = self.find_boxes(texts, match=property_pattern)
                 values = self.find_boxes(texts, match=number_pattern)
                 self.info_set('属性', properties)
@@ -137,6 +137,11 @@ class EnhanceEchoTask(BaseWWTask, FindFeature):
                 if len(properties) >= 5:
                     self.lock_and_esc()
                     break
+
+    def find_confirm(self):
+        box = self.box_of_screen(0.24, 0.18, 0.75, 0.93)
+        self.screenshot('find_confirm', frame=box.crop_frame(self.frame))
+        return self.ocr(box=box, match='确认')
 
     def check_echo_stats(self, properties, values):
         self.fail_reason = ""
@@ -164,15 +169,32 @@ class EnhanceEchoTask(BaseWWTask, FindFeature):
 
         valid_stats = self.config.get('有效词条') or []
 
-        for p, v_str in paired_stats:
+        for p_raw, v_str in paired_stats:
+            p = p_raw
+            if '暴击伤害' in p:
+                p = '暴击伤害'
+            elif '暴击' in p:
+                p = '暴击'
+            elif '攻击' in p:
+                p = '攻击' + ('百分比' if '%' in v_str or '％' in v_str else '')
+            elif '生命' in p:
+                p = '生命' + ('百分比' if '%' in v_str or '％' in v_str else '')
+            elif '防御' in p:
+                p = '防御' + ('百分比' if '%' in v_str or '％' in v_str else '')
+            elif '效率' in p:
+                p = '共鸣效率'
+            elif '普攻' in p:
+                p = '普攻伤害加成'
+            elif '重击' in p:
+                p = '重击伤害加成'
+            elif '解放' in p:
+                p = '共鸣解放伤害加成'
+            elif '技能' in p:
+                p = '共鸣技能伤害加成'
+
             v = parse_number(v_str)
 
             is_valid_prop = True
-
-            if p in ['攻击', '生命', '防御']:
-                if '%' in v_str:
-                    p += '百分比'
-
             is_crit_stat = p in ['暴击', '暴击伤害']
 
             if self.config.get(
@@ -304,6 +326,6 @@ class EnhanceEchoTask(BaseWWTask, FindFeature):
 
 def parse_number(text):
     try:
-        return float(text.split('%')[0])
+        return float(text.replace('％', '%').split('%')[0])
     except (ValueError, IndexError):
         return 0.0

@@ -243,7 +243,8 @@ class BaseCombatTask(CombatCheck):
             wait_combat_time (int, optional): 等待进入战斗状态的超时时间 (秒)。默认为 200。
             raise_if_not_found (bool, optional): 如果未找到战斗状态是否抛出异常。默认为 True。
         """
-        self.wait_until(self.in_combat, time_out=wait_combat_time, raise_if_not_found=raise_if_not_found)
+        if wait_combat_time > 0:
+            self.wait_until(self.in_combat, time_out=wait_combat_time, raise_if_not_found=raise_if_not_found)
         self.load_chars()
         self.info['Combat Count'] = self.info.get('Combat Count', 0) + 1
         try:
@@ -335,10 +336,12 @@ class BaseCombatTask(CombatCheck):
             f'switch_next_char {current_char} -> {switch_to} has_intro {switch_to.has_intro} current_con {current_con}')
         # if self.debug:
         #     self.screenshot(f'switch_next_char_{current_con}')
+        from src.char.ShoreKeeper import ShoreKeeper
         last_click = 0
         start = time.time()
         while True:
-            self.check_combat()
+            if not (isinstance(switch_to, ShoreKeeper) and has_intro):
+                self.check_combat()
             now = time.time()
             current_char.f_break(check_f_on_switch=True)
             _, current_index, _ = self.in_team()
@@ -392,6 +395,10 @@ class BaseCombatTask(CombatCheck):
 
     def find_mouse_forte(self):
         return self.find_one('mouse_forte', horizontal_variance=0.025, threshold=0.6,
+                             frame_processor=binarize_for_matching)
+
+    def find_e_forte(self):
+        return self.find_one('e_forte', horizontal_variance=0.025, threshold=0.6,
                              frame_processor=binarize_for_matching)
 
     def get_liberation_key(self):
@@ -467,6 +474,8 @@ class BaseCombatTask(CombatCheck):
             timeout (float): 休眠的秒数。
             check_combat (bool, optional): 是否在休眠前检查战斗状态。默认为 True。
         """
+        if self.skip_combat_check:
+            return
         # self.log_debug(f'sleep_check {self._in_combat}')
         if self._in_combat:
             self.next_frame()
