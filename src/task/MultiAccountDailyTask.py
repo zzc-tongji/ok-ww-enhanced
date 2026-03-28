@@ -30,6 +30,7 @@ class MultiAccountDailyTask(WWOneTimeTask, BaseCombatTask):
             '账号列表': {'type': 'text_edit'},
         }
         self.add_exit_after_config()
+        self.support_schedule_task = True
 
     def run(self):
         WWOneTimeTask.run(self)
@@ -132,7 +133,7 @@ class MultiAccountDailyTask(WWOneTimeTask, BaseCombatTask):
 
     def _click_account_in_list(self, pattern):
         texts = self.ocr()
-        if boxes := self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.3, 0.65, 0.9), match=pattern):
+        if boxes := self.find_boxes(texts, boundary=self.box_of_screen(0.3, 0.0, 0.65, 1.0), match=pattern):
             self.click(boxes[0], after_sleep=0.5)
             return True
         return False
