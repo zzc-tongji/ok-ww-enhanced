@@ -220,9 +220,9 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
 
     def claim_mail(self):
         self.info_set('current task', 'claim mail')
-        self.back(after_sleep=1.5)
-        self.click(0.64, 0.95, after_sleep=1)
-        self.click(0.14, 0.9, after_sleep=1)
+        self.back(after_sleep=5)
+        self.click(0.64, 0.95, after_sleep=5)
+        self.click(0.14, 0.9, after_sleep=5)
         self.ensure_main(time_out=5)
 
 
