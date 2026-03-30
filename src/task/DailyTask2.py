@@ -64,8 +64,16 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             #
             current_task = 'claim_mail'
             self.info_set('current task', current_task)
-            self.ensure_main(time_out=self.teleport_timeout)
-            self.claim_mail()
+            for i in range(1, self.config.get('Task Retry') + 1):
+                try:
+                    self.ensure_main(time_out=self.teleport_timeout)
+                    self.claim_mail()
+                except Exception as e:
+                        self.log_error(f'claim mail attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
+                        self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_ClaimMail_Attempt_{i}')
+                        self.make_sure_in_world()
+                        if (i >= self.config.get('Task Retry')):
+                            self.log_error("邮件 任务未完成，需要手动登陆游戏处理。", notify=True)
             #
             nightmare_all = self.config.get('Auto Farm all Nightmare Nest')
             nightmare_once = self.config.get('Farm Nightmare Nest for Daily Echo') and (self.config.get('Tacet Suppression Count') + self.config.get('Forgery Challenge Count') > 0)
