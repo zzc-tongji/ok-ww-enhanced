@@ -70,6 +70,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                 try:
                     self.ensure_main(time_out=self.teleport_timeout)
                     self.claim_mail()
+                    break
                 except Exception as e:
                         self.log_error(f'claim mail attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                         self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_ClaimMail_Attempt_{i}')
@@ -88,6 +89,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                         self.info_set('nightmare nest attempt', i)
                         self.ensure_main(time_out=self.teleport_timeout)
                         self.run_task_by_class(NightmareNestTask) if nightmare_all else self.run_task_by_class(NightmareNestTask).run_capture_mode()
+                        break
                     except Exception as e:
                         self.log_error(f'nightmare nest attempt "{i}" failed\n{''.join(traceback.format_exception(e))}')
                         self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask2_NightmareNest_Attempt_{i}')
