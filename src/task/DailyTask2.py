@@ -1,11 +1,11 @@
 from datetime import datetime
 import re
-import subprocess
 import traceback
 
 from qfluentwidgets import FluentIcon
 
 from ok import Logger
+from src.Labels import Labels
 from src.task.BaseWWTask import number_re
 from src.task.TacetTask2 import TacetTask2
 from src.task.ForgeryTask2 import ForgeryTask2
@@ -61,6 +61,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.info_set('current task', current_task)
             WWOneTimeTask.run(self)
             self.ensure_main(time_out=600)  # for hot update if needed
+            self.go_to_tower()
             #
             current_task = 'claim_mail'
             self.info_set('current task', current_task)
@@ -170,6 +171,23 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             if not self.config.get('Exit with Error', True):
                 raise e
 
+    def go_to_tower(self):
+        self.log_info('go to tower')
+        self.ensure_main(time_out=80)
+        gray_book_weekly = self.openF2Book(Labels.gray_book_weekly)
+        if not gray_book_weekly:
+            self.log_error('go_to_tower can not find gray_book_weekly')
+            return
+        self.click_box(gray_book_weekly, after_sleep=1)
+        btn = self.find_one(Labels.boss_proceed, box=self.box_of_screen(0.94, 0.3, 0.97, 0.41), threshold=0.8)
+        if btn is None:
+            self.ensure_main(time_out=10)
+            return
+        self.click_box(btn, after_sleep=1)
+        self.wait_click_travel()
+        self.wait_in_team_and_world(time_out=120)
+        self.sleep(1)
+
     def claim_battle_pass(self):
         self.log_info('battle pass')
         self.send_key_down('alt')
@@ -188,54 +206,74 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
                           raise_if_not_found=False)
         self.ensure_main()
 
+    def open_daily(self):
+        self.log_info('open_daily')
+        gray_book_quest = self.openF2Book("gray_book_quest")
+        self.click_box(gray_book_quest, after_sleep=1.5)
+        progress = self.ocr(0.1, 0.1, 0.5, 0.75, match=re.compile(r'^(\d+)/180$'))
+        if not progress:
+            self.click(0.961, 0.6, after_sleep=1)
+            progress = self.ocr(0.1, 0.1, 0.5, 0.75, match=re.compile(r'^(\d+)/180$'))
+        if progress:
+            current = int(progress[0].name.split('/')[0])
+        else:
+            current = 0
+        self.info_set('current daily progress', current)
+        return current, self.get_total_daily_points() >= 100
+
+    def get_total_daily_points(self):
+        points_boxes = self.ocr(0.19, 0.8, 0.30, 0.93, match=number_re)
+        if points_boxes:
+            points = int(points_boxes[0].name)
+        else:
+            points = 0
+        self.info_set('total daily points', points)
+        return points
+
     def claim_daily(self):
         self.info_set('current task', 'claim daily')
-        self.ensure_main(time_out=5)
-        self.openF2Book()
-        gray_book_quest = self.openF2Book('gray_book_quest')
-        self.click_box(gray_book_quest, after_sleep=1.5)
-        #
-        try:
-            total_points = int(self.ocr(0.19, 0.8, 0.30, 0.93, match=number_re)[0].name) # throw exception with activity 0
-        except:
-            total_points = 0
-        self.info_set('daily points', total_points)
-        if total_points >= 100:
-            self.click(0.89, 0.85, after_sleep=1)
+        total_points = self.get_total_daily_points()
+        if total_points < 100:
             self.ensure_main(time_out=5)
-            return
-        #
-        while True:
-            boxes = self.ocr(0.23, 0.16, 0.31, 0.69, match=re.compile(r'^[1-9]\d*/\d+$'))
-            count = 0
-            for box in boxes:
-                parts = box.name.split('/')
-                if len(parts) == 2 and parts[0] == parts[1]:
-                    count += 1
-            self.log_info(f'can claim count {count}')
-            if count == 0:
-                break
+            self.open_daily()
+            self.log_info('claim pending daily quest rewards before claiming daily chest')
             self.click(0.87, 0.17, after_sleep=0.5)
             self.sleep(1)
-        #
-        total_points = int(self.ocr(0.19, 0.8, 0.30, 0.93, match=number_re)[0].name)
+            total_points = self.get_total_daily_points()
+
         self.info_set('daily points', total_points)
         if total_points < 100:
             self.log_error("每日活跃度 任务未完成（可能因为体力不足），需要手动登陆游戏处理。", notify=True)
         else:
-            self.click(0.89, 0.85, after_sleep=1)
-        self.ensure_main(time_out=5)
+            self.click_daily_reward_box(100)
+        self.ensure_main(time_out=10)
+
+    def click_daily_reward_box(self, reward_points):
+        reward_boxes = self.ocr(
+            0.72, 0.78, 0.98, 0.98,
+            match=re.compile(rf'^{reward_points}$')
+        )
+        if reward_boxes:
+            reward_box = max(reward_boxes, key=lambda box: box.x)
+            click_box = reward_box.copy(
+                x_offset=int(-reward_box.width * 0.8),
+                y_offset=int(-reward_box.height * 3.0),
+                width_offset=int(reward_box.width * 1.6),
+                height_offset=int(reward_box.height * 2.2),
+                name=f'daily_reward_{reward_points}'
+            )
+            self.log_info(f'claim daily reward {reward_points} via OCR {reward_box}')
+            self.click(click_box, after_sleep=1)
+            return True
+
+        # Fall back to a more right-shifted point than the previous fixed coordinate.
+        self.log_info(f'claim daily reward {reward_points} via fallback coordinate')
+        self.click(0.90, 0.85, after_sleep=1)
+        return False
 
     def claim_mail(self):
         self.info_set('current task', 'claim mail')
         self.back(after_sleep=1.5)
         self.click(0.64, 0.95, after_sleep=1)
         self.click(0.14, 0.9, after_sleep=1)
-        self.ensure_main(time_out=5)
-
-
-echo_color = {
-    'r': (200, 255),  # Red range
-    'g': (150, 220),  # Green range
-    'b': (130, 170)  # Blue range
-}
+        self.ensure_main(time_out=10)
