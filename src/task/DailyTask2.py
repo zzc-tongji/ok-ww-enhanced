@@ -61,6 +61,7 @@ class DailyTask2(TacetTask2, ForgeryTask2, SimulationTask2):
             self.info_set('current task', current_task)
             WWOneTimeTask.run(self)
             self.ensure_main(time_out=600)  # for hot update if needed
+            self.sleep(self.teleport_timeout / 5)
             self.go_to_tower()
             #
             current_task = 'claim_mail'
