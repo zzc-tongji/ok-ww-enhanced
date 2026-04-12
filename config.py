@@ -87,6 +87,7 @@ config = {
     'global_configs': [key_config_option, char_config_option, pick_echo_config_option, monthly_card_config_option],
     'ocr': {
         'lib': 'onnxocr',
+        'auto_simplify': True,
         'params': {
             'use_openvino': True,
             'use_npu': True,
@@ -97,7 +98,7 @@ config = {
     'wait_until_settle_time': 0,
     # required if using feature detection
     'template_matching': {
-        'coco_feature_json': os.path.join('assets', 'coco_detection.json'),
+        'coco_feature_json': os.path.join('assets', 'coco_annotations.json'),
         'default_horizontal_variance': 0.002,
         'default_vertical_variance': 0.002,
         'default_threshold': 0.8,
@@ -118,16 +119,11 @@ config = {
         'check_night_light': True,
         'force_no_night_light': False,
     },
-    'browser': {
-        'url': 'https://mc.kurogames.com/cloud/#/',
-        'resolution': (1600, 900),
-        'nick': '云游戏(需要Win11并安装Edge)',
-    },
     'window_size': {
-        'width': 900,
-        'height': 600,
-        'min_width': 900,
-        'min_height': 600,
+        'width': 1200,
+        'height': 800,
+        'min_width': 1200,
+        'min_height': 800,
     },
     'supported_resolution': {
         'ratio': '16:9',

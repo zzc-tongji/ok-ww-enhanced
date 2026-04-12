@@ -4,9 +4,9 @@
 #
 #    pip-compile '.\requirements.in'
 #
-ok-script==1.0.87
+ok-script==1.0.102
     # via -r .\requirements.in
-playwright==1.57.0
+OpenCC==1.2.0
 onnxocr-ppocrv5==0.0.14
     # via -r .\requirements.in
 pyappify==1.0.2

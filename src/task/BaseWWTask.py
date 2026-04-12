@@ -396,12 +396,8 @@ class BaseWWTask(BaseTask):
     def get_stamina(self):
         boxes = self.wait_ocr(0.49, 0.0, 0.92, 0.10, raise_if_not_found=False,
                               match=[number_re, stamina_re])
-        # ONLY be called when stamina shown on top-right, game ui as:
-        # - recurring challenges of F2 book (press F2 and click left-middle icon 'gray_book_boss')
-        # - map (press M in world)
-        # - dialog after farming (walk to treasure and press F)
-        if (not boxes) or (len(boxes) == 0):
-            self.screenshot('stamina_not_found')
+        if not boxes:
+            self.screenshot('stamina_error')
             return -1, -1, -1
         current = 0
         back_up = 0
@@ -679,7 +675,7 @@ class BaseWWTask(BaseTask):
     def ensure_main(self, esc=True, time_out=30):
         self.info_set('current task', f'wait main esc={esc}')
         if not self._logged_in:
-            time_out = 180
+            time_out = 600
         if not self.wait_until(lambda: self.is_main(esc=esc), time_out=time_out, raise_if_not_found=False):
             raise Exception('Please start in game world and in team!')
         self.sleep(0.5)

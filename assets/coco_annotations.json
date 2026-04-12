@@ -5,7 +5,7 @@
         "description": "COCO Label Conversion",
         "contributor": "CVHub",
         "url": "https://github.com/CVHub520/X-AnyLabeling",
-        "date_created": "2026-03-23"
+        "date_created": "2026-04-06"
     },
     "licenses": [
         {
@@ -1114,6 +1114,16 @@
             "id": 220,
             "name": "ww",
             "supercategory": ""
+        },
+        {
+            "id": 221,
+            "name": "message",
+            "supercategory": ""
+        },
+        {
+            "id": 222,
+            "name": "message_dialog",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1282,7 +1292,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/0.png",
+            "file_name": "images/1.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1300,7 +1310,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/2.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1426,7 +1436,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/0.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1498,7 +1508,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/0.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1687,7 +1697,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/4.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1696,7 +1706,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/0.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1795,7 +1805,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/2.png",
+            "file_name": "images/4.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -1975,7 +1985,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/1.png",
+            "file_name": "images/0.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -2038,7 +2048,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/4.png",
+            "file_name": "images/2.png",
             "height": 2160,
             "width": 3840,
             "date_captured": null,
@@ -2133,6 +2143,12 @@
             "width": 3840,
             "date_captured": null,
             "id": 224
+        },
+        {
+            "id": 226,
+            "file_name": "images/0.png",
+            "width": 3840,
+            "height": 2160
         }
     ],
     "annotations": [
@@ -2152,6 +2168,19 @@
             "segmentation": []
         },
         {
+            "id": 1,
+            "image_id": 226,
+            "category_id": 221,
+            "bbox": [
+                372,
+                94,
+                73,
+                48
+            ],
+            "area": 3504,
+            "iscrowd": 0
+        },
+        {
             "id": 2,
             "image_id": 2,
             "category_id": 134,
@@ -2165,6 +2194,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 3,
+            "image_id": 226,
+            "category_id": 222,
+            "bbox": [
+                1358,
+                1457,
+                81,
+                61
+            ],
+            "area": 4941,
+            "iscrowd": 0
         },
         {
             "id": 4,
@@ -5377,21 +5419,6 @@
             "segmentation": []
         },
         {
-            "id": 432,
-            "image_id": 220,
-            "category_id": 186,
-            "bbox": [
-                1540,
-                1517,
-                710,
-                105
-            ],
-            "area": 74437.83462224888,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
-        },
-        {
             "id": 434,
             "image_id": 222,
             "category_id": 217,
@@ -5407,7 +5434,7 @@
             "segmentation": []
         },
         {
-            "id": 436,
+            "id": 435,
             "image_id": 224,
             "category_id": 97,
             "bbox": [
@@ -5416,13 +5443,11 @@
                 91,
                 101
             ],
-            "area": 9201.020408163267,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
+            "area": 9191,
+            "iscrowd": 0
         },
         {
-            "id": 437,
+            "id": 436,
             "image_id": 224,
             "category_id": 127,
             "bbox": [
@@ -5431,10 +5456,21 @@
                 22,
                 24
             ],
-            "area": 537.7551020408085,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
+            "area": 528,
+            "iscrowd": 0
+        },
+        {
+            "id": 437,
+            "image_id": 220,
+            "category_id": 186,
+            "bbox": [
+                1540,
+                1517,
+                710,
+                105
+            ],
+            "area": 74550,
+            "iscrowd": 0
         }
     ]
 }
