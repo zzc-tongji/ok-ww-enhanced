@@ -1382,3 +1382,6 @@ msgstr "¿Eliminar permanentemente el equipo {team}?"
 
 msgid "Team deleted."
 msgstr "Equipo eliminado."
+
+msgid "JingRan"
+msgstr "Jingran"
