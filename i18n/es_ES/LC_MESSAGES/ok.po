@@ -826,6 +826,9 @@ msgstr ""
 msgid "Chisa DPS"
 msgstr ""
 
+msgid "Suoming DPS"
+msgstr "Suoming DPS principal"
+
 msgid "Nightmare: Hecate"
 msgstr ""
 
@@ -1389,8 +1392,47 @@ msgstr "Equipo eliminado."
 msgid "JingRan"
 msgstr "Jingran"
 
+msgid "Multi Account Config Task"
+msgstr "Tarea de configuración multicuenta"
+
+msgid "Log in to accounts in card order and run tasks with independent configurations"
+msgstr "Inicia sesión en el orden de las tarjetas y ejecuta tareas con configuraciones independientes"
+
 msgid "Special Nightmare"
 msgstr "Pesadilla especial"
 
 msgid "Which Special Nightmare to Teleport"
 msgstr "Pesadilla especial a la que teletransportar"
+
+
+msgid "Failed to read game assets quality config. Starting with HD assets."
+msgstr "No se pudo leer la configuración de calidad de los recursos del juego. Se iniciará con recursos HD."
+
+msgid "Tacet Elimination"
+msgstr "Eliminación tácita"
+
+msgid ""
+"Start on the current event screen. Complete prerequisite stages, then play "
+"Final Elimination for the highest possible score until turns run out."
+msgstr ""
+"Empieza en la pantalla actual del evento. Completa las fases previas y juega"
+" una partida de Eliminación final para conseguir la mayor puntuación posible"
+" hasta agotar los turnos. Mantén el juego en primer plano."
+
+
+msgid "Roccia C6"
+msgstr "Roccia C6 (DPS principal)"
+
+msgid "Export Selected"
+msgstr "Exportar equipo seleccionado"
+
+
+msgid "Export Current"
+msgstr "Exportar equipo actual"
+
+
+msgid "No current team detected."
+msgstr "No se ha detectado el equipo actual."
+
+msgid "Team Info"
+msgstr "Info del equipo"

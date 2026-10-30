@@ -89,6 +89,12 @@ class FarmEchoTask(WWOneTimeTask, BaseCombatTask):
         self.in_realm_check(20)
         return True
 
+    def _unbuffed_non_main_target(self, current_char, candidates):
+        # 刷声骸以主C输出为主：奶没带变奏时不去切另一个没增益的奶，直接回主C
+        if current_char.is_healer:
+            candidates = [char for char in candidates if not char.is_healer]
+        return super()._unbuffed_non_main_target(current_char, candidates)
+
     def revive_action(self):
         if self._in_realm:
             # 副本内只有开启传送才能回到 boss，此时先退本回血，由 do_run 重新传送
@@ -187,17 +193,19 @@ class FarmEchoTask(WWOneTimeTask, BaseCombatTask):
                 if self.pick_echo():
                     logger.info(f'farm echo on the face')
                     dropped = True
-                elif self.config.get('Echo Pickup Method', "Yolo") == "Yolo":
-                    dropped = \
-                        self.yolo_find_echo(turn=self._in_realm, use_color=False, time_out=self.yolo_time_out,
-                                            threshold=self.yolo_threshold)[0]
-                    logger.info(f'farm echo yolo find {dropped}')
-                elif self.config.get('Echo Pickup Method', "Yolo") == "Run in Circle":
-                    dropped = self.run_in_circle_to_find_echo(circle_count=2)
-                    logger.info(f'farm echo walk_circle_find_echo {dropped}')
                 else:
-                    dropped = self.walk_find_echo()
-                    logger.info(f'farm echo walk_find_echo {dropped}')
+                    self.middle_click(after_sleep=0.2)
+                    if self.config.get('Echo Pickup Method', "Yolo") == "Yolo":
+                        dropped = \
+                            self.yolo_find_echo(turn=self._in_realm, use_color=False, time_out=self.yolo_time_out,
+                                                threshold=self.yolo_threshold)[0]
+                        logger.info(f'farm echo yolo find {dropped}')
+                    elif self.config.get('Echo Pickup Method', "Yolo") == "Run in Circle":
+                        dropped = self.run_in_circle_to_find_echo(circle_count=2)
+                        logger.info(f'farm echo walk_circle_find_echo {dropped}')
+                    else:
+                        dropped = self.walk_find_echo()
+                        logger.info(f'farm echo walk_find_echo {dropped}')
                 self.incr_drop(dropped)
                 if not self.bypass_end_wait:
                     if dropped and not self._has_treasure:

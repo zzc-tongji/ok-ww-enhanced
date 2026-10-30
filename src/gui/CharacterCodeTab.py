@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import quote, urlparse
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 from PySide6.QtCore import QEvent, QPointF, Qt, QSize, QUrl, Signal
 from PySide6.QtGui import (
@@ -24,7 +24,7 @@ from qfluentwidgets import (
     isDarkTheme, qconfig,
 )
 
-from ok import Logger
+from ok import Logger, og
 from ok.gui.tasks.EditTaskTab import CodeEditor
 from ok.gui.tasks.PythonHighlighter import PythonHighlighter
 from ok.gui.util.app import show_info_bar
@@ -35,15 +35,16 @@ from src.char.CustomCharLoader import (
     changed_import_members, create_custom_team, delete_custom_team, drifted_team_members,
     export_custom_team, get_english_char_name,
     import_custom_team, inspect_team_archive, list_custom_teams, normalize_custom_teams,
-    normalize_team, read_builtin_char_code, read_team_char_code,
+    normalize_team, read_builtin_char_code, read_team_char_code, read_team_manifest,
     save_team_code_as_import, switch_all_teams_code_mode, switch_team_code_mode, team_code_state,
 )
 
 BASE_CHAR_URL = "https://raw.githubusercontent.com/ok-oldking/ok-wuthering-waves/refs/heads/master/src/char/BaseChar.py"
 UPLOAD_TEAM_URL = "https://github.com/ok-oldking/ok-ww-char-code"
-WORKSHOP_TEAMS_ALL_URL = "https://okwwcharcode.ok-script.com/teams.json"
-WORKSHOP_TEAM_URL = "https://okwwcharcode.ok-script.com/teams/{slug}.json"
-WORKSHOP_ARCHIVE_HOSTS = {"okwwcharcode.ok-script.com", "raw.githubusercontent.com"}
+WORKSHOP_TEAMS_ALL_URL = "https://cfokwwchar.ok-script.com/teams.json"
+WORKSHOP_TEAM_URL = "https://cfokwwchar.ok-script.com/teams/{slug}.json"
+WORKSHOP_ARCHIVE_HOSTS = {"cfokwwchar.ok-script.com", "raw.githubusercontent.com"}
+WORKSHOP_USER_AGENT = "ok-wuthering-waves"
 logger = Logger.get_logger(__name__)
 
 # The team list marks each team with a haloed dot, and both switch buttons wear the
@@ -458,7 +459,7 @@ def fetch_all_workshop_teams():
     url = WORKSHOP_TEAMS_ALL_URL
     logger.info(f"char code workshop all teams request: {url}")
     try:
-        with urlopen(url, timeout=15) as response:
+        with urlopen(Request(url, headers={"User-Agent": WORKSHOP_USER_AGENT}), timeout=15) as response:
             content = response.read(5_000_001)
     except HTTPError as error:
         if error.code == 404:
@@ -498,7 +499,7 @@ def fetch_workshop_codes(team):
     url = workshop_team_url(team)
     logger.info(f"char code workshop request: {url}")
     try:
-        with urlopen(url, timeout=15) as response:
+        with urlopen(Request(url, headers={"User-Agent": WORKSHOP_USER_AGENT}), timeout=15) as response:
             content = response.read(2_000_001)
     except HTTPError as error:
         if error.code == 404:
@@ -605,7 +606,16 @@ class ImportTeamDialog(TranslatedDialog):
         self.widget.setMinimumWidth(560)
         self.set_dialog_title(self.tr("Import Team"))
         self.add_field(self.tr("Name"), manifest["name"])
-        self.add_field(self.tr("Description"), manifest["description"])
+        # Description: 固定高度的只读滚动区域，避免长说明撑开导入对话框。
+        self.viewLayout.addWidget(BodyLabel(self.tr("Description"), self.widget))
+        self.description_text = TextEdit(self.widget)
+        self.description_text.setPlainText(str(manifest["description"]))
+        self.description_text.setReadOnly(True)
+        self.description_text.setLineWrapMode(QTextEdit.WidgetWidth)
+        self.description_text.setFixedHeight(220)
+        self.description_text.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.description_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.viewLayout.addWidget(self.description_text)
         self.add_field(self.tr("Team"), translated_team)
         self.add_field(self.tr("Version"), manifest["version"])
         warning = BodyLabel(self.tr("Importing will override the local code for this team."), self.widget)
@@ -614,6 +624,30 @@ class ImportTeamDialog(TranslatedDialog):
         self.viewLayout.addWidget(warning)
         self.yesButton.setText(self.tr("Confirm Import"))
         self.cancelButton.setText(self.tr("Cancel"))
+
+
+class TeamInfoDialog(TranslatedDialog):
+    """The team.json an import keeps, so the author's notes stay readable after importing."""
+
+    def __init__(self, manifest, translated_team, parent=None):
+        super().__init__(parent)
+        self.widget.setMinimumWidth(560)
+        self.set_dialog_title(self.tr("Team Info"))
+        self.add_field(self.tr("Name"), manifest.get("name", ""))
+        self.add_field(self.tr("Author"), manifest.get("author", ""))
+        self.add_field(self.tr("Version"), manifest.get("version", ""))
+        self.add_field(self.tr("Team"), translated_team)
+        self.viewLayout.addWidget(BodyLabel(self.tr("Description"), self.widget))
+        self.description_text = TextEdit(self.widget)
+        self.description_text.setPlainText(str(manifest.get("description", "")))
+        self.description_text.setReadOnly(True)
+        self.description_text.setLineWrapMode(QTextEdit.WidgetWidth)
+        self.description_text.setFixedHeight(260)
+        self.description_text.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.description_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.viewLayout.addWidget(self.description_text)
+        self.yesButton.setText(self.tr("Close"))
+        self.hideCancelButton()
 
 
 class WorkshopDialog(TranslatedDialog):
@@ -839,8 +873,11 @@ class WorkshopDialog(TranslatedDialog):
 
 
 class CharacterCodeTab(CustomTab):
+    current_team_loaded = Signal(object)
+
     def __init__(self):
         super().__init__()
+        self.current_team_loaded.connect(self._on_current_team_loaded)
         self.characters = self._unique_characters()
         self.char_by_name = {char_cls.__name__: char_cls for char_cls in self.characters}
         self.current_team = None
@@ -887,7 +924,7 @@ class CharacterCodeTab(CustomTab):
         second_team_button_row = QHBoxLayout()
         self.import_team_button = PushButton(FluentIcon.DOWNLOAD, self.tr("Import Team"))
         self.import_team_button.clicked.connect(self._import_team)
-        self.export_team_button = PushButton(FluentIcon.SHARE, self.tr("Export Team"))
+        self.export_team_button = PushButton(FluentIcon.SHARE, self.tr("Export Selected"))
         self.export_team_button.clicked.connect(self._export_team)
         second_team_button_row.addWidget(self.workshop_button)
         second_team_button_row.addWidget(self.import_team_button)
@@ -896,6 +933,12 @@ class CharacterCodeTab(CustomTab):
         self.upload_team_button.clicked.connect(self._open_upload_team)
         third_team_button_row.addWidget(self.export_team_button)
         third_team_button_row.addWidget(self.upload_team_button)
+        self.export_current_button = None
+        if (getattr(og, "app", None) and getattr(og.app, "config", {}).get("debug", False)
+                and (Path.cwd() / ".git").is_dir()):
+            self.export_current_button = PushButton(FluentIcon.SHARE, self.tr("Export Current"))
+            self.export_current_button.clicked.connect(self._export_current_team)
+            team_buttons.addWidget(self.export_current_button)
         team_buttons.addLayout(first_team_button_row)
         team_buttons.addLayout(second_team_button_row)
         team_buttons.addLayout(third_team_button_row)
@@ -911,12 +954,16 @@ class CharacterCodeTab(CustomTab):
         self.member_combo = ComboBox(right)
         self.member_combo.setMinimumWidth(190)
         self.member_combo.currentIndexChanged.connect(self._member_selected)
+        self.team_info_button = PushButton(FluentIcon.INFO, self.tr("Team Info"))
+        self.team_info_button.clicked.connect(self._show_team_info)
+        self.team_info_button.hide()
         self.ask_ai_button = PushButton(FluentIcon.ROBOT, self.tr("Ask AI"))
         self.ask_ai_button.clicked.connect(self._copy_ask_ai_template)
         top.addWidget(self.char_image_label)
         top.addWidget(BodyLabel(self.tr("Character Code")))
         top.addWidget(self.member_combo)
         top.addStretch(1)
+        top.addWidget(self.team_info_button)
         top.addWidget(self.ask_ai_button)
         right_layout.addLayout(top)
 
@@ -996,6 +1043,7 @@ class CharacterCodeTab(CustomTab):
             self.current_char_cls = None
             self.member_combo.clear()
             self._set_editor_enabled(False)
+            self._update_team_info_button()
         self._update_switch_all_button(states)
         self._update_code_mode_button()
 
@@ -1044,6 +1092,21 @@ class CharacterCodeTab(CustomTab):
         self.member_combo.blockSignals(False)
         self._set_editor_enabled(True)
         self._member_selected(member_index)
+
+    def _update_team_info_button(self):
+        """The author's description belongs to the imported code, so it hides while built in code
+        is in effect; a team created here has none. Teams imported before code modes existed
+        never got imported copies and still show it."""
+        visible = self.current_team is not None and self.current_code_state != TEAM_CODE_MODE_BUILTIN
+        if visible:
+            visible = bool(str(read_team_manifest(self.current_team).get("description") or "").strip())
+        self.team_info_button.setVisible(visible)
+
+    def _show_team_info(self):
+        item = self.team_list.currentItem()
+        if self.current_team is None or item is None:
+            return
+        TeamInfoDialog(read_team_manifest(self.current_team), item.text(), self.window()).exec()
 
     def _member_selected(self, index):
         if index < 0 or self.current_team is None or self.suppress_selection_guard:
@@ -1258,6 +1321,7 @@ class CharacterCodeTab(CustomTab):
             self.reset_button.setText(translate_ui("Reset to Built In"))
         self._set_switch_icon(self.reset_button, target)
         self._update_reset_enabled()
+        self._update_team_info_button()
 
     def _update_reset_enabled(self):
         """A never imported team has nothing to switch; its button only resets the
@@ -1431,10 +1495,55 @@ class CharacterCodeTab(CustomTab):
     def _export_team(self):
         if self.current_team is None:
             return
-        if self._has_unsaved_changes():
+        self._export_team_codes(self.current_team)
+
+    def _export_current_team(self):
+        if self.executor is None:
+            self._on_current_team_loaded(None)
+            return
+        tasks = list(getattr(self.executor, "onetime_tasks", [])) + list(getattr(self.executor, "trigger_tasks", []))
+        task = next((item for item in tasks if callable(getattr(item, "load_chars", None))), None)
+        if task is None:
+            self._on_current_team_loaded(None)
+            return
+        self.export_current_button.setEnabled(False)
+        try:
+            job = self.executor.submit(lambda: self._load_current_team(task), name="detect current team")
+            job.future.add_done_callback(self.current_team_loaded.emit)
+        except Exception as e:
+            self.export_current_button.setEnabled(True)
+            show_info_bar(self.window(), str(e), title=self.tr("Error"), error=True)
+
+    @staticmethod
+    def _load_current_team(task):
+        if task.next_frame() is None or not task.load_chars():
+            return None
+        chars = getattr(task, "chars", ())
+        if len(chars) != 3 or any(char is None for char in chars):
+            return None
+        classes = [char_dict.get(getattr(char, "char_name", None), {}).get("cls") for char in chars]
+        if None in classes or len(set(classes)) != 3:
+            return None
+        return normalize_team(classes)
+
+    def _on_current_team_loaded(self, future):
+        if self.export_current_button is not None:
+            self.export_current_button.setEnabled(True)
+        try:
+            team = future.result() if future is not None else None
+        except Exception as e:
+            show_info_bar(self.window(), str(e), title=self.tr("Error"), error=True)
+            return
+        if not team:
+            show_info_bar(self.window(), self.tr("No current team detected."), title=self.tr("Error"), error=True)
+            return
+        self._export_team_codes(team, allow_builtin=True)
+
+    def _export_team_codes(self, team, allow_builtin=False):
+        if team == self.current_team and self._has_unsaved_changes():
             show_info_bar(self.window(), self.tr("Save changes before exporting."), title=self.tr("Error"), error=True)
             return
-        default_name = "_".join(get_english_char_name(name).replace(" ", "_") for name in self.current_team)
+        default_name = "_".join(get_english_char_name(name).replace(" ", "_") for name in team)
         dialog = ExportTeamDialog(default_name, self.window())
         if not dialog.exec():
             return
@@ -1442,7 +1551,7 @@ class CharacterCodeTab(CustomTab):
         if not destination:
             return
         try:
-            path = export_custom_team(self.current_team, destination, **dialog.values())
+            path = export_custom_team(team, destination, **dialog.values(), allow_builtin=allow_builtin)
             show_info_bar(self.window(), self.tr("Team exported to {path}").format(path=path), title=self.tr("Success"))
         except Exception as e:
             show_info_bar(self.window(), str(e), title=self.tr("Error"), error=True)
@@ -1472,11 +1581,15 @@ class CharacterCodeTab(CustomTab):
     def _import_workshop_code(self, code, parent):
         url = code.get("downloadUrl") or code.get("rawUrl")
         parsed = urlparse(str(url or ""))
+        # Published workshop indexes can still contain the previous server's URLs.
+        if parsed.hostname == "okwwcharcode.ok-script.com":
+            parsed = parsed._replace(netloc=urlparse(WORKSHOP_TEAMS_ALL_URL).netloc)
+            url = parsed.geturl()
         if parsed.scheme != "https" or parsed.hostname not in WORKSHOP_ARCHIVE_HOSTS:
             show_info_bar(parent, self.tr("Workshop download URL is invalid."), title=self.tr("Error"), error=True)
             return
         try:
-            with urlopen(url, timeout=30) as response:
+            with urlopen(Request(url, headers={"User-Agent": WORKSHOP_USER_AGENT}), timeout=30) as response:
                 content = response.read(20_000_001)
             if len(content) > 20_000_000:
                 raise ValueError(self.tr("Workshop archive is too large."))

@@ -765,6 +765,9 @@ msgstr "维里奈2链"
 msgid "Chisa DPS"
 msgstr "千咲主C"
 
+msgid "Suoming DPS"
+msgstr "锁冥主C"
+
 msgid "Use Liberation"
 msgstr "使用共鸣解放"
 
@@ -1511,6 +1514,12 @@ msgstr "队伍已删除。"
 msgid "JingRan"
 msgstr "景燃"
 
+msgid "Multi Account Config Task"
+msgstr "多账号配置执行"
+
+msgid "Log in to accounts in card order and run tasks with independent configurations"
+msgstr "按卡片顺序登录账号，并使用各账号的独立配置执行任务"
+
 msgid "Hsin"
 msgstr "心"
 
@@ -1519,3 +1528,33 @@ msgstr "特异梦魇"
 
 msgid "Which Special Nightmare to Teleport"
 msgstr "传送到第几个特异梦魇"
+
+
+msgid "Failed to read game assets quality config. Starting with HD assets."
+msgstr "读取游戏资源画质配置失败，将使用高清（HD）资源启动。"
+
+msgid "Tacet Elimination"
+msgstr "无音消除"
+
+msgid ""
+"Start on the current event screen. Complete prerequisite stages, then play "
+"Final Elimination for the highest possible score until turns run out."
+msgstr "从活动当前界面开始，完成前置关卡后挑战一局终局消除，尽可能争取高分，直到回合耗尽后自然结算。运行期间需要游戏处于前台。"
+
+
+msgid "Roccia C6"
+msgstr "洛可可6链（主输出）"
+
+msgid "Export Selected"
+msgstr "导出所选队伍"
+
+
+msgid "Export Current"
+msgstr "导出当前队伍"
+
+
+msgid "No current team detected."
+msgstr "未检测到当前队伍。"
+
+msgid "Team Info"
+msgstr "队伍说明"
