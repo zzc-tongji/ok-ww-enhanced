@@ -222,16 +222,17 @@ jobs:
                               f"Annotation {annotation_id} references missing image_id {image_id}"
                           )
 
-                      source_image = Path(str(image_info["file_name"]))
+                      left, top, _, _ = clamp_bbox(
+                          annotation["bbox"], image_info["width"], image_info["height"]
+                      )
+                      source_image = Path("templates") / (
+                          f"{feature_name}_{image_info['width']}x{image_info['height']}_{left}_{top}.png"
+                      )
                       source_path = (assets_dir / source_image).resolve()
                       if source_path not in opened_images:
                           opened_images[source_path] = Image.open(source_path)
 
-                      image = opened_images[source_path]
-                      left, top, right, bottom = clamp_bbox(
-                          annotation["bbox"], image.width, image.height
-                      )
-                      crop = image.crop((left, top, right, bottom))
+                      crop = opened_images[source_path]
 
                       output_name = (
                           f"I.{safe_filename_part(image_id)}."
