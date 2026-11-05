@@ -2,8 +2,6 @@ from datetime import datetime
 import re
 import traceback
 
-from qfluentwidgets import FluentIcon
-
 from ok import Logger, TaskDisabledException
 from src.task.BaseWWTask import number_re
 from src.task.FarmEchoTask import FarmEchoTask
