@@ -4,6 +4,7 @@ from ok import Logger
 from ok import TriggerTask
 from src.task.AutoCombatTask import AutoCombatTask
 from src.task.BaseWWTask import BaseWWTask, f_white_color
+from src.task.task_icons import task_icon
 
 logger = Logger.get_logger(__name__)
 
@@ -13,6 +14,7 @@ class AutoPickTask(TriggerTask, BaseWWTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "🌸 Auto Pick"
+        self.icon = task_icon('pickup')
         self.description = "Auto Pick Flowers in Game World"
         self.default_config.update({
             '_enabled': True,
@@ -48,9 +50,10 @@ class AutoPickTask(TriggerTask, BaseWWTask):
                 self.log_debug(f'f white color percent: {percent} wait')
                 self.next_frame()
                 continue
-            interaction_row = f.copy(x_offset=f.width * 2, width_offset=f.width * 16,
-                                     height_offset=f.height * 2, y_offset=-f.height)
-            if self.find_one('pick_up_xinyao_well', box=interaction_row, threshold=0.8):
+            # Match only the selected interaction's icon, independent of its text.
+            icon_search = f.copy(x_offset=f.width * 2, width_offset=f.width * 4,
+                                 height_offset=f.height * 2, y_offset=-f.height)
+            if self.find_one('pick_up_xinyao_icon', box=icon_search, threshold=0.8):
                 combat.check_abyss_start(True)
                 return False
             dialog_search = f.copy(x_offset=f.width * 3, width_offset=f.width * 2, height_offset=f.height * 2,
