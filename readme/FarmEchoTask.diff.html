@@ -67,7 +67,7 @@
       </svg>      <a href="#d2h-467867" class="d2h-file-name">src/task/{FarmEchoTask.py → FarmEchoTask2.py}</a>
       <span class="d2h-file-stats">
           <span class="d2h-lines-added">+126</span>
-          <span class="d2h-lines-deleted">-109</span>
+          <span class="d2h-lines-deleted">-110</span>
       </span>
     </span>
 </li>
@@ -1148,7 +1148,7 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -128,27 +110,43 @@</div>
+        <div class="d2h-code-side-line">@@ -128,28 +110,43 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
@@ -1197,7 +1197,7 @@
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><del>            if retries &gt; 0 and (</del>self.<del>handle_claim_button</del>()<del> or self.handle_monthly_card()):</del></span>
+            <span class="d2h-code-line-ctn"><del>            if retries &gt; 0 and (</del>self.<del>handle_claim_button</del>()<del> or self.handle_monthly_card()</del></span>
         </div>
     </td>
 </tr><tr>
@@ -1207,12 +1207,22 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">                                or self.handle_cloud_disconnect()):</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-del">
+      134
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">-</span>
             <span class="d2h-code-line-ctn">                self.run(retries - 1)</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      134
+      135
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1242,7 +1252,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      135
+      136
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1252,7 +1262,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      136
+      137
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1262,7 +1272,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      137
+      138
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1452,7 +1462,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      138
+      139
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1462,7 +1472,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      139
+      140
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -1472,7 +1482,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      140
+      141
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -1482,7 +1492,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      141
+      142
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1492,7 +1502,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      142
+      143
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1502,7 +1512,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      143
+      144
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1512,7 +1522,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      144
+      145
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1522,7 +1532,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      145
+      146
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1532,7 +1542,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      146
+      147
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1542,7 +1552,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      147
+      148
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1552,7 +1562,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      148
+      149
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1562,7 +1572,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      149
+      150
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1572,7 +1582,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      150
+      151
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1582,7 +1592,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      151
+      152
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -1592,7 +1602,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      152
+      153
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1602,7 +1612,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      153
+      154
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1612,7 +1622,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      154
+      155
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1623,11 +1633,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -174,20 +172,20 @@</div>
+        <div class="d2h-code-side-line">@@ -175,20 +172,20 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      174
+      175
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1637,7 +1647,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      175
+      176
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1647,7 +1657,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      176
+      177
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1657,7 +1667,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      177
+      178
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1667,7 +1677,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      178
+      179
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1677,7 +1687,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      179
+      180
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1687,7 +1697,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      180
+      181
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1697,7 +1707,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      181
+      182
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1707,7 +1717,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      182
+      183
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1717,7 +1727,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      183
+      184
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1727,7 +1737,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      184
+      185
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1737,7 +1747,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      185
+      186
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1747,7 +1757,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      186
+      187
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1757,7 +1767,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      187
+      188
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1767,7 +1777,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      188
+      189
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1777,7 +1787,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      189
+      190
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1787,7 +1797,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      190
+      191
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1797,7 +1807,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      191
+      192
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1807,7 +1817,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      192
+      193
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1817,7 +1827,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      193
+      194
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1828,11 +1838,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -197,48 +195,56 @@</div>
+        <div class="d2h-code-side-line">@@ -198,48 +195,56 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      197
+      198
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1842,7 +1852,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      198
+      199
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1852,7 +1862,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      199
+      200
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1942,7 +1952,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      200
+      201
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -1952,7 +1962,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      201
+      202
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1962,7 +1972,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      202
+      203
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -1972,7 +1982,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      203
+      204
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -1982,7 +1992,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      204
+      205
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -1992,7 +2002,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      205
+      206
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2002,7 +2012,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      206
+      207
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2012,7 +2022,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      207
+      208
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2022,7 +2032,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      208
+      209
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2032,7 +2042,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      209
+      210
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2042,22 +2052,12 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      210
-    </td>
-    <td class="d2h-del">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                    else:</span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-del">
       211
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                        dropped = self.walk_find_echo()</span>
+            <span class="d2h-code-line-ctn">                    else:</span>
         </div>
     </td>
 </tr><tr>
@@ -2067,17 +2067,17 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                        logger.info(f&#x27;farm echo walk_find_echo {dropped}&#x27;)</span>
+            <span class="d2h-code-line-ctn">                        dropped = self.walk_find_echo()</span>
         </div>
     </td>
 </tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
+    <td class="d2h-code-side-linenumber d2h-del">
       213
     </td>
-    <td class="d2h-cntx">
+    <td class="d2h-del">
         <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">                self.incr_drop(dropped)</span>
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">                        logger.info(f&#x27;farm echo walk_find_echo {dropped}&#x27;)</span>
         </div>
     </td>
 </tr><tr>
@@ -2087,7 +2087,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">                if not self.bypass_end_wait:</span>
+            <span class="d2h-code-line-ctn">                self.incr_drop(dropped)</span>
         </div>
     </td>
 </tr><tr>
@@ -2097,7 +2097,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">                    if dropped and not self._has_treasure:</span>
+            <span class="d2h-code-line-ctn">                if not self.bypass_end_wait:</span>
         </div>
     </td>
 </tr><tr>
@@ -2107,7 +2107,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">                        self.wait_until(self.in_combat, raise_if_not_found=False, time_out=5)</span>
+            <span class="d2h-code-line-ctn">                    if dropped and not self._has_treasure:</span>
         </div>
     </td>
 </tr><tr>
@@ -2117,12 +2117,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">                    else:</span>
+            <span class="d2h-code-line-ctn">                        self.wait_until(self.in_combat, raise_if_not_found=False, time_out=5)</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
       218
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">                    else:</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      219
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2352,7 +2362,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      219
+      220
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2362,22 +2372,12 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      220
+      221
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">                raise</span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-del">
-      221
-    </td>
-    <td class="d2h-del">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">            except CharRevivedException:</span>
         </div>
     </td>
 </tr><tr>
@@ -2387,7 +2387,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                if not self.teleport_to_boss_enabled():</span>
+            <span class="d2h-code-line-ctn">            except CharRevivedException:</span>
         </div>
     </td>
 </tr><tr>
@@ -2397,7 +2397,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                    raise</span>
+            <span class="d2h-code-line-ctn">                if not self.teleport_to_boss_enabled():</span>
         </div>
     </td>
 </tr><tr>
@@ -2407,7 +2407,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                recovery_retries += 1</span>
+            <span class="d2h-code-line-ctn">                    raise</span>
         </div>
     </td>
 </tr><tr>
@@ -2417,7 +2417,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                if recovery_retries &gt;= max_recovery_retries:</span>
+            <span class="d2h-code-line-ctn">                recovery_retries += 1</span>
         </div>
     </td>
 </tr><tr>
@@ -2427,7 +2427,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                    self.log_info(self.tr(&#x27;farm 4c: exceeded recovery retries ({max_recovery_retries}), stop farming&#x27;).format(max_recovery_retries=max_recovery_retries),</span>
+            <span class="d2h-code-line-ctn">                if recovery_retries &gt;= max_recovery_retries:</span>
         </div>
     </td>
 </tr><tr>
@@ -2437,7 +2437,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                                  notify=True)</span>
+            <span class="d2h-code-line-ctn">                    self.log_info(self.tr(&#x27;farm 4c: exceeded recovery retries ({max_recovery_retries}), stop farming&#x27;).format(max_recovery_retries=max_recovery_retries),</span>
         </div>
     </td>
 </tr><tr>
@@ -2447,7 +2447,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                    return</span>
+            <span class="d2h-code-line-ctn">                                  notify=True)</span>
         </div>
     </td>
 </tr><tr>
@@ -2457,7 +2457,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                self.log_info(self.tr(&#x27;farm 4c: death recovered, teleport to boss again&#x27;))</span>
+            <span class="d2h-code-line-ctn">                    return</span>
         </div>
     </td>
 </tr><tr>
@@ -2467,7 +2467,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                count = round_start_count  # 死亡那一轮不计入刷取次数</span>
+            <span class="d2h-code-line-ctn">                self.log_info(self.tr(&#x27;farm 4c: death recovered, teleport to boss again&#x27;))</span>
         </div>
     </td>
 </tr><tr>
@@ -2477,7 +2477,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                self.is_revived = False</span>
+            <span class="d2h-code-line-ctn">                count = round_start_count  # 死亡那一轮不计入刷取次数</span>
         </div>
     </td>
 </tr><tr>
@@ -2487,7 +2487,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                self.realm_entry_at_heal_point = True  # 恢复后站在信标上; 走大世界进本时会被重置</span>
+            <span class="d2h-code-line-ctn">                self.is_revived = False</span>
         </div>
     </td>
 </tr><tr>
@@ -2497,7 +2497,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                self.teleport_to_configured_boss_and_prepare()</span>
+            <span class="d2h-code-line-ctn">                self.realm_entry_at_heal_point = True  # 恢复后站在信标上; 走大世界进本时会被重置</span>
         </div>
     </td>
 </tr><tr>
@@ -2507,17 +2507,17 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">                continue</span>
+            <span class="d2h-code-line-ctn">                self.teleport_to_configured_boss_and_prepare()</span>
         </div>
     </td>
 </tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
+    <td class="d2h-code-side-linenumber d2h-del">
       235
     </td>
-    <td class="d2h-cntx">
+    <td class="d2h-del">
         <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">            except Exception as e:</span>
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">                continue</span>
         </div>
     </td>
 </tr><tr>
@@ -2527,12 +2527,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">            except Exception as e:</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      237
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">                if self.should_reteleport_after_farm_exception():</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      237
+      238
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -2542,7 +2552,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      238
+      239
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2552,7 +2562,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      239
+      240
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2562,7 +2572,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      240
+      241
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2572,7 +2582,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      241
+      242
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2596,16 +2606,6 @@
     </td>
     <td class="d2h-cntx d2h-emptyplaceholder">
         <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      242
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn"><br></span>
         </div>
@@ -2617,12 +2617,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">    def execute_treasure_hunt(self):</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
       244
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">    def execute_treasure_hunt(self):</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      245
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2633,11 +2643,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -249,7 +255,7 @@</div>
+        <div class="d2h-code-side-line">@@ -250,7 +255,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      249
+      250
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2647,7 +2657,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      250
+      251
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2657,7 +2667,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      251
+      252
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2667,7 +2677,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      252
+      253
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -2677,7 +2687,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      253
+      254
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2687,7 +2697,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      254
+      255
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2697,7 +2707,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      255
+      256
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2708,11 +2718,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -267,7 +273,7 @@</div>
+        <div class="d2h-code-side-line">@@ -268,7 +273,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      267
+      268
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2722,7 +2732,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      268
+      269
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2732,7 +2742,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      269
+      270
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2742,7 +2752,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      270
+      271
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -2752,7 +2762,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      271
+      272
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2762,7 +2772,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      272
+      273
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2772,7 +2782,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      273
+      274
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2783,11 +2793,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -278,14 +284,13 @@</div>
+        <div class="d2h-code-side-line">@@ -279,14 +284,13 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      278
+      279
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2797,7 +2807,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      279
+      280
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2807,7 +2817,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      280
+      281
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2817,7 +2827,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      281
+      282
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -2827,7 +2837,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      282
+      283
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2837,7 +2847,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      283
+      284
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -2847,7 +2857,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      284
+      285
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2857,7 +2867,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      285
+      286
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2867,7 +2877,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      286
+      287
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2877,7 +2887,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      287
+      288
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2887,7 +2897,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      288
+      289
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2897,7 +2907,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      289
+      290
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2907,7 +2917,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      290
+      291
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2917,7 +2927,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      291
+      292
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2928,11 +2938,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -294,41 +299,33 @@</div>
+        <div class="d2h-code-side-line">@@ -295,41 +299,33 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      294
+      295
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2942,7 +2952,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      295
+      296
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2952,7 +2962,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      296
+      297
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -2962,7 +2972,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      297
+      298
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2972,7 +2982,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      298
+      299
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2982,7 +2992,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      299
+      300
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -2992,7 +3002,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      300
+      301
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -3002,7 +3012,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      301
+      302
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -3012,7 +3022,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      302
+      303
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3022,7 +3032,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      303
+      304
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3032,22 +3042,12 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      304
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
       305
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">        self.info_set(&#x27;Teleport to Boss&#x27;, f&#x27;{teleport_to_boss} {serial_number - 1}&#x27;)</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
@@ -3057,7 +3057,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">        self.openF2Book(&#x27;gray_book_boss&#x27;)</span>
+            <span class="d2h-code-line-ctn">        self.info_set(&#x27;Teleport to Boss&#x27;, f&#x27;{teleport_to_boss} {serial_number - 1}&#x27;)</span>
         </div>
     </td>
 </tr><tr>
@@ -3067,12 +3067,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">        self.openF2Book(&#x27;gray_book_boss&#x27;)</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      308
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">        self.open_boss_book(feature)</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      308
+      309
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3082,7 +3092,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      309
+      310
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -3092,7 +3102,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      310
+      311
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -3102,7 +3112,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      311
+      312
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3112,7 +3122,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      312
+      313
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3122,7 +3132,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      313
+      314
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3132,7 +3142,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      314
+      315
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3142,7 +3152,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      315
+      316
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3152,7 +3162,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      316
+      317
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3162,7 +3172,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del">
-      317
+      318
     </td>
     <td class="d2h-del">
         <div class="d2h-code-side-line">
@@ -3172,7 +3182,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      318
+      319
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3182,7 +3192,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      319
+      320
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3192,7 +3202,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      320
+      321
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3202,7 +3212,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      321
+      322
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3212,7 +3222,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      322
+      323
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3222,7 +3232,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      323
+      324
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3232,7 +3242,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      324
+      325
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3242,7 +3252,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      325
+      326
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3252,7 +3262,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      326
+      327
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3262,7 +3272,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      327
+      328
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3272,7 +3282,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      328
+      329
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3282,7 +3292,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      329
+      330
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3292,7 +3302,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      330
+      331
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3302,7 +3312,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      331
+      332
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3312,7 +3322,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      332
+      333
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3322,7 +3332,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      333
+      334
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3332,7 +3342,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      334
+      335
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3343,11 +3353,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -354,15 +351,15 @@</div>
+        <div class="d2h-code-side-line">@@ -355,15 +351,15 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      354
+      355
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3357,7 +3367,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      355
+      356
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3367,7 +3377,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      356
+      357
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3377,7 +3387,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      357
+      358
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3387,7 +3397,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      358
+      359
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3397,7 +3407,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      359
+      360
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3407,7 +3417,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      360
+      361
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3417,7 +3427,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      361
+      362
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3427,7 +3437,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      362
+      363
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3437,7 +3447,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      363
+      364
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3447,7 +3457,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      364
+      365
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3457,7 +3467,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      365
+      366
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3467,7 +3477,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      366
+      367
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3477,7 +3487,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      367
+      368
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3487,7 +3497,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      368
+      369
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3498,11 +3508,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -380,18 +377,12 @@</div>
+        <div class="d2h-code-side-line">@@ -381,18 +377,12 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      380
+      381
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3512,7 +3522,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      381
+      382
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3522,7 +3532,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      382
+      383
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3532,7 +3542,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      383
+      384
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3542,7 +3552,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      384
+      385
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3552,22 +3562,12 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      385
+      386
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-del">
-      386
-    </td>
-    <td class="d2h-del">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">    def click_solo_challenge(self):</span>
         </div>
     </td>
 </tr><tr>
@@ -3577,7 +3577,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">        self.click(0.880, 0.911, after_sleep=2)</span>
+            <span class="d2h-code-line-ctn">    def click_solo_challenge(self):</span>
         </div>
     </td>
 </tr><tr>
@@ -3587,7 +3587,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">        # 结晶波片(含备用)不足时, 进队伍界面前会弹「无法获取奖励, 是否继续进入」;</span>
+            <span class="d2h-code-line-ctn">        self.click(0.880, 0.911, after_sleep=2)</span>
         </div>
     </td>
 </tr><tr>
@@ -3597,7 +3597,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">        # 勾选本次登录不再提示并确认, 刷声骸不需要领奖励. 弹窗点击后立即出现, 不弹时只多等 1 秒</span>
+            <span class="d2h-code-line-ctn">        # 结晶波片(含备用)不足时, 进队伍界面前会弹「无法获取奖励, 是否继续进入」;</span>
         </div>
     </td>
 </tr><tr>
@@ -3607,7 +3607,7 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn">        self.wait_click_skip_dialog_confirm(time_out=1)</span>
+            <span class="d2h-code-line-ctn">        # 勾选本次登录不再提示并确认, 刷声骸不需要领奖励. 弹窗点击后立即出现, 不弹时只多等 1 秒</span>
         </div>
     </td>
 </tr><tr>
@@ -3617,17 +3617,17 @@
     <td class="d2h-del">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><br></span>
+            <span class="d2h-code-line-ctn">        self.wait_click_skip_dialog_confirm(time_out=1)</span>
         </div>
     </td>
 </tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
+    <td class="d2h-code-side-linenumber d2h-del">
       392
     </td>
-    <td class="d2h-cntx">
+    <td class="d2h-del">
         <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">    def handle_boss_restart_after_treasure(self):</span>
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
@@ -3637,12 +3637,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">    def handle_boss_restart_after_treasure(self):</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      394
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">        self._has_treasure = True</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      394
+      395
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3652,7 +3662,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      395
+      396
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3662,7 +3672,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      396
+      397
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3672,7 +3682,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      397
+      398
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3683,11 +3693,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -412,7 +403,11 @@</div>
+        <div class="d2h-code-side-line">@@ -413,7 +403,11 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      412
+      413
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3697,7 +3707,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      413
+      414
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3707,7 +3717,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      414
+      415
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3717,7 +3727,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      415
+      416
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3767,7 +3777,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      416
+      417
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3777,7 +3787,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      417
+      418
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3787,7 +3797,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      418
+      419
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3798,11 +3808,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -422,7 +417,7 @@</div>
+        <div class="d2h-code-side-line">@@ -423,7 +417,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      422
+      423
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3812,7 +3822,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      423
+      424
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3822,7 +3832,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      424
+      425
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3832,7 +3842,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      425
+      426
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3842,7 +3852,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      426
+      427
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3852,7 +3862,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      427
+      428
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3862,7 +3872,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      428
+      429
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3873,11 +3883,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -442,7 +437,7 @@</div>
+        <div class="d2h-code-side-line">@@ -443,7 +437,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      442
+      443
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3887,7 +3897,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      443
+      444
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3897,7 +3907,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      444
+      445
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3907,7 +3917,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      445
+      446
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3917,7 +3927,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      446
+      447
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3927,7 +3937,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      447
+      448
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3937,7 +3947,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      448
+      449
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3948,11 +3958,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -552,12 +547,12 @@</div>
+        <div class="d2h-code-side-line">@@ -553,12 +547,12 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      552
+      553
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3962,7 +3972,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      553
+      554
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3972,7 +3982,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      554
+      555
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -3982,7 +3992,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      555
+      556
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -3992,7 +4002,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      556
+      557
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4002,7 +4012,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      557
+      558
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4012,7 +4022,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      558
+      559
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4022,7 +4032,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      559
+      560
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4032,7 +4042,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      560
+      561
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4042,7 +4052,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      561
+      562
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4052,7 +4062,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      562
+      563
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4062,7 +4072,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      563
+      564
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4073,17 +4083,7 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -576,7 +571,7 @@</div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      576
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
+        <div class="d2h-code-side-line">@@ -577,7 +571,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
@@ -4092,7 +4092,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">        box = self.find_boss_check_mark()</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
@@ -4102,12 +4102,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">        box = self.find_boss_check_mark()</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      579
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      579
+      580
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4117,7 +4127,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      580
+      581
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4127,7 +4137,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      581
+      582
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4137,7 +4147,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      582
+      583
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4148,17 +4158,7 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -645,7 +640,7 @@</div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      645
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
+        <div class="d2h-code-side-line">@@ -646,7 +640,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
@@ -4167,7 +4167,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">        # 点击轮廓中心</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
@@ -4177,12 +4177,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">        # 点击轮廓中心</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      648
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">        if best_match is None:</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      648
+      649
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4192,7 +4202,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      649
+      650
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4202,7 +4212,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      650
+      651
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4212,7 +4222,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      651
+      652
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4223,17 +4233,7 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -655,7 +650,7 @@</div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      655
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
+        <div class="d2h-code-side-line">@@ -656,7 +650,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
@@ -4242,7 +4242,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">    def teleport_to_octagon_boss(self):</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
@@ -4252,12 +4252,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">    def teleport_to_octagon_boss(self):</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      658
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">        &quot;&quot;&quot;传送到八边形Boss图标。&quot;&quot;&quot;</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      658
+      659
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4267,7 +4277,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      659
+      660
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4277,7 +4287,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      660
+      661
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4287,7 +4297,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      661
+      662
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4298,11 +4308,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -666,7 +661,7 @@</div>
+        <div class="d2h-code-side-line">@@ -667,7 +661,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      666
+      667
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4312,7 +4322,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      667
+      668
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4322,7 +4332,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      668
+      669
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4332,7 +4342,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      669
+      670
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4342,7 +4352,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      670
+      671
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4352,7 +4362,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      671
+      672
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4362,7 +4372,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      672
+      673
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4373,17 +4383,7 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -678,7 +673,7 @@</div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      678
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">            self.scroll_relative(0.5, 0.5, 1)</span>
-        </div>
+        <div class="d2h-code-side-line">@@ -679,7 +673,7 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
@@ -4392,7 +4392,7 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">            self.sleep(0.2)</span>
+            <span class="d2h-code-line-ctn">            self.scroll_relative(0.5, 0.5, 1)</span>
         </div>
     </td>
 </tr><tr>
@@ -4402,12 +4402,22 @@
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">            self.sleep(0.2)</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      681
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
             <span class="d2h-code-line-ctn">        while self.find_f_with_text() and not self.in_combat() and time.time() - start &lt; 5:</span>
         </div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      681
+      682
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -4417,7 +4427,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      682
+      683
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4427,7 +4437,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      683
+      684
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4437,7 +4447,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      684
+      685
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4448,11 +4458,11 @@
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-info"></td>
     <td class="d2h-info">
-        <div class="d2h-code-side-line">@@ -728,9 +723,31 @@</div>
+        <div class="d2h-code-side-line">@@ -729,9 +723,31 @@</div>
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      728
+      729
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4462,242 +4472,12 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
-      729
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">            logger.info(f&quot;boss_string is {find_boxes_by_name(texts, [re.compile(r&#x27;(?i)^L[Vv].*&#x27;)])}&quot;)</span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
       730
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
-      
-    </td>
-    <td class="d2h-cntx d2h-emptyplaceholder">
-        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn"><br></span>
+            <span class="d2h-code-line-ctn">            logger.info(f&quot;boss_string is {find_boxes_by_name(texts, [re.compile(r&#x27;(?i)^L[Vv].*&#x27;)])}&quot;)</span>
         </div>
     </td>
 </tr><tr>
@@ -4711,28 +4491,228 @@
         </div>
     </td>
 </tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
       732
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">from ok import run_task</span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      733
-    </td>
-    <td class="d2h-cntx">
-        <div class="d2h-code-side-line">
-            <span class="d2h-code-line-prefix">&nbsp;</span>
-            <span class="d2h-code-line-ctn">from config import config</span>
-        </div>
-    </td>
-</tr><tr>
-    <td class="d2h-code-side-linenumber d2h-cntx">
-      734
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4742,7 +4722,37 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-cntx">
+      733
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">from ok import run_task</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      734
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn">from config import config</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
       735
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-side-line">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-cntx">
+      736
     </td>
     <td class="d2h-cntx">
         <div class="d2h-code-side-line">
@@ -4752,7 +4762,7 @@
     </td>
 </tr><tr>
     <td class="d2h-code-side-linenumber d2h-del d2h-change">
-      736
+      737
     </td>
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
@@ -5877,6 +5887,16 @@
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">+</span>
             <span class="d2h-code-line-ctn"><ins>                </ins>self.<ins>run</ins>()</span>
+        </div>
+    </td>
+</tr><tr>
+    <td class="d2h-code-side-linenumber d2h-code-side-emptyplaceholder d2h-cntx d2h-emptyplaceholder">
+      
+    </td>
+    <td class="d2h-cntx d2h-emptyplaceholder">
+        <div class="d2h-code-side-line d2h-code-side-emptyplaceholder">
+            <span class="d2h-code-line-prefix">&nbsp;</span>
+            <span class="d2h-code-line-ctn"><br></span>
         </div>
     </td>
 </tr><tr>
