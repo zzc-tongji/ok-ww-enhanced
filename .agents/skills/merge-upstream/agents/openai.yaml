@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge Upstream"
+  short_description: "Sync upstream releases with a manual conflict review gate."
+  default_prompt: "Use $merge-upstream to sync upstream master, merge the latest stable tag into main, and publish its rc.0 tag."
