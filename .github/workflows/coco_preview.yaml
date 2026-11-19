@@ -98,7 +98,6 @@ jobs:
 
           import html
           import json
-          import math
           import os
           import re
           import shutil
@@ -112,7 +111,8 @@ jobs:
 
           WORKSPACE = Path(os.environ["GITHUB_WORKSPACE"]).resolve()
           ASSETS_DIR = WORKSPACE / "assets"
-          ANNOTATIONS_PATH = ASSETS_DIR / "coco_annotations.json"
+          # Template exports follow the editable source annotations, not the legacy assets copy.
+          ANNOTATIONS_PATH = WORKSPACE / "ok_templates" / "coco_annotations.json"
           OUTPUT_DIR = Path(os.environ["PREVIEW_DIR"]).resolve()
           GENERATED_IMAGE_RE = re.compile(r"^I\..+\.C\..+\.F\..+\.png$")
           SAFE_FILENAME_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
@@ -166,10 +166,11 @@ jobs:
                   raise ValueError(f"Expected bbox [x, y, width, height], got {bbox!r}")
 
               x, y, width, height = (float(value) for value in bbox)
-              left = max(0, min(image_width, math.floor(x)))
-              top = max(0, min(image_height, math.floor(y)))
-              right = max(0, min(image_width, math.ceil(x + width)))
-              bottom = max(0, min(image_height, math.ceil(y + height)))
+              # Match the round() coordinates used by ok-script when exporting templates.
+              left = max(0, min(image_width, round(x)))
+              top = max(0, min(image_height, round(y)))
+              right = max(0, min(image_width, round(x + width)))
+              bottom = max(0, min(image_height, round(y + height)))
 
               if right <= left or bottom <= top:
                   raise ValueError(
@@ -180,10 +181,10 @@ jobs:
 
 
           def generate_previews(
-              annotations_path: Path, output_dir: Path, clean: bool = True
+              annotations_path: Path, assets_dir: Path, output_dir: Path, clean: bool = True
           ) -> list[PreviewItem]:
               annotations_path = annotations_path.resolve()
-              assets_dir = annotations_path.parent
+              assets_dir = assets_dir.resolve()
               output_dir = output_dir.resolve()
 
               data = load_coco(annotations_path)
@@ -495,7 +496,7 @@ jobs:
               index_path.write_text(content, encoding="utf-8")
 
 
-          previews = generate_previews(ANNOTATIONS_PATH, OUTPUT_DIR, clean=True)
+          previews = generate_previews(ANNOTATIONS_PATH, ASSETS_DIR, OUTPUT_DIR, clean=True)
           print(f"Generated {len(previews)} crops and {OUTPUT_DIR / 'index.html'}")
           PY
 
